@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,14 +31,25 @@ class Action
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\Unique(message="La valeur {{ value }} existe déja.")
      */
-    private $param;
+    private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Action")
      * 
      */
     private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="action")
+     */
+    private $articles;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -68,14 +80,14 @@ class Action
         return $this;
     }
 
-    public function getParam(): ?string
+    public function getSlug(): ?string
     {
-        return $this->param;
+        return $this->slug;
     }
 
-    public function setParam(?string $param): self
+    public function setSlug(?string $slug): self
     {
-        $this->param = $param;
+        $this->slug = $slug;
 
         return $this;
     }
@@ -88,6 +100,37 @@ class Action
     public function setParent(?self $parent): self
     {
         $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Article $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles[] = $article;
+            $article->setAction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->articles->contains($article)) {
+            $this->articles->removeElement($article);
+            // set the owning side to null (unless already changed)
+            if ($article->getAction() === $this) {
+                $article->setAction(null);
+            }
+        }
 
         return $this;
     }

@@ -160,8 +160,27 @@ body {
     grid-template-columns: 2.5fr 5fr 2.5fr;
     gap: 4%;
 }
+.grid-2-6 {
+    display: grid;
+    grid-template-columns: 2.5fr 7.5fr;
+    gap: 4%;
+}
+.col-2 {
+    columns: 2;
+    column-gap: 6%;
+}
 section p {
-    margin-top: 15px;
+    margin-bottom: 15px;
     line-height: 1.5;
     text-align: justify;
+    font-size: .9em;
+}
+h1 {
+    margin-bottom: 20px;
+}
+h2 {
+    font-size: .9em;
+}
+section li {
+    list-style-position: inside;
 }

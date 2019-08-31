@@ -1,6 +1,6 @@
 <header>
-    <img class="full-size" src="images/header.png" alt="une-pause">
-    <img class="logo" src="images/une-pause.png" alt="une-pause">
+    <img class="full-size" src="/images/header.png" alt="une-pause">
+    <img class="logo" src="/images/une-pause.png" alt="une-pause">
     <nav>
         <ul>
             {% set actions = app.request.request.get('actions') %}
@@ -16,8 +16,8 @@
                         <div class="dropdown-menu">
                             {% for child in action.children %}
                                 {% set child_route = child.route %}
-                                {% if child.param is not null %}
-                                {% set slug = child.param %}
+                                {% if child.slug is not null %}
+                                {% set slug = child.slug %}
                                     <a href="{{ path(child_route, parameters = {'slug': slug}) }}" class="dropdown-item">{{ child.name }}</a>
                                 {% else %}
                                     <a href="{{ path(child_route) }}" class="dropdown-item">{{ child.name }}</a>

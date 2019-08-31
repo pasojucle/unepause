@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Massage{% endblock %}
+
+{% block body %}
+    {% for article in articles %}
+        <section class="grid-2-6">
+            <img src="/images/{{ article.image }}" alt="">
+            <div>
+                <h1>{{ article.title }}</h1>
+                <div class="col-2">
+                    {{ article.text| raw }}
+                </div>
+            </div>
+        </section>
+    {% endfor %}
+{% endblock %}

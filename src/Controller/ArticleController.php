@@ -2,28 +2,36 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Action;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleController extends AbstractController
 {
     /**
      * @Route("/massage/{slug}", name="massage")
      */
-    public function massage($slug)
+    public function massage(ObjectManager $manager, $slug)
     {
-        return $this->render('article/index.html.twig', [
-            'controller_name' => 'ArticleController',
+        $action = $manager->getRepository(Action::class)->findBySlug($slug);
+        $articles = $action->getArticles()->toArray();
+
+        return $this->render('article/show.html.twig', [
+            'articles' => $articles,
         ]);
     }
 
     /**
      * @Route("/practice", name="practice")
      */
-    public function practice()
+    public function practice(ObjectManager $manager)
     {
-        return $this->render('article/index.html.twig', [
-            'controller_name' => 'ArticleController',
+        $action = $manager->getRepository(Action::class)->findBySlug($slug);
+        $articles = $action->getArticles()->toArray();
+
+        return $this->render('article/show.html.twig', [
+            'articles' => $articles,
         ]);
     }
 
