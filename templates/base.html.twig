@@ -3,10 +3,17 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, user-scrable=no">
+        <link rel="stylesheet" href="css/app.css">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+        <div class="container">
+            {% include 'partials/header.html.twig' %}
+            <main>
+                {% block body %}{% endblock %}
+            </main>
+            {% block javascripts %}{% endblock %}
+        </div>
     </body>
 </html>

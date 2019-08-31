@@ -3,18 +3,14 @@
 {% block title %}Une pause{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/ubuntu/Projects/unePause/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/ubuntu/Projects/unePause/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
+<div class="grid-2-4-2">
+    <img src="images/massage-dos.jpg" alt="massage du dos">
+    <section>
+        <p>Le massage est un instrument de communication non parlé, un dialoque destiné aux soins du corps, qui concerne l'individu tout entier.
+        Il agit comme amplificateur des performances physico-affectives et en général de la santé.</p>
+        <p>Il intervient sur la peau, le système nerveux, la trame fasciale, les organes et sur la circulation. Mais il ne se limite pas aux tissus et aux articulations car il est orienté vers la personne avec toutes ses capacités organiques et son état intellectuel et émotionnel.</p>
+    </section>
+    <img src="images/massage-epaule.jpg" alt="massage de l'épaule">
 </div>
+
 {% endblock %}
