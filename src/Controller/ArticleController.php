@@ -16,10 +16,6 @@ class ArticleController extends AbstractController
     {
         $articles = $manager->getRepository(Article::class)->findBySlug($tab, $page);
 
-        dump($articles);
-        //$action = $manager->getRepository(Action::class)->findOneBySlug($slug);
-        //$articles = $action->getArticles()->toArray();
-
         return $this->render('article/show.html.twig', [
             'articles' => $articles,
         ]);
