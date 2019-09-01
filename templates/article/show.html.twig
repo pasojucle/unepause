@@ -5,11 +5,11 @@
 {% block body %}
     {% for article in articles %}
         <section class="grid-2-6">
-            <img src="/images/{{ article.image }}" alt="">
+            <img src="/images/" alt="">
             <div>
                 <h1>{{ article.title }}</h1>
                 <div class="col-2">
-                    {{ article.text| raw }}
+                    {{ article.content| raw }}
                 </div>
             </div>
         </section>

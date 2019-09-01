@@ -17,12 +17,6 @@ class Article
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Action", inversedBy="articles")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $action;
-
-    /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $title;
@@ -30,28 +24,22 @@ class Article
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $text;
+    private $content;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $image;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="articles")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $page;
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getAction(): ?Action
-    {
-        return $this->action;
-    }
-
-    public function setAction(?Action $action): self
-    {
-        $this->action = $action;
-
-        return $this;
     }
 
     public function getTitle(): ?string
@@ -66,14 +54,14 @@ class Article
         return $this;
     }
 
-    public function getText(): ?string
+    public function getContent(): ?string
     {
-        return $this->text;
+        return $this->content;
     }
 
-    public function setText(?string $text): self
+    public function setContent(?string $content): self
     {
-        $this->text = $text;
+        $this->content = $content;
 
         return $this;
     }
@@ -86,6 +74,18 @@ class Article
     public function setImage(?string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getPage(): ?Page
+    {
+        return $this->page;
+    }
+
+    public function setPage(?Page $page): self
+    {
+        $this->page = $page;
 
         return $this;
     }

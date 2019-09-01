@@ -22,19 +22,25 @@ class ArticleRepository extends ServiceEntityRepository
     // /**
     //  * @return Article[] Returns an array of Article objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function findBySlug($tab, $page)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $qb = $this->createQueryBuilder('a')
+            ->join('a.page', 'p')
+            ->join('p.tab', 't');
+        if (null == $page) {
+            $page = $tab;
+        } 
+        $qb->andWhere(
+            $qb->expr()->like('p.slug', ':page'),
+            $qb->expr()->like('t.slug', ':tab')
+        )
+        ->setParameter('tab', $tab)
+        ->setParameter('page', $page);
+
+        return $qb->getQuery()->getResult();
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Article

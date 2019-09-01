@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Action;
+use App\Entity\Article;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -10,38 +10,32 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ArticleController extends AbstractController
 {
     /**
-     * @Route("/massage/{slug}", name="massage")
+     * @Route("/{tab}/{page}", name="show_article", defaults={"page": null})
      */
-    public function massage(ObjectManager $manager, $slug)
+    public function showArticle(ObjectManager $manager, $tab, $page)
     {
-        $action = $manager->getRepository(Action::class)->findBySlug($slug);
-        $articles = $action->getArticles()->toArray();
+        $articles = $manager->getRepository(Article::class)->findBySlug($tab, $page);
+
+        dump($articles);
+        //$action = $manager->getRepository(Action::class)->findOneBySlug($slug);
+        //$articles = $action->getArticles()->toArray();
 
         return $this->render('article/show.html.twig', [
             'articles' => $articles,
         ]);
     }
 
-    /**
-     * @Route("/practice", name="practice")
-     */
-    public function practice(ObjectManager $manager)
-    {
-        $action = $manager->getRepository(Action::class)->findBySlug($slug);
-        $articles = $action->getArticles()->toArray();
-
-        return $this->render('article/show.html.twig', [
-            'articles' => $articles,
-        ]);
-    }
-
-    /**
+        /**
      * @Route("/prices", name="prices")
      */
-    public function prices()
+    public function showPrices(ObjectManager $manager)
     {
-        return $this->render('article/index.html.twig', [
-            'controller_name' => 'ArticleController',
+        //$action = $manager->getRepository(Action::class)->findOneBySlug($slug);
+        //$articles = $action->getArticles()->toArray();
+
+        return $this->render('article/show.html.twig', [
+            'articles' => $articles,
         ]);
     }
+
 }

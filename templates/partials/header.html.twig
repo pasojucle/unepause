@@ -1,37 +1,26 @@
 <header>
     <img class="full-size" src="/images/header.png" alt="une-pause">
     <img class="logo" src="/images/une-pause.png" alt="une-pause">
+    {% set tabs = app.request.request.get('tabs') %}
     <nav>
         <ul>
-            {% set actions = app.request.request.get('actions') %}
-            {% for action in actions %}
-                {% set parent = action.parent %}
-                {% if parent.route is not null %}
-                    {% set parent_route = parent.route %}
-                {% endif %}
-                {% set drop_menu = null %}
-                {% if action.children|length > 0 %}
-                    {% set parentClass = "nav-item dropdown" %}
-                    {% set drop_menu %}
-                        <div class="dropdown-menu">
-                            {% for child in action.children %}
-                                {% set child_route = child.route %}
-                                {% if child.slug is not null %}
-                                {% set slug = child.slug %}
-                                    <a href="{{ path(child_route, parameters = {'slug': slug}) }}" class="dropdown-item">{{ child.name }}</a>
-                                {% else %}
-                                    <a href="{{ path(child_route) }}" class="dropdown-item">{{ child.name }}</a>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    {% endset %}
-                {% endif %}
+            {% for tab in tabs %}
                 <li class="nav-item">       
-                    <a href="{{ path(parent_route) }}" class="nav-link">{{ parent.name }}</a>
-                    {% if drop_menu is not null %}
-                        {{ drop_menu }}
+                {% if tab.pages|length > 0 %}
+                    {% if tab.pages|length > 1 %}
+                        <a class="nav-link">{{ tab.name }}</a>
+                        <div class="dropdown-menu">
+                            {% for page in tab.pages %}
+                                {% set route = page.template.route %}
+                                <a href="{{ path(route, parameters = {'tab': tab.slug,'page': page.slug}) }}" class="dropdown-item">{{ page.name }}</a>
+                            {% endfor %}
+                            </div>
+                    {% else %}
+                        {% set route = tab.pages[0].template.route %}
+                        <a href="{{ path(route, parameters = {'tab':tab.slug}) }}" class="nav-link">{{ tab.name }}</a>
                     {% endif %}
                 </li>
+                {% endif %}
             {% endfor %}
         </ul>
     </nav>

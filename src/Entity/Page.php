@@ -4,13 +4,12 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ActionRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PageRepository")
  */
-class Action
+class Page
 {
     /**
      * @ORM\Id()
@@ -25,26 +24,26 @@ class Action
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     */
-    private $route;
-
-    /**
-     * @ORM\Column(type="string", length=50, nullable=true)
-     * @Assert\Unique(message="La valeur {{ value }} existe déja.")
+     * @ORM\Column(type="string", length=50)
      */
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Action")
-     * 
+     * @ORM\ManyToOne(targetEntity="App\Entity\Template")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $parent;
+    private $template;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="action")
+     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="page")
      */
     private $articles;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Tab", inversedBy="pages")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tab;
 
     public function __construct()
     {
@@ -68,38 +67,26 @@ class Action
         return $this;
     }
 
-    public function getRoute(): ?string
-    {
-        return $this->route;
-    }
-
-    public function setRoute(string $route): self
-    {
-        $this->route = $route;
-
-        return $this;
-    }
-
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    public function setSlug(?string $slug): self
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
 
         return $this;
     }
 
-    public function getParent(): ?self
+    public function getTemplate(): ?Template
     {
-        return $this->parent;
+        return $this->template;
     }
 
-    public function setParent(?self $parent): self
+    public function setTemplate(?Template $template): self
     {
-        $this->parent = $parent;
+        $this->template = $template;
 
         return $this;
     }
@@ -116,7 +103,7 @@ class Action
     {
         if (!$this->articles->contains($article)) {
             $this->articles[] = $article;
-            $article->setAction($this);
+            $article->setPage($this);
         }
 
         return $this;
@@ -127,10 +114,22 @@ class Action
         if ($this->articles->contains($article)) {
             $this->articles->removeElement($article);
             // set the owning side to null (unless already changed)
-            if ($article->getAction() === $this) {
-                $article->setAction(null);
+            if ($article->getPage() === $this) {
+                $article->setPage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTab(): ?Tab
+    {
+        return $this->tab;
+    }
+
+    public function setTab(?Tab $tab): self
+    {
+        $this->tab = $tab;
 
         return $this;
     }

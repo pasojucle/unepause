@@ -2,7 +2,7 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Action;
+use App\Entity\Tab;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
@@ -27,24 +27,7 @@ class NavSubscriber implements EventSubscriberInterface
 
     public function onKernelController (ControllerEvent $event) 
     {
-        $allActions = $this->manager->getRepository(Action::class)->findBy([],['parent'=> 'ASC', 'id'=> 'ASC']);
-
-        $actions = [];
-        foreach ($allActions as $action) {
-            $parent = $action->getParent();
-            $actionId = $action->getId();
-            if (null == $parent) {
-                $actions[$actionId] = [
-                    'children' => [],
-                    'parent' => $action,
-                ];
-            } else {
-                $parentId = $parent->getId();
-                if (array_key_exists($parentId,$actions)) {
-                    $actions[$parentId]['children'][] = $action;
-                }
-            } 
-        }
-        $event->getRequest()->request->set('actions', $actions);
+        $tabs = $this->manager->getRepository(Tab::class)->findAll();
+        $event->getRequest()->request->set('tabs', $tabs);
     }
 }
