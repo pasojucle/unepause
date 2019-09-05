@@ -5,16 +5,20 @@ namespace App\EventSubscriber;
 use App\Entity\Tab;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 class NavSubscriber implements EventSubscriberInterface
 {
     private $manager;
+    private $router;
 
-    public function __construct(ObjectManager $manager)
+    public function __construct(ObjectManager $manager, RouterInterface $router)
     {
         $this->manager = $manager;
+        $this->router = $router;
     }
 
     public static function getSubscribedEvents()

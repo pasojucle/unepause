@@ -26,6 +26,11 @@ class Template
      */
     private $route;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $routeParameters;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,6 +56,18 @@ class Template
     public function setRoute(string $route): self
     {
         $this->route = $route;
+
+        return $this;
+    }
+
+    public function getRouteParameters(): ?array
+    {
+        return unserialize($this->routeParameters);
+    }
+
+    public function setRouteParameters(?string $routeParameters): self
+    {
+        $this->routeParameters = $routeParameters;
 
         return $this;
     }

@@ -23,7 +23,7 @@ class ArticleRepository extends ServiceEntityRepository
     //  * @return Article[] Returns an array of Article objects
     //  */
     
-    public function findBySlug($tab, $page)
+    public function findBySlug($tab, $page = null)
     {
         $qb = $this->createQueryBuilder('a')
             ->join('a.page', 'p')
@@ -38,7 +38,7 @@ class ArticleRepository extends ServiceEntityRepository
         ->setParameter('tab', $tab)
         ->setParameter('page', $page);
 
-        return $qb->getQuery()->getResult();
+        return $qb;
     }
     
 

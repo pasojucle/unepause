@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20190901132422 extends AbstractMigration
+final class Version20190905174612 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,42 +22,59 @@ final class Version20190901132422 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE template (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(50) NOT NULL, route VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE template (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(50) NOT NULL, route VARCHAR(50) NOT NULL, route_parameters LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE image (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(50) NOT NULL, filename VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE image_article (image_id INT NOT NULL, article_id INT NOT NULL, INDEX IDX_972A59BA3DA5256D (image_id), INDEX IDX_972A59BA7294869C (article_id), PRIMARY KEY(image_id, article_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE page (id INT AUTO_INCREMENT NOT NULL, template_id INT NOT NULL, tab_id INT NOT NULL, name VARCHAR(50) NOT NULL, slug VARCHAR(50) NOT NULL, INDEX IDX_140AB6205DA0FB8 (template_id), INDEX IDX_140AB6208D0C9323 (tab_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE tab (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(50) NOT NULL, slug VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE article (id INT AUTO_INCREMENT NOT NULL, page_id INT NOT NULL, title VARCHAR(100) DEFAULT NULL, content LONGTEXT DEFAULT NULL, image VARCHAR(100) DEFAULT NULL, INDEX IDX_23A0E66C4663E4 (page_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('ALTER TABLE image_article ADD CONSTRAINT FK_972A59BA3DA5256D FOREIGN KEY (image_id) REFERENCES image (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE image_article ADD CONSTRAINT FK_972A59BA7294869C FOREIGN KEY (article_id) REFERENCES article (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE page ADD CONSTRAINT FK_140AB6205DA0FB8 FOREIGN KEY (template_id) REFERENCES template (id)');
         $this->addSql('ALTER TABLE page ADD CONSTRAINT FK_140AB6208D0C9323 FOREIGN KEY (tab_id) REFERENCES tab (id)');
         $this->addSql('ALTER TABLE article ADD CONSTRAINT FK_23A0E66C4663E4 FOREIGN KEY (page_id) REFERENCES page (id)');
-        
+        $articleParameters = [
+            ['name' => 'tab', 'value' => 'slug'],
+            ['name' => 'page', 'value' => 'slug'],
+        ];
+        $pageParameters = [
+            ['name' => 'page', 'value' => 'slug'],
+        ];
+
         $templates = [
             ['id' => 1,
                 'name' => 'Accueil',
                 'route' =>'home',
+                'routeParameters' => serialize(null),
             ],
             ['id' => 2,
                 'name' => 'Article',
                 'route' =>'show_article',
+                'routeParameters' => serialize($articleParameters),
             ],
             ['id' => 3,
                 'name' => 'Tarifs',
                 'route' =>'prices',
+                'routeParameters' => serialize($pageParameters),
             ],
             ['id' => 4,
                 'name' => 'Réservation',
                 'route' =>'booking',
+                'routeParameters' => serialize(null),
             ],
             ['id' => 5,
                 'name' => 'Carte cadeau',
                 'route' =>'giftcard',
+                'routeParameters' => serialize(null),
             ],
             ['id' => 6,
                 'name' => 'Contact',
                 'route' =>'contact',
+                'routeParameters' => serialize(null),
             ],
         ];
         foreach($templates as $template) {
-            $this->addSql('INSERT INTO template (id, name, route) VALUES (:id, :name, :route)', $template);
+            $this->addSql('INSERT INTO template (id, name, route, route_parameters) VALUES (:id, :name, :route, :routeParameters)', $template);
         }
 
         $tabs = [
@@ -190,10 +207,66 @@ final class Version20190901132422 extends AbstractMigration
                 'content' => '<p>Nous allons faire Une pause ensemble et pour son bon déroulement, voici quelques conseils pour en profiter au mieux.</p><p>La première fois, nous remplirons ensemble un questionnaire afin de vérifier que vous ne présentez pas de contre-indications et pour que vous puissiez me communiquer vos attentes.</p><p>Mette-vous à l&apos;aise, détendez-vous au maximum et savourez le moment !</p><p>N&apos;hésitez pas à dire si vous êtes mal installé, si vous avez froid (car la température du corps baisse durant le massage) ou si vous ressentez la moindre douleur. Je reste à votre écoute tout au long de la séance.</p><p>Après votre massage, prenez le temps de revenir à vous et de vous relever tout doucement, sans forcer, pour laisser à votre corps le temps de se réveiller. Dans les heures qui suivent il vous faut du repos et une bonne hydratation pour éliminer les toxines qui ont été délogées.</p><p>Pour garder les bienfaïts du beurre de karité et des éventuelles huiles essentielles, vous pouvez les laisser sur votre peau après le massage et ne prendre votre douche qu’en soirée. Votre peau pourra ainsi être nourrie en profondeur.</p><p>Les massages doivent être faits à distance des repas, la pression provoquerait un inconfort gastrique.</p>',
                 'page_id' => 7,
             ],
+            ['title' => 'Un massage, pour se donner un moment de répit.',
+                'content' => '<p>Le massage est un instrument de communication non parlé, un dialoque destiné aux soins du corps, qui concerne l&apos;individu tout entier. Il agit comme amplificateur des performances physico-affectives et en général de la santé.</p><p>Il intervient sur la peau, le système nerveux, la trame fasciale, les organes et sur la circulation. Mais il ne se limite pas aux tissus et aux articulations car il est orienté vers la personne avec toutes ses capacités organiques et son état intellectuel et émotionnel.</p>',
+                'page_id' => 1,
+            ],
         ];
 
         foreach($articles as $article) {
             $this->addSql('INSERT INTO article (title, content, page_id) VALUES (:title, :content, :page_id)', $article);
+        }
+        $images = [
+            ['id' =>1,
+                'title' => 'massage dos',
+                'filename' => 'massage-dos.jpg',
+            ],
+            ['id' =>2,
+                'title' => 'massage épaule',
+                'filename' => 'massage-epaule.jpg',
+            ],
+            ['id' =>3,
+                'title' => 'deep tissue',
+                'filename' => 'deep-tissue.jpg',
+            ],
+            ['id' =>4,
+                'title' => 'beurre de karté',
+                'filename' => 'beurre-de-karite.jpg',
+            ],
+        ];
+        foreach($images as $image) {
+            $this->addSql('INSERT INTO image (id, title, filename) VALUES (:id, :title, :filename)', $image);
+        }
+
+        $imageArticleListe = [
+            [   'image_id' => 3,
+                'article_id' => 1,
+            ],
+            [   'image_id' => 3,
+                'article_id' => 2,
+            ],
+            [   'image_id' => 3,
+                'article_id' => 3,
+            ],
+            [   'image_id' => 3,
+                'article_id' => 4,
+            ],
+            [   'image_id' => 3,
+                'article_id' => 5,
+            ],
+            [   'image_id' => 4,
+                'article_id' => 6,
+            ],
+            [   'image_id' => 1,
+                'article_id' => 7,
+            ],
+            [   'image_id' => 2,
+                'article_id' => 7,
+            ],
+
+        ];
+        foreach($imageArticleListe as $imageArticle) {
+            $this->addSql('INSERT INTO image_article (image_id, article_id) VALUES (:image_id, :article_id)', $imageArticle);
         }
     }
 
@@ -203,9 +276,13 @@ final class Version20190901132422 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE page DROP FOREIGN KEY FK_140AB6205DA0FB8');
+        $this->addSql('ALTER TABLE image_article DROP FOREIGN KEY FK_972A59BA3DA5256D');
         $this->addSql('ALTER TABLE article DROP FOREIGN KEY FK_23A0E66C4663E4');
         $this->addSql('ALTER TABLE page DROP FOREIGN KEY FK_140AB6208D0C9323');
+        $this->addSql('ALTER TABLE image_article DROP FOREIGN KEY FK_972A59BA7294869C');
         $this->addSql('DROP TABLE template');
+        $this->addSql('DROP TABLE image');
+        $this->addSql('DROP TABLE image_article');
         $this->addSql('DROP TABLE page');
         $this->addSql('DROP TABLE tab');
         $this->addSql('DROP TABLE article');

@@ -11,13 +11,14 @@
                         <a class="nav-link">{{ tab.name }}</a>
                         <div class="dropdown-menu">
                             {% for page in tab.pages %}
-                                {% set route = page.template.route %}
-                                <a href="{{ path(route, parameters = {'tab': tab.slug,'page': page.slug}) }}" class="dropdown-item">{{ page.name }}</a>
+                                {% set class_item = "dropdown-item"%}
+                                {% include 'partials/routeParameters.html.twig' %}
                             {% endfor %}
-                            </div>
+                        </div>
                     {% else %}
-                        {% set route = tab.pages[0].template.route %}
-                        <a href="{{ path(route, parameters = {'tab':tab.slug}) }}" class="nav-link">{{ tab.name }}</a>
+                        {% set page = tab.pages[0] %}
+                        {% set class_item = "nav-link"%}
+                        {% include 'partials/routeParameters.html.twig' %}
                     {% endif %}
                 </li>
                 {% endif %}

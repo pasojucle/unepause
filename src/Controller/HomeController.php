@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
+use App\Repository\ArticleRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -11,10 +11,14 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(Request $request)
+    public function index(ArticleRepository $repo)
     {
+        $article = $repo->findBySlug('home')
+        ->getQuery()
+        ->getOneOrNullResult();  
+        
         return $this->render('home/index.html.twig', [
-            'action' => $request->attributes->get('_route'),
+            'article' => $article,
         ]);
     }
 }
