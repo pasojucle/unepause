@@ -29,11 +29,6 @@ class Article
     private $content;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true)
-     */
-    private $image;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -44,9 +39,15 @@ class Article
      */
     private $images;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Family", mappedBy="article")
+     */
+    private $families;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->families = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,18 +75,6 @@ class Article
     public function setContent(?string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -125,6 +114,37 @@ class Article
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
             $image->removeArticle($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Family[]
+     */
+    public function getFamilies(): Collection
+    {
+        return $this->families;
+    }
+
+    public function addFamily(Family $family): self
+    {
+        if (!$this->families->contains($family)) {
+            $this->families[] = $family;
+            $family->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFamily(Family $family): self
+    {
+        if ($this->families->contains($family)) {
+            $this->families->removeElement($family);
+            // set the owning side to null (unless already changed)
+            if ($family->getArticle() === $this) {
+                $family->setArticle(null);
+            }
         }
 
         return $this;
