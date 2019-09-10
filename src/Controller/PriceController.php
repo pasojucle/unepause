@@ -7,7 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ArticleController extends AbstractController
+class PriceController extends AbstractController
 {
     private $manager;
 
@@ -17,19 +17,19 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("a/{tab}/{page}", name="show_article", defaults={"page": null})
+     * @Route("/prices/{page}", name="prices", defaults={"page": null})
      */
-    public function showArticle($tab, $page)
+    public function prices($page)
     {
-        $articles = $this->manager->getRepository(Article::class)->findBySlug($tab, $page)
+        $articles = $this->manager->getRepository(Article::class)->findBySlug('prices', $page)
             ->getQuery()
             ->getResult();
+        /*$prices = $this->manager->getRepository(Price::class)->findByPage($page)
+        ->getQuery()
+        ->getResult();*/
 
-        return $this->render('article/show.html.twig', [
+        return $this->render('price/show.html.twig', [
             'articles' => $articles,
         ]);
     }
-
-
-
 }

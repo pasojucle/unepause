@@ -34,9 +34,15 @@ class Family
      */
     private $products;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Unit", mappedBy="families")
+     */
+    private $units;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->units = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +100,34 @@ class Family
             if ($product->getFamily() === $this) {
                 $product->setFamily(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Unit[]
+     */
+    public function getUnits(): Collection
+    {
+        return $this->units;
+    }
+
+    public function addUnit(Unit $unit): self
+    {
+        if (!$this->units->contains($unit)) {
+            $this->units[] = $unit;
+            $unit->addFamily($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUnit(Unit $unit): self
+    {
+        if ($this->units->contains($unit)) {
+            $this->units->removeElement($unit);
+            $unit->removeFamily($this);
         }
 
         return $this;

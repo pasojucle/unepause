@@ -1,6 +1,10 @@
 {% set route = page.template.route %}
 {% set route_parameters = page.template.routeParameters %}
 {% set parameters = [] %}
+{% set class_active = '' %}
+{% if route == current_route  and (current_tab is null or current_tab == tab.slug) and (class_item == 'nav-link' or current_page == page.slug) %}
+    {% set class_active = ' active' %}
+{% endif %}
 {% for parameter in route_parameters %}
     {% if parameter.name == 'tab' %}
         {% set parameters = parameters|merge({'tab':attribute(tab, parameter.value)}) %}
@@ -9,4 +13,4 @@
         {% set parameters = parameters|merge({'page':attribute(page, parameter.value)}) %}
     {% endif %}
 {% endfor %}
-<a href="{{ path(route, parameters = parameters) }}" class="{{ class_item }}">{{ page.name }}</a>
+<a href="{{ path(route, parameters = parameters) }}" class="{{ class_item }}{{ class_active}}">{{ page.name }}</a>

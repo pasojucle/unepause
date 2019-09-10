@@ -22,19 +22,27 @@ class PriceRepository extends ServiceEntityRepository
     // /**
     //  * @return Price[] Returns an array of Price objects
     //  */
-    /*
-    public function findByExampleField($value)
+    
+    public function findByPage($page)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $qb = $this->createQueryBuilder('pri')
+        ->join('pri.product', 'pro')
+        ->join('pro.family', 'f')
+        ->join('f.article', 'a')
+        ->join('a.page', 'pa')
+        ->join('pa.tab', 'ta')
         ;
+        if (null == $page) {
+            $page = 'prices';
+        } 
+        $qb->andWhere(
+            $qb->expr()->like('pa.slug', ':page')
+        )
+        ->setParameter('page', $page);
+
+        return $qb;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Price

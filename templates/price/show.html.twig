@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tarifs{% endblock %}
+
+{% block body %}
+    {% for article in articles %}
+    <section class="grid grid-prices">
+        <figure>
+            <picture>
+                <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
+                <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
+                <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
+            </picture>
+        </figure>
+        <h1>{{ article.title }}</h1>
+        <main>
+            {% for family in article.families %}
+            <h2>{{ family.name }}</h2>
+            <table class="price-table">
+                <thead>
+                    <th></th>
+                    {% for unit in family.units %}
+                        <th class="unit">{{ unit.label }}</th>
+                    {% endfor %}
+                </thead>
+                <tbody>
+                    {% for product in family.products %}
+                    <tr>
+                        <td>{{ product.label }}</td>
+                        {% for unit in family.units %}
+                            {% set current_price = '' %}
+                            {% for price in product.prices %}
+                                {% if family.units[loop.index0] == price.unit %}
+                                    {% set current_price = price.amount|number_format(2, ',') ~ ' euros' %}
+                                {% endif %}
+                            {% endfor %}
+                            <td class="price">{{ current_price }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endfor %}
+        </main>
+        <footer class="legal-notices">
+            {{ article.content| raw }}
+        </footer>
+    </section>
+    {% endfor %}
+{% endblock %}

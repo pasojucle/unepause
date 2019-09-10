@@ -24,14 +24,19 @@ class Image
     private $title;
 
     /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $filename;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Article", inversedBy="images")
      */
     private $article;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $filenameMd;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $filenameXs;
 
     public function __construct()
     {
@@ -51,18 +56,6 @@ class Image
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getFilename(): ?string
-    {
-        return $this->filename;
-    }
-
-    public function setFilename(string $filename): self
-    {
-        $this->filename = $filename;
 
         return $this;
     }
@@ -89,6 +82,30 @@ class Image
         if ($this->article->contains($article)) {
             $this->article->removeElement($article);
         }
+
+        return $this;
+    }
+
+    public function getFilenameMd(): ?string
+    {
+        return $this->filenameMd;
+    }
+
+    public function setFilenameMd(string $filenameMd): self
+    {
+        $this->filenameMd = $filenameMd;
+
+        return $this;
+    }
+
+    public function getFilenameXs(): ?string
+    {
+        return $this->filenameXs;
+    }
+
+    public function setFilenameXs(string $filenameXs): self
+    {
+        $this->filenameXs = $filenameXs;
 
         return $this;
     }

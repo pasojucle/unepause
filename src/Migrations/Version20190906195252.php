@@ -36,7 +36,7 @@ final class Version20190906195252 extends AbstractMigration
             [
                 'id' => 8,
                 'title' => "Tarifs au 1er août 2019",
-                'content' => '<p>* Offre valable dans un délais de 120 mois dès l&apos;acquisition du forfait</p><p>TVA non applicable, article 293B du code général des impôts.<br>Paiment par carte banquaire, virement, chèque ou espèces.</p>',
+                'content' => '<p>* Offre valable dans un délais de 12 mois dès l&apos;acquisition du forfait</p><p>TVA non applicable, article 293B du code général des impôts.<br>Paiement par carte banquaire, virement, chèque ou espèces.</p>',
                 'pageId' => 8,
             ],
         ];
@@ -48,7 +48,7 @@ final class Version20190906195252 extends AbstractMigration
         $families = [
             [
                 'id' => 1,
-                'name' => 'Massge deep tissue personnalisé',
+                'name' => 'Massage deep tissue personnalisé',
                 'articleId' => 8,
             ],
         ];
@@ -78,7 +78,7 @@ final class Version20190906195252 extends AbstractMigration
             ],
             [
                 'id' => 2,
-                'label' => 'Forfait régularité (5 massages)*',
+                'label' => 'Forfait régularité (5 massages)*',
                 'familyId' => 1,
             ],
         ];
@@ -110,6 +110,25 @@ final class Version20190906195252 extends AbstractMigration
         ];
         foreach($prices as $price) {
             $this->addSql('INSERT INTO price (unit_id, product_id) VALUES (:unitId, :productId)', $price);
+        }
+        $images = [
+            [
+                'id' => 5,
+                'title' => 'massage pression ferme',
+                'filename' => 'massage-pression-ferme.jpg',
+            ],
+        ];
+        foreach($images as $image) {
+            $this->addSql('INSERT INTO image (id, title, filename) VALUES (:id, :title, :filename)', $image);
+        }
+
+        $imageArticleListe = [
+            [   'image_id' => 5,
+                'article_id' => 8,
+            ],
+        ];
+        foreach($imageArticleListe as $imageArticle) {
+            $this->addSql('INSERT INTO image_article (image_id, article_id) VALUES (:image_id, :article_id)', $imageArticle);
         }
     }
 

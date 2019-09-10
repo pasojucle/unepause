@@ -1,17 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Massage{% endblock %}
+{% block title %}{{ articles[0].page.tab.name }}{% endblock %}
 
 {% block body %}
     {% for article in articles %}
-        <section class="grid-2-6">
-            <img src="/images/{{article.images[0].filename}}" alt="{{article.images[0].title}}">
-            <div>
-                <h1>{{ article.title }}</h1>
-                <div class="col-2">
+        <section class="grid grid-article">
+            <figure>
+                <picture>
+                    <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
+                    <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
+                    <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
+                </picture>
+            </figure>
+            <h1>{{ article.title }}</h1>
+            <main>
+                <div class="col-md-2 col-xs-1">
                     {{ article.content| raw }}
                 </div>
-            </div>
+            </main>
         </section>
     {% endfor %}
 {% endblock %}

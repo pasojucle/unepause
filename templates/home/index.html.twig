@@ -3,15 +3,25 @@
 {% block title %}Une pause{% endblock %}
 
 {% block body %}
-<section class="grid-2-4-2">
-    <img src="/images/{{article.images[0].filename}}" alt="{{article.images[0].title}}">
-    <div>
-        <h1>{{ article.title }}</h1>
-        <div>
-            {{ article.content| raw }}
-        </div>
-    </div>
-    <img src="/images/{{article.images[1].filename}}" alt="{{article.images[0].title}}">
+<section class="grid grid-home">
+<figure>
+        <picture>
+            <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
+            <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
+            <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
+        </picture>
+    </figure>
+    <h1>{{ article.title }}</h1>
+    <main>
+        {{ article.content| raw }}
+    </main>
+    <figure>
+        <picture>
+            <source media="(min-width: 768px)" srcset="/images/{{ article.images[1].filenameMd }}">
+            <source media="(min-width: 360px)" srcset="/images/{{ article.images[1].filenameXs }}">
+            <img src="/images/{{ article.images[1].filenameMd }}" alt="{{article.images[0].title}}">
+        </picture>
+    </figure>
 </section>
 
 {% endblock %}

@@ -2,13 +2,30 @@
     <img class="full-size" src="/images/header.png" alt="une-pause">
     <img class="logo" src="/images/une-pause.png" alt="une-pause">
     {% set tabs = app.request.request.get('tabs') %}
-    <nav>
+    {% set current_route = app.request.attributes.get('_route') %}
+    {% set current_route_params = app.request.attributes.get('_route_params') %}
+    {% set current_tab = null %}
+    {% if current_route_params.tab is defined %}
+        {% set current_tab = current_route_params.tab %}
+    {% endif %}
+    {% if current_route_params.page is defined %}
+        {% set current_page = current_route_params.page %}
+    {% endif %}
+</header>
+<div class="nav-btn">
+        <i class="fas fa-bars"></i>
+    </div>
+    <nav  class="nav-tab">
         <ul>
             {% for tab in tabs %}
                 <li class="nav-item">       
                 {% if tab.pages|length > 0 %}
                     {% if tab.pages|length > 1 %}
-                        <a class="nav-link">{{ tab.name }}</a>
+                        {% set class_active = '' %}
+                        {% if current_tab == tab.slug %}
+                            {% set class_active = ' active' %}
+                        {% endif %}
+                        <a class="nav-link{{ class_active }}">{{ tab.name }}</a>
                         <div class="dropdown-menu">
                             {% for page in tab.pages %}
                                 {% set class_item = "dropdown-item"%}
@@ -17,7 +34,8 @@
                         </div>
                     {% else %}
                         {% set page = tab.pages[0] %}
-                        {% set class_item = "nav-link"%}
+                        {% set class_active = '' %}
+                        {% set class_item = "nav-link" %}
                         {% include 'partials/routeParameters.html.twig' %}
                     {% endif %}
                 </li>
@@ -25,4 +43,3 @@
             {% endfor %}
         </ul>
     </nav>
-</header>
