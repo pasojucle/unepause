@@ -25,16 +25,16 @@ final class Version20190905174612 extends AbstractMigration
         $this->addSql('CREATE TABLE template (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(50) NOT NULL, route VARCHAR(50) NOT NULL, route_parameters LONGTEXT DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE image (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(50) NOT NULL, filename VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE image_article (image_id INT NOT NULL, article_id INT NOT NULL, INDEX IDX_972A59BA3DA5256D (image_id), INDEX IDX_972A59BA7294869C (article_id), PRIMARY KEY(image_id, article_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE page (id INT AUTO_INCREMENT NOT NULL, template_id INT NOT NULL, tab_id INT NOT NULL, name VARCHAR(50) NOT NULL, slug VARCHAR(50) NOT NULL, INDEX IDX_140AB6205DA0FB8 (template_id), INDEX IDX_140AB6208D0C9323 (tab_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE tab (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(50) NOT NULL, slug VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE page (id INT AUTO_INCREMENT NOT NULL, template_id INT NOT NULL, action_id INT NOT NULL, name VARCHAR(50) NOT NULL, slug VARCHAR(50) NOT NULL, INDEX IDX_140AB6205DA0FB8 (template_id), INDEX IDX_140AB6209D32F035 (action_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE action (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(50) NOT NULL, slug VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE article (id INT AUTO_INCREMENT NOT NULL, page_id INT NOT NULL, title VARCHAR(100) DEFAULT NULL, content LONGTEXT DEFAULT NULL, image VARCHAR(100) DEFAULT NULL, INDEX IDX_23A0E66C4663E4 (page_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('ALTER TABLE image_article ADD CONSTRAINT FK_972A59BA3DA5256D FOREIGN KEY (image_id) REFERENCES image (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE image_article ADD CONSTRAINT FK_972A59BA7294869C FOREIGN KEY (article_id) REFERENCES article (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE page ADD CONSTRAINT FK_140AB6205DA0FB8 FOREIGN KEY (template_id) REFERENCES template (id)');
-        $this->addSql('ALTER TABLE page ADD CONSTRAINT FK_140AB6208D0C9323 FOREIGN KEY (tab_id) REFERENCES tab (id)');
+        $this->addSql('ALTER TABLE page ADD CONSTRAINT FK_140AB6208D0C9323 FOREIGN KEY (action_id) REFERENCES action (id)');
         $this->addSql('ALTER TABLE article ADD CONSTRAINT FK_23A0E66C4663E4 FOREIGN KEY (page_id) REFERENCES page (id)');
         $articleParameters = [
-            ['name' => 'tab', 'value' => 'slug'],
+            ['name' => 'action', 'value' => 'slug'],
             ['name' => 'page', 'value' => 'slug'],
         ];
         $pageParameters = [
@@ -77,7 +77,7 @@ final class Version20190905174612 extends AbstractMigration
             $this->addSql('INSERT INTO template (id, name, route, route_parameters) VALUES (:id, :name, :route, :routeParameters)', $template);
         }
 
-        $tabs = [
+        $actions = [
             ['id' => 1,
                 'name' => 'Accueil',
                 'slug' =>'home',
@@ -107,80 +107,80 @@ final class Version20190905174612 extends AbstractMigration
                 'slug' =>'contact',
             ],
         ];
-        foreach($tabs as $tab) {
-            $this->addSql('INSERT INTO tab (id, name, slug) VALUES (:id, :name, :slug)', $tab);
+        foreach($actions as $action) {
+            $this->addSql('INSERT INTO action (id, name, slug) VALUES (:id, :name, :slug)', $action);
         }
 
         $pages = [
             ['id' => 1,
                 'name' => 'Accueil',
                 'template_id' => 1,
-                'tab_id' => 1,
+                'action_id' => 1,
                 'slug' => 'home',
             ],
             ['id' => 2,
                 'name' => 'En quoi ça consiste',
                 'template_id' => 2,
-                'tab_id' => 2,
+                'action_id' => 2,
                 'slug' => 'about',
             ],
             ['id' => 3,
                 'name' => 'Pour qui ?',
                 'template_id' => 2,
-                'tab_id' => 2,
+                'action_id' => 2,
                 'slug' => 'target',
             ],
             ['id' => 4,
                 'name' => 'Pourquoi ?',
                 'template_id' => 2,
-                'tab_id' => 2,
+                'action_id' => 2,
                 'slug' => 'reason',
             ],
             ['id' => 5,
                 'name' => 'Durée et fréquence',
                 'template_id' => 2,
-                'tab_id' => 2,
+                'action_id' => 2,
                 'slug' => 'recommendations',
             ],
             ['id' => 6,
                 'name' => 'Contre-indications',
                 'template_id' => 2,
-                'tab_id' => 2,
+                'action_id' => 2,
                 'slug' => 'cons-indications',
             ],
             ['id' => 7,
                 'name' => 'Pratique',
                 'template_id' => 2,
-                'tab_id' => 3,
+                'action_id' => 3,
                 'slug' => 'practice',
             ],
             ['id' => 8,
                 'name' => 'Tarifs',
                 'template_id' => 3,
-                'tab_id' => 4,
+                'action_id' => 4,
                 'slug' => 'prices',
             ],
             ['id' => 9,
                 'name' => 'Réserver',
                 'template_id' => 4,
-                'tab_id' => 5,
+                'action_id' => 5,
                 'slug' => 'booking',
             ],
             ['id' => 10,
                 'name' => 'Carte cadeau',
                 'template_id' => 5,
-                'tab_id' => 6,
+                'action_id' => 6,
                 'slug' => 'giftcard',
             ],
             ['id' => 11,
                 'name' => 'Contact',
                 'template_id' => 6,
-                'tab_id' => 7,
+                'action_id' => 7,
                 'slug' => 'contact',
             ],
         ];
         foreach($pages as $page) {
-            $this->addSql('INSERT INTO page (id, name, template_id, tab_id, slug) VALUES (:id, :name, :template_id, :tab_id, :slug)', $page);
+            $this->addSql('INSERT INTO page (id, name, template_id, action_id, slug) VALUES (:id, :name, :template_id, :action_id, :slug)', $page);
         }
         $articles = [
             ['title' => "En quoi ça consiste ?",
@@ -200,7 +200,7 @@ final class Version20190905174612 extends AbstractMigration
                 'page_id' => 5,
             ],
             ['title' => 'Contre-indications',
-                'content' => '<p>Elles sont les mêmes que celles d&apos;un massage classique à savoir que l&apos;on ne masse pas en cas de :<ul><li>Maladies virales, infectieuses</li><li>États fébriles/Fièvre</li><li>Affection cutanée</li><li>Inflammations graves</li><li>Cancer/Tumeur</li><li>Hémophilie</li><li>Phlébites</li><li>Problème cardiaque</li><li>Intervention chirurgicale de moins de 3 mois</li><li>Grossesse</li></ul></p><p>Contre-indications locales ou temporaires<ul><li>Diabète</li><li>Varices</li></ul></p><p>Le massage deep tissue nécéssite une pression plus importante que les massages classiques il faut donc rajouter :<ul><li>Fragilité osseuse / Ostéoporose</li><li>Hernies abdominales</li></ul></p><p>N&apos;hésitez pas à demander l&apos;avis de votre médecin en cas de doute.</p>',
+                'content' => '<p>Elles sont les mêmes que celles d&apos;un massage classique à savoir que l&apos;on ne masse pas en cas de :<ul><li>Maladies virales, infectieuses</li><li>États fébriles/Fièvre</li><li>Affection cutanée</li><li>Inflammations graves</li><li>Cancer/Tumeur</li><li>Hémophilie</li><li>Phlébites</li><li>Problème cardiaque</li><li>Intervention chirurgicale de moins de 3 mois</li><li>Grossesse</li></ul></p><p>Contre-indications locales ou temporaires<ul><li>Diabète</li><li>Varices</li></ul></p><p>Le massage deep tissue nécéssite une pression plus importante que les massages classiques il faut donc rajouter :<ul><li>Fragilité osseuse / Ostéoporose</li><li>Hernies abdominales</li></ul></p><p>N&apos;hésitez pas à demander l&apos;avis de votre médecin en cas de doute.</p>',
                 'page_id' => 6,
             ],
             ['title' => 'Pratique',
@@ -284,7 +284,7 @@ final class Version20190905174612 extends AbstractMigration
         $this->addSql('DROP TABLE image');
         $this->addSql('DROP TABLE image_article');
         $this->addSql('DROP TABLE page');
-        $this->addSql('DROP TABLE tab');
+        $this->addSql('DROP TABLE action');
         $this->addSql('DROP TABLE article');
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\Tab;
+use App\Entity\Container;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
@@ -31,7 +31,16 @@ class NavSubscriber implements EventSubscriberInterface
 
     public function onKernelController (ControllerEvent $event) 
     {
-        $tabs = $this->manager->getRepository(Tab::class)->findAll();
-        $event->getRequest()->request->set('tabs', $tabs);
+        $containers = $this->manager->getRepository(Container::class)->findAll();
+        foreach($containers as $container) {
+            if (Container::NAV_ID == $container->getId()) {
+                $navActions = $container->getActions()->toArray();
+            }
+            if (Container::FOOTER_ID == $container->getId()) {
+                $footerActions = $container->getActions()->toArray();
+            }
+        }
+        $event->getRequest()->request->set('nav_actions', $navActions);
+        $event->getRequest()->request->set('footer_actions', $footerActions);
     }
 }

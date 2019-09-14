@@ -30,7 +30,7 @@ class PriceRepository extends ServiceEntityRepository
         ->join('pro.family', 'f')
         ->join('f.article', 'a')
         ->join('a.page', 'pa')
-        ->join('pa.tab', 'ta')
+        ->join('pa.acrion', 'ta')
         ;
         if (null == $page) {
             $page = 'prices';

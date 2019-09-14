@@ -1,45 +1,50 @@
 <header>
     <img class="full-size" src="/images/header.png" alt="une-pause">
     <img class="logo" src="/images/une-pause.png" alt="une-pause">
-    {% set tabs = app.request.request.get('tabs') %}
+    {% set actions = app.request.request.get('nav_actions') %}
     {% set current_route = app.request.attributes.get('_route') %}
     {% set current_route_params = app.request.attributes.get('_route_params') %}
-    {% set current_tab = null %}
-    {% if current_route_params.tab is defined %}
-        {% set current_tab = current_route_params.tab %}
+    {% set current_action = null %}
+    {% if current_route_params.action is defined %}
+        {% set current_action = current_route_params.action %}
     {% endif %}
     {% if current_route_params.page is defined %}
         {% set current_page = current_route_params.page %}
     {% endif %}
 </header>
-<div class="nav-btn">
+    <div class="nav-btn bars">
         <i class="fas fa-bars"></i>
     </div>
     <nav  class="nav-tab">
+        <div class="nav-btn times">
+            <i class="fas fa-times"></i>
+        </div>
         <ul>
-            {% for tab in tabs %}
-                <li class="nav-item">       
-                {% if tab.pages|length > 0 %}
-                    {% if tab.pages|length > 1 %}
-                        {% set class_active = '' %}
-                        {% if current_tab == tab.slug %}
-                            {% set class_active = ' active' %}
+            {% for action in actions %}
+                {% if action.isActive == 1 %}
+                    <li class="nav-item">     
+                    {% if action.pages|length > 0 %}
+                        {% if action.pages|length > 1 %}
+                            {% set class_active = '' %}
+                            {% if current_action == action.slug %}
+                                {% set class_active = ' active' %}
+                            {% endif %}
+                            <a class="nav-link{{ class_active }}">{{ action.name }}</a>
+                            <div class="dropdown-menu">
+                                {% for page in action.pages %}
+                                    {% set class_item = "dropdown-item"%}
+                                    {% include 'partials/routeParameters.html.twig' %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {% set page = action.pages[0] %}
+                            {% set class_active = '' %}
+                            {% set class_item = "nav-link" %}
+                            {% include 'partials/routeParameters.html.twig' %}
                         {% endif %}
-                        <a class="nav-link{{ class_active }}">{{ tab.name }}</a>
-                        <div class="dropdown-menu">
-                            {% for page in tab.pages %}
-                                {% set class_item = "dropdown-item"%}
-                                {% include 'partials/routeParameters.html.twig' %}
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {% set page = tab.pages[0] %}
-                        {% set class_active = '' %}
-                        {% set class_item = "nav-link" %}
-                        {% include 'partials/routeParameters.html.twig' %}
                     {% endif %}
-                </li>
-                {% endif %}
+                    </li>
+                    {% endif %}
             {% endfor %}
         </ul>
     </nav>

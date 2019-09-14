@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TabRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ActionRepository")
  */
-class Tab
+class Action
 {
     /**
      * @ORM\Id()
@@ -29,13 +29,24 @@ class Tab
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Page", mappedBy="tab")
+     * @ORM\OneToMany(targetEntity="App\Entity\Page", mappedBy="action")
      */
     private $pages;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Container", inversedBy="actions")
+     */
+    private $container;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
 
     public function __construct()
     {
         $this->pages = new ArrayCollection();
+        $this->container = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,7 +90,7 @@ class Tab
     {
         if (!$this->pages->contains($page)) {
             $this->pages[] = $page;
-            $page->setTab($this);
+            $page->setAction($this);
         }
 
         return $this;
@@ -90,10 +101,48 @@ class Tab
         if ($this->pages->contains($page)) {
             $this->pages->removeElement($page);
             // set the owning side to null (unless already changed)
-            if ($page->getTab() === $this) {
-                $page->setTab(null);
+            if ($page->getAction() === $this) {
+                $page->setAction(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Container[]
+     */
+    public function getContainer(): Collection
+    {
+        return $this->container;
+    }
+
+    public function addContainer(Container $container): self
+    {
+        if (!$this->container->contains($container)) {
+            $this->container[] = $container;
+        }
+
+        return $this;
+    }
+
+    public function removeContainer(Container $container): self
+    {
+        if ($this->container->contains($container)) {
+            $this->container->removeElement($container);
+        }
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

@@ -23,19 +23,19 @@ class ArticleRepository extends ServiceEntityRepository
     //  * @return Article[] Returns an array of Article objects
     //  */
     
-    public function findBySlug($tab, $page = null)
+    public function findBySlug($action, $page = null)
     {
-        $qb = $this->createQueryBuilder('a')
-            ->join('a.page', 'p')
-            ->join('p.tab', 't');
+        $qb = $this->createQueryBuilder('ar')
+            ->join('ar.page', 'p')
+            ->join('p.action', 'ac');
         if (null == $page) {
-            $page = $tab;
+            $page = $action;
         } 
         $qb->andWhere(
             $qb->expr()->like('p.slug', ':page'),
-            $qb->expr()->like('t.slug', ':tab')
+            $qb->expr()->like('ac.slug', ':action')
         )
-        ->setParameter('tab', $tab)
+        ->setParameter('action', $action)
         ->setParameter('page', $page);
 
         return $qb;

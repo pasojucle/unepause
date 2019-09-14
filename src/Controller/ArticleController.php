@@ -17,11 +17,11 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("a/{tab}/{page}", name="show_article", defaults={"page": null})
+     * @Route("a/{action}/{page}", name="show_article", defaults={"page": null})
      */
-    public function showArticle($tab, $page)
+    public function showArticle($action, $page)
     {
-        $articles = $this->manager->getRepository(Article::class)->findBySlug($tab, $page)
+        $articles = $this->manager->getRepository(Article::class)->findBySlug($action, $page)
             ->getQuery()
             ->getResult();
 

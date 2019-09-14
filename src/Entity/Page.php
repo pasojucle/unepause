@@ -40,10 +40,10 @@ class Page
     private $articles;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tab", inversedBy="pages")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Action", inversedBy="pages")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $tab;
+    private $action;
 
     public function __construct()
     {
@@ -122,14 +122,14 @@ class Page
         return $this;
     }
 
-    public function getTab(): ?Tab
+    public function getAction(): ?Action
     {
-        return $this->tab;
+        return $this->action;
     }
 
-    public function setTab(?Tab $tab): self
+    public function setAction(?Action $action): self
     {
-        $this->tab = $tab;
+        $this->action = $action;
 
         return $this;
     }

@@ -2,14 +2,14 @@
 {% set route_parameters = page.template.routeParameters %}
 {% set parameters = [] %}
 {% set class_active = '' %}
-{% if route == current_route  and (current_tab is null or current_tab == tab.slug) and (class_item == 'nav-link' or current_page == page.slug) %}
+{% if route == current_route  and (current_action is null or current_action == action.slug) and (class_item == 'nav-link' or current_page == page.slug) %}
     {% set class_active = ' active' %}
 {% endif %}
 {% for parameter in route_parameters %}
-    {% if parameter.name == 'tab' %}
-        {% set parameters = parameters|merge({'tab':attribute(tab, parameter.value)}) %}
+    {% if parameter.name == 'action' %}
+        {% set parameters = parameters|merge({'action':attribute(action, parameter.value)}) %}
     {% endif %}
-    {% if parameter.name == 'page' and tab.slug != page.slug %}
+    {% if parameter.name == 'page' and action.slug != page.slug %}
         {% set parameters = parameters|merge({'page':attribute(page, parameter.value)}) %}
     {% endif %}
 {% endfor %}

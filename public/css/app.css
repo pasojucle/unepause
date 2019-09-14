@@ -81,7 +81,22 @@ a img { border: 0; }
 a {text-decoration: none;}
 body > script {display: none !important;}
 
-
+@keyframes slideToRight {
+	0% {left:-100%; opacity: 0;}
+  100% {left:0%; opacity: 1;}
+}
+@-webkit-keyframes slideToRight {
+	0% {left:-100%; opacity: 0;}
+  100% {left:0%; opacity: 1;}
+}
+@keyframes slideToLeft {
+	0% {right:-100%; opacity: 0;}
+  100% {right:0%; opacity: 1;}
+}
+@-webkit-keyframes slideToLeft {
+	0% {right:-100%; opacity: 0;}
+  100% {right:0%; opacity: 1;}
+}
 @font-face {
     font-family: yu gothic ui m;
     src: url("../fonts/YuGothic-Medium-01.ttf")   format("ttf")
@@ -108,7 +123,7 @@ body > script {display: none !important;}
 .nav-item a {
     color: inherit;
 }
-nav, .nav-btn {
+nav, .bars {
     position: absolute;
     top: 20px;
     right: 20px;
@@ -145,6 +160,7 @@ header {
     margin: 0 auto;
     background-color: #fffac8;
     min-height: 100vh;
+    position: relative;
 }
 .page {
     padding: 95px 40px 40px 40px;
@@ -189,7 +205,8 @@ body {
     grid-template-columns: 2.5fr 7.5fr;
     grid-template-areas: "first-img title"
                          "first-img main";
-    gap: 4%;
+    grid-template-rows: auto 1fr auto;
+    gap: 0 4%;
 }
 .grid-prices {
     grid-template-areas: "first-img title"
@@ -207,11 +224,12 @@ body {
 section {
     position: relative;
 }
-section p {
+section p, ol ul li  {
     margin-bottom: 15px;
     line-height: 1.5;
     text-align: justify;
     font-size: .9em;
+    break-inside: avoid;
 }
 h1 {
     margin-bottom: 20px;
@@ -221,6 +239,28 @@ h2 {
 }
 section li {
     list-style-position: inside;
+}
+figure {
+    position: relative;
+    overflow: hidden;
+}
+.picture-left {
+    left:-100%;
+    opacity: 0;
+}
+.slide-to-right {
+    position: relative;
+	-webkit-animation: slideToRight 2s;
+	animation: slideToRight 2s;
+}
+.picture-right {
+    right: -100%;
+    opacity: 0;
+}
+.slide-to-left {
+    position: relative;
+	-webkit-animation: slideToLeft 2s;
+	animation: slideToLeft 2s;
 }
 .price-table {
     width: 100%;
@@ -241,17 +281,33 @@ td, th {
 td {
     border-bottom: 1px solid #9e9e9ea8;
 }
+ol h2 {
+    display: initial;
+}
+ol ul li {
+    list-style-type: square;
+}
+footer {
+    text-align: center;
+    background-color: #333333;
+    padding: 20px;
+    font-size: 0.8em;
+}
 @media screen and (max-width : 767px) {
     .nav-btn {
         display: block;
         text-align: right;
     }
+    .times {
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
     .nav-tab {
-        width: 0px;
+        transform: scaleX(0);
         background-color: #333333;
-        top: 80px;
+        top: 0;
         right: 0;
-        transition: width 1s ease;
+        transition: all 1s ease;
         padding-top: 20px;
     }
     .nav-tab ul {
@@ -307,20 +363,32 @@ td {
         grid-template-rows: auto;
         gap: 20px;
     }
+    nav.nav-tab-active {
+        transform: scaleY(1);
+        right: 0;
+    }
 }
 @media screen and (max-width : 767px) and (orientation: landscape) {
-    .nav-tab-active {
+    .nav-tab, .nav-tab-active, .times {
         width: 414px;
+    }
+    .nav-tab {
+        height: 276px;
+        right: -207px;
+    }
+    .nav-tab-active ul {
         column-count: 2;
         vertical-align: text-top;
     }
 }
 @media screen and (max-width : 767px) and (orientation: portrait) {
-    .nav-tab-active {
-        width: 220px;
-    }
     .nav-tab {
         height: 460px;
+        width: 220px;
+        right: -110px;
+    }
+    .times {
+        width: 220px;
     }
 }
 

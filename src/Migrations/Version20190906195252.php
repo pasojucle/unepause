@@ -81,6 +81,11 @@ final class Version20190906195252 extends AbstractMigration
                 'label' => 'Forfait régularité (5 massages)*',
                 'familyId' => 1,
             ],
+            [
+                'id' => 3,
+                'label' => 'Supplément huiles essentielles',
+                'familyId' => 1,
+            ],
         ];
         foreach($products as $product) {
             $this->addSql('INSERT INTO product (id, label, family_id) VALUES (:id, :label, :familyId)', $product);
@@ -88,24 +93,34 @@ final class Version20190906195252 extends AbstractMigration
 
         $prices = [
             [
-                'amount' => 50,
+                'amount' => 50.00,
                 'unitId' => 1,
                 'productId' => 1,
             ],
             [
-                'amount' => 75,
+                'amount' => 75.00,
                 'unitId' => 2,
                 'productId' => 1,
             ],
             [
-                'amount' => 225,
+                'amount' => 225.00,
                 'unitId' => 1,
                 'productId' => 2,
             ],
             [
-                'amount' => 350,
+                'amount' => 350.00,
                 'unitId' => 2,
                 'productId' => 2,
+            ],
+            [
+                'amount' => 5.00,
+                'unitId' => 1,
+                'productId' => 3,
+            ],
+            [
+                'amount' => 5.00,
+                'unitId' => 2,
+                'productId' => 3,
             ],
         ];
         foreach($prices as $price) {

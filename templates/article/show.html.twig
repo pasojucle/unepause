@@ -1,16 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ articles[0].page.tab.name }}{% endblock %}
+{% block title %}{{ articles[0].page.action.name }}{% endblock %}
 
 {% block body %}
     {% for article in articles %}
         <section class="grid grid-article">
             <figure>
-                <picture>
+                {% if article.images|length > 0 %}
+                <picture class="picture-left">
                     <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
                     <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
                     <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
                 </picture>
+                {% endif %}
             </figure>
             <h1>{{ article.title }}</h1>
             <main>
