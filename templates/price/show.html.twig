@@ -5,8 +5,8 @@
 {% block body %}
     {% for article in articles %}
     <section class="grid grid-prices">
-        <figure>
-            <picture>
+        <figure class="first-column">
+            <picture class="picture-left">
                 <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
                 <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
                 <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">

@@ -5,7 +5,7 @@
 {% block body %}
     {% for article in articles %}
         <section class="grid grid-article">
-            <figure>
+            <figure class="first-column">
                 {% if article.images|length > 0 %}
                 <picture class="picture-left">
                     <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">

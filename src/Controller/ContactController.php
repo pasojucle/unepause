@@ -2,18 +2,47 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Swift_Mailer;
+use Swift_Message;
+use App\Entity\Article;
+use App\Form\ContactType;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ContactController extends AbstractController
 {
     /**
      * @Route("/contact", name="contact")
      */
-    public function index()
+    public function contact(ObjectManager $manager, Request $request,  Swift_Mailer $mailer)
     {
-        return $this->render('contact/index.html.twig', [
-            'controller_name' => 'ContactController',
+        $article = $manager->getRepository(Article::class)->findBySlug('contact')
+        ->getQuery()
+        ->getOneOrNullResult();
+        $form = $this->createForm(ContactType::class, null);
+        $send = 0;
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $emailMessage = $form->getData();
+            $message = (new Swift_Message('Message envoyé depuis le site "une pause"'))
+            ->setFrom($emailMessage->getEmail())
+            ->setTo('recipient@example.com')
+            ->setBody(
+                $this->renderView(
+                    'contact/emailMessage.html.twig',
+                    ['email_message' => $emailMessage,]
+                ),
+                'text/html'
+            );
+            $send = $mailer->send($message);
+        }
+        return $this->render('contact/contact.html.twig', [
+            'form'=>$form->createView(),
+            'article' => $article,
+            'send' => $send,
         ]);
     }
 }

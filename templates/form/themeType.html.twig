@@ -1,0 +1,26 @@
+{% block form_row %}
+    <div class="form-group">
+        <div class="form-label">
+            {{ form_label(form)}}
+        </div>
+        <div class="form-group-control">
+            {{ form_widget(form, {'attr' : {'class': 'form-control'}}) }}
+            {{ form_errors(form, {'attr' : {'class': 'form-errors'}}) }}
+        </div>
+    </div>
+{% endblock %}
+
+{# creer son propre thème
+
+
+
+{% block text_widget %}
+    <input type="text" name="{{ full_name }}" id="{{id}}" class="form-conrol">
+{% endblock %}
+
+{% block textarea_widget %}
+    <input type="text" name="{{ full_name }}" id="{{id}}" class="form-conrol">
+{% endblock %}
+
+... tous les types input
+#}

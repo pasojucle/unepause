@@ -14,7 +14,7 @@ $(function() {
 
 function setClassPicture() {
     const limit = $(window).height() * 0.45;
-    $('figure').each(function() {
+    $('.slide-column').each(function() {
         if ($(this).offset().top - $(window).scrollTop() < limit) {
             $(this).find('.picture-left').removeClass('picture-left').addClass('slide-to-right');
             $(this).find('.picture-right').removeClass('picture-right').addClass('slide-to-left');

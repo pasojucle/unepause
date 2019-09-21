@@ -4,7 +4,7 @@
 
 {% block body %}
 <section class="grid grid-home">
-<figure>
+<figure class="first-column">
         <picture class="picture-left">
             <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
             <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
@@ -15,7 +15,7 @@
     <main>
         {{ article.content| raw }}
     </main>
-    <figure>
+    <figure class="last-column">
         <picture class="picture-right">
             <source media="(min-width: 768px)" srcset="/images/{{ article.images[1].filenameMd }}">
             <source media="(min-width: 360px)" srcset="/images/{{ article.images[1].filenameXs }}">
