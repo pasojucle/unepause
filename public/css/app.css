@@ -291,7 +291,9 @@ section li {
 }
 .legal-notices {
     font-size: .8em;
-
+}
+.legal-notices i {
+    font-size: 2.5em;
 }
 td, th {
     padding: 7px 0px;
