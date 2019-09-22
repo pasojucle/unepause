@@ -3,9 +3,9 @@
 {% block title %}Contact{% endblock %}
 
 {% block body %}
-    <section class="slide-column grid grid-home">
-        <figure class="first-column">
-            <picture class="picture-left">
+    <section class="grid grid-home">
+        <figure class="slide-column first-column">
+            <picture class="slide-element picture-left">
                 <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
                 <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
                 <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
@@ -30,8 +30,13 @@
             {% endif %}
         </main>
         <div class="slide-column last-column">
-            <div class="picture-right">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d84384.49086623835!2d6.0995526085660945!3d48.62868851489357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4794a10bc5ed3bc9%3A0xe54c064a005dfd0a!2sUne%20Pause!5e0!3m2!1sfr!2sfr!4v1569083307154!5m2!1sfr!2sfr" width="245" height="300" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+            <div class="slide-element picture-right dark-background">
+                {% set parameters = app.request.request.get('parameters') %}
+                <h2>{{ parameters.company }}</h2>
+                <p>{{ parameters.adress }}<br>{{ parameters.postal_code }} {{ parameters.town }}</p>
+                <p>{{ parameters.phone_number }}</p>
+                <p>{{ parameters.email }}</p>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d84384.49086623835!2d6.0995526085660945!3d48.62868851489357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4794a10bc5ed3bc9%3A0xe54c064a005dfd0a!2sUne%20Pause!5e0!3m2!1sfr!2sfr!4v1569083307154!5m2!1sfr!2sfr" width="100%" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
             </div>
         </div>
     </section>

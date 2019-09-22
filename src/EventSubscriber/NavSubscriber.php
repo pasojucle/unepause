@@ -3,6 +3,7 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Container;
+use App\Entity\Parameter;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Routing\RouterInterface;
@@ -42,5 +43,12 @@ class NavSubscriber implements EventSubscriberInterface
         }
         $event->getRequest()->request->set('nav_actions', $navActions);
         $event->getRequest()->request->set('footer_actions', $footerActions);
+
+        $parameters = $this->manager->getRepository(Parameter::class)->findAll();
+        $parametersArray = [];
+        foreach ($parameters as $parameter) {
+            $parametersArray[$parameter->getName()] = $parameter->getValue();
+        }
+        $event->getRequest()->request->set('parameters', $parametersArray);
     }
 }

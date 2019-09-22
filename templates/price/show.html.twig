@@ -5,8 +5,8 @@
 {% block body %}
     {% for article in articles %}
     <section class="grid grid-prices">
-        <figure class="first-column">
-            <picture class="picture-left">
+        <figure class="slide-column first-column">
+            <picture class="slide-element picture-left">
                 <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
                 <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
                 <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
@@ -30,7 +30,7 @@
                         {% for unit in family.units %}
                             {% set current_price = '' %}
                             {% for price in product.prices %}
-                                {% if family.units[loop.index0] == price.unit %}
+                                {% if unit == price.unit %}
                                     {% set current_price = price.amount|number_format(2, ',') ~ ' euros' %}
                                 {% endif %}
                             {% endfor %}

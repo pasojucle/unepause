@@ -34,7 +34,7 @@ final class Version20190906195252 extends AbstractMigration
 
         $articles = [
             [
-                'id' => 8,
+                'id' => 9,
                 'title' => "Tarifs au 1er août 2019",
                 'content' => '<p>* Offre valable dans un délais de 12 mois dès l&apos;acquisition du forfait</p><p>TVA non applicable, article 293B du code général des impôts.<br>Paiement par carte banquaire, virement, chèque ou espèces.</p>',
                 'pageId' => 8,
@@ -49,7 +49,7 @@ final class Version20190906195252 extends AbstractMigration
             [
                 'id' => 1,
                 'name' => 'Massage deep tissue personnalisé',
-                'articleId' => 8,
+                'articleId' => 9,
             ],
         ];
         foreach($families as $family) {
@@ -93,38 +93,38 @@ final class Version20190906195252 extends AbstractMigration
 
         $prices = [
             [
-                'amount' => 50.00,
+                'amount' => (float)50,
                 'unitId' => 1,
                 'productId' => 1,
             ],
             [
-                'amount' => 75.00,
+                'amount' => (float)75,
                 'unitId' => 2,
                 'productId' => 1,
             ],
             [
-                'amount' => 225.00,
+                'amount' => (float)225,
                 'unitId' => 1,
                 'productId' => 2,
             ],
             [
-                'amount' => 350.00,
+                'amount' => (float)350,
                 'unitId' => 2,
                 'productId' => 2,
             ],
             [
-                'amount' => 5.00,
+                'amount' => (float)5,
                 'unitId' => 1,
                 'productId' => 3,
             ],
             [
-                'amount' => 5.00,
+                'amount' => (float)5,
                 'unitId' => 2,
                 'productId' => 3,
             ],
         ];
         foreach($prices as $price) {
-            $this->addSql('INSERT INTO price (unit_id, product_id) VALUES (:unitId, :productId)', $price);
+            $this->addSql('INSERT INTO price (amount, unit_id, product_id) VALUES (:amount, :unitId, :productId)', $price);
         }
         $images = [
             [
@@ -139,7 +139,7 @@ final class Version20190906195252 extends AbstractMigration
 
         $imageArticleListe = [
             [   'image_id' => 5,
-                'article_id' => 8,
+                'article_id' => 9,
             ],
         ];
         foreach($imageArticleListe as $imageArticle) {

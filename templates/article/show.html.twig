@@ -5,9 +5,9 @@
 {% block body %}
     {% for article in articles %}
         <section class="grid grid-article">
-            <figure class="first-column">
+            <figure class="slide-column first-column">
                 {% if article.images|length > 0 %}
-                <picture class="picture-left">
+                <picture class="slide-element picture-left">
                     <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
                     <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
                     <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
