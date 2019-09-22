@@ -27,9 +27,10 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $emailMessage = $form->getData();
+            $parameters = $request->get('parameters');
             $message = (new Swift_Message('Message envoyé depuis le site "une pause"'))
             ->setFrom($emailMessage->getEmail())
-            ->setTo('recipient@example.com')
+            ->setTo($parameters['email'])
             ->setBody(
                 $this->renderView(
                     'contact/emailMessage.html.twig',
