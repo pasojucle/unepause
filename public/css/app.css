@@ -403,10 +403,10 @@ textarea {
         padding-left: 10px;
     }
     .grid-home {
-        grid-template-areas: "first-img"
+        grid-template-areas: "first-column"
                              "title"
                              "main"
-                             "last-img";
+                             "last-column";
         grid-template-columns: 1fr;
         grid-template-rows: auto;
         gap: 20px;
@@ -414,7 +414,7 @@ textarea {
     .grid-prices {
         grid-template-columns: 1fr;
         grid-template-areas: "title"
-                             "first-img"
+                             "first-column"
                              "main"
                              "footer";
         grid-template-rows: auto;
@@ -422,7 +422,7 @@ textarea {
     }
     .grid-article {
         grid-template-columns: 1fr;
-        grid-template-areas: "first-img"
+        grid-template-areas: "first-column"
                              "title"
                              "main";
         grid-template-rows: auto;

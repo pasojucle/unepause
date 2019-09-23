@@ -5,7 +5,7 @@
 {% block body %}
 <section class="grid grid-home">
 <figure class="slide-column first-column">
-        <picture class="slide-element picture-left">
+        <picture class="slide-element slide-to-right">
             <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
             <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
             <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
@@ -16,7 +16,7 @@
         {{ article.content| raw }}
     </main>
     <figure class="slide-column last-column">
-        <picture class="slide-element picture-right">
+        <picture class="slide-element slide-to-left">
             <source media="(min-width: 768px)" srcset="/images/{{ article.images[1].filenameMd }}">
             <source media="(min-width: 360px)" srcset="/images/{{ article.images[1].filenameXs }}">
             <img src="/images/{{ article.images[1].filenameMd }}" alt="{{article.images[0].title}}">

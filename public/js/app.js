@@ -7,8 +7,8 @@ $(function() {
         }
     });
     
-    setClassPicture();
-    $(document).on('scroll', setClassPicture);
+    //setClassPicture();
+    //$(document).on('scroll', setClassPicture);
 
 });
 

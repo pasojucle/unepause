@@ -6,13 +6,13 @@
     {% for article in articles %}
     <section class="grid grid-prices">
         <figure class="slide-column first-column">
-            <picture class="slide-element picture-left">
+            <picture class="slide-element slide-to-right">
                 <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
                 <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
                 <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
             </picture>
         </figure>
-        <h1>{{ article.title }}</h1>
+        <h1>{{ article.title|raw }}</h1>
         <main>
             {% for family in article.families %}
             <h2>{{ family.name }}</h2>
