@@ -359,6 +359,9 @@ textarea {
     color: #fff;
 }
 @media screen and (max-width : 767px) {
+    .container {
+        grid-template-rows: 100px auto 100px;
+    }
     .nav-btn {
         display: block;
         text-align: right;
@@ -431,6 +434,12 @@ textarea {
     nav.nav-tab-active {
         transform: scaleY(1);
         right: 0;
+    }
+    .form-label {
+        display: none;
+    }
+    .form-footer {
+        text-align: center;
     }
 }
 @media screen and (max-width : 767px) and (orientation: landscape) {
