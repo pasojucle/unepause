@@ -106,28 +106,38 @@ body > script {display: none !important;}
     list-style: none;
     color: #ffffff;
     text-decoration: none;
-    position: relative;
     box-sizing: border-box;
 }
-.nav-item:not(:first-child)::before {
+.nav-item:not(:first-child)::before, .dropdown-item:not(:first-child)::before {
     content: '|';
     color: #ffffff;
+    margin: 0 7px;
 }
 .nav-item:hover .dropdown-menu {
-    height: 120px;
+    height: 40px;
+    border-top: 1px solid #fff;
 }
-.nav-item a:hover, .active {
+.nav-item:hover .nav-link, .dropdown-item:hover, .active {
     -webkit-text-stroke-color: #ffffff;
     -webkit-text-stroke-width: thin;
 }
 .nav-item a {
     color: inherit;
 }
-nav, .bars {
+.nav-tab, .bars {
     position: absolute;
+    z-index: 2;
+}
+.nav-tab {
+    top: 30px;
+    right: 60px;
+}
+.nav-tab ul {
+    position: relative;
+}
+.bars {
     top: 20px;
     right: 20px;
-    z-index: 2;
 }
 .nav-btn {
     color: #ffffff;
@@ -138,15 +148,14 @@ nav, .bars {
 }
 .dropdown-menu {
     position: absolute;
-    left: 10px;
-    top: 18px;
+    right: 0px;
+    top: 30px;
     width: max-content;
     height: 0px;
+    line-height: 40px;
     overflow: hidden;
-    transition: height 1s ease;
-}
-.dropdown-item {
-    display: block;
+    border-top: 1px solid transparent;
+    transition: all 1s ease;
 }
 .full-size {
     width: 100%;
@@ -191,6 +200,7 @@ body {
                         "first-column main last-column";
     grid-template-columns: 2.5fr 5fr 2.5fr;
     grid-template-rows: auto 1fr;
+    grid-gap: 4%;
     gap: 4%;
 }
 .grid > .last-column {
@@ -221,6 +231,7 @@ body {
                          "first-column footer";
     grid-template-columns: 2.5fr 7.5fr;
     grid-template-rows: auto 1fr auto;
+    grid-gap: 0 4%;
     gap: 0 4%;
 }
 
@@ -362,8 +373,10 @@ textarea {
     .container {
         grid-template-rows: 100px auto 100px;
     }
-    .nav-btn {
+    .nav-btn, .dropdown-item {
         display: block;
+    }
+    .nav-btn {
         text-align: right;
     }
     .times {
@@ -379,22 +392,35 @@ textarea {
         padding-top: 20px;
     }
     .nav-tab ul {
-        margin: 0 20px;
+        margin: 1px 20px;
     }
     .nav-item {
         display: list-item;
+        position: relative;
+    }
+    .nav-item::after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: -7px;
+        height: 1px;
+        width: 100%;
+        border-bottom: 1px solid rgba(256, 256, 256, 0.7);
     }
     nav a {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
-    .nav-item:not(:first-child)::before {
+    .nav-item:not(:first-child)::before, .dropdown-item:not(:first-child)::before {
         content: '';
         margin-left: 0;
         margin-right: 0;
     }
-    nav li, .dropdown-menu a {
+    .dropdown-menu {
+        line-height: initial;
+    }
+    .nav-item, .dropdown-menu a {
         margin-bottom: 15px;
     }
     .dropdown-menu {
@@ -403,7 +429,7 @@ textarea {
         left: auto;
         top: auto;
         height: auto;
-        padding-left: 10px;
+        padding-left: 15px;
     }
     .grid-home {
         grid-template-areas: "first-column"
@@ -450,7 +476,7 @@ textarea {
         height: 276px;
         right: -207px;
     }
-    .nav-tab-active ul {
+    .nav-tab ul {
         column-count: 2;
         vertical-align: text-top;
     }
