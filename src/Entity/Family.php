@@ -24,10 +24,10 @@ class Family
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Article", inversedBy="families")
+     * @ORM\ManyToOne(targetEntity="App\Entity\PageContent", inversedBy="families")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $article;
+    private $pageContent;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="family")
@@ -62,14 +62,14 @@ class Family
         return $this;
     }
 
-    public function getArticle(): ?Article
+    public function getPageContent(): ?PageContent
     {
-        return $this->article;
+        return $this->pageContent;
     }
 
-    public function setArticle(?Article $article): self
+    public function setPageContent(?PageContent $pageContent): self
     {
-        $this->article = $article;
+        $this->pageContent = $pageContent;
 
         return $this;
     }

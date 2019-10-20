@@ -14,9 +14,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class ContactController extends AbstractController
 {
     /**
-     * @Route("/contact", name="contact")
+     * @Route("/contact", name="show_contact")
      */
-    public function contact(ObjectManager $manager, Request $request,  Swift_Mailer $mailer)
+    public function showContact(ObjectManager $manager, Request $request,  Swift_Mailer $mailer)
     {
         $article = $manager->getRepository(Article::class)->findBySlug('contact')
         ->getQuery()
@@ -44,6 +44,7 @@ class ContactController extends AbstractController
             'form'=>$form->createView(),
             'article' => $article,
             'send' => $send,
+            'template' => 'contact',
         ]);
     }
 }

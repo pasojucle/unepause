@@ -4,13 +4,15 @@
 
 {% block body %}
     <section class="grid grid-home">
-        <figure class="slide-column first-column">
-            <picture class="slide-element slide-to-right">
-                <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
-                <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
-                <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
-            </picture>
-        </figure>
+        {% if article.images[0] is defined %}
+            <figure class="slide-column first-column">
+                <picture class="slide-element slide-to-right">
+                    <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
+                    <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
+                    <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
+                </picture>
+            </figure>
+        {% endif %}
         <h1>{{ article.title|raw }}</h1>
         <main>
             {% if send == 0 %}

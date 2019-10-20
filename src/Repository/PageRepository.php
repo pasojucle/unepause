@@ -22,19 +22,40 @@ class PageRepository extends ServiceEntityRepository
     // /**
     //  * @return Page[] Returns an array of Page objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findBySlug($action, $page = null)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $qb = $this->createQueryBuilder('p')
+            ->join('p.action', 'a')
+            ->join('p.pageContainers', 'pc')
+            ->join('pc.pageContents', 'pct')
+            ->join('p.template', 't')
+            ->join('t.route', 'r')
+            ;
+        if (null == $page) {
+            $page = $action;
+        } 
+        $qb->andWhere(
+            $qb->expr()->like('p.slug', ':page'),
+            $qb->expr()->like('a.slug', ':action')
+        )
+        ->setParameter('action', $action)
+        ->setParameter('page', $page)
         ;
+
+        return $qb->getQuery()
+            ->getOneOrNullResult();
+
+        /*$page = [];
+        foreach($pageObject->getPageContents() as $pageContent) {
+            $containerId = $pageContent->getPageContainer()->getId();
+            $page[$containerId][]= $pageContent;
+        }
+        $page['template'] = $pageObject->getTemplate()->getFilename();
+        $page['action'] = $pageObject->getAction()->getName();
+
+        return $page;*/
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Page

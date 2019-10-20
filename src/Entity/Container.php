@@ -13,6 +13,10 @@ class Container
 {
     public const NAV_ID = 1;
     public const FOOTER_ID = 2;
+    const LIST = 3;
+    const FOREWORD = 4;
+    const SCHEDULE = 5;
+    const AFTERWORD = 6;
     
     /**
      * @ORM\Id()

@@ -22,19 +22,22 @@ class ContainerRepository extends ServiceEntityRepository
     // /**
     //  * @return Container[] Returns an array of Container objects
     //  */
-    /*
-    public function findByExampleField($value)
+
+
+    public function findAllContainers()
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $qb = $this->createQueryBuilder('c')
+            ->join('c.actions', 'a')
+            ->join('a.pages', 'p')
+            ->join('p.pageContainers', 'pc')
+            ->join('pc.pageContents', 'pct')
+            ;
         ;
+
+        return $qb;
     }
-    */
+
+
 
     /*
     public function findOneBySomeField($value): ?Container

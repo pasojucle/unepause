@@ -5,15 +5,19 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link rel="stylesheet" href="/css/app.css">
+        {% set parameters = app.request.request.get('parameters') %}
+        {% set stylesheet_name = '/css/' ~ parameters.lowerCamelcase ~'.css' %}
+        {% set container_class = app.request.request.get('containerClass') %}
+        <link rel="stylesheet" href="/css/base.css">
+        <link rel="stylesheet" href="{{ stylesheet_name }}">
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-        <div class="container">
+        <div class="container {{container_class}}">
             {% include 'partials/header.html.twig' %}
-            <main class="page">
-                {% block body %}{% endblock %}
-            </main>
+            
+            {% block body %}{% endblock %}
+
             {% include 'partials/footer.html.twig' %}
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

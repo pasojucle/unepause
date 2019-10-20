@@ -1,16 +1,20 @@
-{% set route = page.template.route %}
-{% set route_parameters = page.template.routeParameters %}
+{% set route_parameters = page.template.route.parameters %}
 {% set parameters = [] %}
-{% set class_active = '' %}
-{% if route == current_route  and (current_action is null or current_action == action.slug) and (class_item == 'nav-link' or current_page == page.slug) %}
-    {% set class_active = ' active' %}
+{% set class_item_active = '' %}
+{% if route == current_route  and action_slug == action.slug and page_slug == page.slug %}
+    {% set class_item_active = ' item-active' %}
 {% endif %}
 {% for parameter in route_parameters %}
-    {% if parameter.name == 'action' %}
-        {% set parameters = parameters|merge({'action':attribute(action, parameter.value)}) %}
+    {% if parameter.name == 'actionSlug' %}
+        {% set parameters = parameters|merge({'actionSlug':attribute(action, parameter.value)}) %}
     {% endif %}
-    {% if parameter.name == 'page' and action.slug != page.slug %}
-        {% set parameters = parameters|merge({'page':attribute(page, parameter.value)}) %}
+    {% if parameter.name == 'pageSlug' and action.slug != page.slug %}
+        {% set parameters = parameters|merge({'pageSlug':attribute(page, parameter.value)}) %}
     {% endif %}
 {% endfor %}
-<a href="{{ path(route, parameters = parameters) }}" class="{{ class_item }}{{ class_active}}">{{ page.name }}</a>
+{% if action.icon is not null and class_item == "nav-link" and container == "header" %}
+    {% set text = '<i class="' ~ action.icon ~ '"></i>' %}
+{% else %}
+    {% set text = page.name %}
+{% endif %}
+<a href="{{ path(route, parameters = parameters) }}" class="{{ class_item }}{{ class_item_active}}" title ="{{ page.name }}">{{ text|raw }}</a>

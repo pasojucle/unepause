@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}{{ articles[0].page.action.name }}{% endblock %}
+{% set parameters = app.request.request.get('parameters') %}
+{% block title %}{{parameters.company}} - {{ articles[0].page.action.name }}{% endblock %}
 
 {% block body %}
+    <h1>{{ articles[0].page.action.name }}</h1>
     {% for article in articles %}
         <section class="grid grid-article">
             <figure class="slide-column first-column">
@@ -14,7 +15,7 @@
                 </picture>
                 {% endif %}
             </figure>
-            <h1>{{ article.title }}</h1>
+            <h2>{{ article.title }}</h2>
             <main>
                 <div class="col-md-2 col-xs-1">
                     {{ article.content| raw }}

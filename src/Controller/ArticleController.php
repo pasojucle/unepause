@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
+use App\Entity\Action;
+use App\Entity\Page;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,16 +18,20 @@ class ArticleController extends AbstractController
     }
 
     /**
-     * @Route("a/{action}/{page}", name="show_article", defaults={"page": null})
+     * @Route("/{actionSlug}/{pageSlug}", name="show_page", defaults={"actionSlug": null, "pageSlug": null})
      */
-    public function showArticle($action, $page)
+    public function showPage($actionSlug, $pageSlug)
     {
-        $articles = $this->manager->getRepository(Article::class)->findBySlug($action, $page)
-            ->getQuery()
-            ->getResult();
+        if (null == $actionSlug) {
+            $actionSlug = 'home';
+        }
+        $page = $this->manager->getRepository(Page::class)->findBySlug($actionSlug, $pageSlug);
+dump($page->getPageContainers()->toArray());
 
-        return $this->render('article/show.html.twig', [
-            'articles' => $articles,
+        return $this->render($page->getTemplate()->getFilename(), [
+            'page' => $page,
+            'action_slug' => $actionSlug,
+            'page_slug' => $pageSlug,
         ]);
     }
 

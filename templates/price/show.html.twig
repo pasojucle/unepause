@@ -1,50 +1,54 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Tarifs{% endblock %}
+{% set parameters = app.request.request.get('parameters') %}
+{% block title %}{{parameters.company}} - {{ page.action.name }}{% endblock %}
 
 {% block body %}
-    {% for article in articles %}
-    <section class="grid grid-prices">
-        <figure class="slide-column first-column">
-            <picture class="slide-element slide-to-right">
-                <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
-                <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
-                <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
-            </picture>
-        </figure>
-        <h1>{{ article.title|raw }}</h1>
-        <main>
-            {% for family in article.families %}
-            <h2>{{ family.name }}</h2>
-            <table class="price-table">
-                <thead>
-                    <th></th>
-                    {% for unit in family.units %}
-                        <th class="unit">{{ unit.label }}</th>
-                    {% endfor %}
-                </thead>
-                <tbody>
-                    {% for product in family.products %}
-                    <tr>
-                        <td>{{ product.label }}</td>
-                        {% for unit in family.units %}
-                            {% set current_price = '' %}
-                            {% for price in product.prices %}
-                                {% if unit == price.unit %}
-                                    {% set current_price = price.amount|number_format(2, ',') ~ ' euros' %}
-                                {% endif %}
+    <main class="page">
+        {% for pageContent in page.pageContents %}
+            <section class="grid grid-prices">
+                <figure class="slide-column first-column">
+                    {% if pageContent.images|length > 0 %}
+                        <picture class="slide-element slide-to-right">
+                            <source media="(min-width: 768px)" srcset="/images/{{ pageContent.images[0].filenameMd }}">
+                            <source media="(min-width: 360px)" srcset="/images/{{ pageContent.images[0].filenameXs }}">
+                            <img src="/images/{{ pageContent.images[0].filenameMd }}" alt="{{pageContent.images[0].title}}">
+                        </picture>
+                    {% endif %}
+                </figure>
+                <h1>{{ pageContent.title|raw }}</h1>
+                <main>
+                    {% for family in pageContent.families %}
+                    <h2>{{ family.name }}</h2>
+                    <table class="price-table">
+                        <thead>
+                            <th></th>
+                            {% for unit in family.units %}
+                                <th class="unit">{{ unit.label }}</th>
                             {% endfor %}
-                            <td class="price">{{ current_price }}</td>
-                        {% endfor %}
-                    </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in family.products %}
+                            <tr>
+                                <td>{{ product.label }}</td>
+                                {% for unit in family.units %}
+                                    {% set current_price = '' %}
+                                    {% for price in product.prices %}
+                                        {% if unit == price.unit %}
+                                            {% set current_price = price.amount|number_format(2, ',') ~ ' euros' %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    <td class="price">{{ current_price }}</td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                     {% endfor %}
-                </tbody>
-            </table>
-            {% endfor %}
-        </main>
-        <footer class="legal-notices">
-            {{ article.content| raw }}
-        </footer>
-    </section>
-    {% endfor %}
+                </main>
+                <footer class="legal-notices">
+                    {{ pageContent.content| raw }}
+                </footer>
+            </section>
+        {% endfor %}
+    </main>
 {% endblock %}

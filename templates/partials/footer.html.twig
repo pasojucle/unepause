@@ -1,36 +1,31 @@
-
-        {% set actions = app.request.request.get('footer_actions') %}
-        {% set current_route = app.request.attributes.get('_route') %}
-        {% set current_route_params = app.request.attributes.get('_route_params') %}
-        {% set current_action = null %}
-        {% if current_route_params.action is defined %}
-            {% set current_action = current_route_params.action %}
-        {% endif %}
-        {% if current_route_params.page is defined %}
-            {% set current_page = current_route_params.page %}
-        {% endif %}
-    <footer class="footer dark-background">
-        <ul>
-            {% for action in actions %}
-                {% set class_item = "nav-link" %}
-                <li class="nav-item">     
-                {% if action.pages|length > 0 %}
-                    {% if action.pages|length > 1 %}
-                        {% set class_active = '' %}
-                        {% if current_action == action.slug %}
-                            {% set class_active = ' active' %}
-                        {% endif %}
-                        {% for page in action.pages %}
-                            {% set class_item = "dropdown-item"%}
-                            {% include 'partials/routeParameters.html.twig' %}
-                        {% endfor %}
-                    {% else %}
-                        {% set page = action.pages[0] %}
-                        {% set class_active = '' %}
-                        {% include 'partials/routeParameters.html.twig' %}
-                    {% endif %}
-                </li>
+{% set container = "footer" %}
+{% set actions = app.request.request.get('footer_actions') %}
+{% set current_route = app.request.attributes.get('_route') %}
+<footer class="footer dark-background">
+    <ul>
+        {% for action in actions %}
+            {% set class_item = "footer-link" %}
+            {% if action.pages|length > 0 %}
+                {% set route = action.pages[0].template.route.name %}
+                {% set class_item_active = '' %}
+                {% if route == current_route  and (action_slug == action.slug) %}
+                    {% set class_item_active = ' item-active' %}
                 {% endif %}
-            {% endfor %}
-        </ul>
-    </footer>
+                <li class="footer-item{{ class_item_active }}">     
+                {% if action.pages|length > 1 %}
+                    {% if current_action == action.slug %}
+                        {% set class_active = ' active' %}
+                    {% endif %}
+                    {% for page in action.pages %}
+                        {% set class_item = "dropdown-item"%}
+                        {% include 'partials/routeParameters.html.twig' %}
+                    {% endfor %}
+                {% else %}
+                    {% set page = action.pages[0] %}
+                    {% include 'partials/routeParameters.html.twig' %}
+                {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</footer>

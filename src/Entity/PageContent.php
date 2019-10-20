@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PageContentRepository")
  */
-class Article
+class PageContent
 {
     /**
      * @ORM\Id()
@@ -29,20 +29,36 @@ class Article
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="articles")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Page")
      * @ORM\JoinColumn(nullable=false)
      */
     private $page;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Image", mappedBy="article")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Image", mappedBy="pageContent")
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Family", mappedBy="article")
+     * @ORM\OneToMany(targetEntity="App\Entity\Family", mappedBy="pageContent")
      */
     private $families;
+
+//    /**
+//     * @ORM\ManyToOne(targetEntity="App\Entity\PageContainer")
+//     * @ORM\JoinColumn(nullable=true)
+//     */
+//    private $pageContainer;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\PageContentType")
+     */
+    private $type;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\PageContainer", inversedBy="pageContents")
+     */
+    private $pageContainer;
 
     public function __construct()
     {
@@ -146,6 +162,42 @@ class Article
                 $family->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    /*public function getPageContainer(): ?PageContainer
+    {
+        return $this->pageContainer;
+    }
+
+    public function setPageContainer(?PageContainer $pageContainer): self
+    {
+        $this->pageContainer = $pageContainer;
+
+        return $this;
+    }*/
+
+    public function getType(): ?PageContentType
+    {
+        return $this->type;
+    }
+
+    public function setType(?PageContentType $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getPageContainer(): ?PageContainer
+    {
+        return $this->pageContainer;
+    }
+
+    public function setPageContainer(?PageContainer $pageContainer): self
+    {
+        $this->pageContainer = $pageContainer;
 
         return $this;
     }

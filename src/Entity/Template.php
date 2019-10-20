@@ -22,14 +22,15 @@ class Template
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Route")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $route;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=50)
      */
-    private $routeParameters;
+    private $filename;
 
     public function getId(): ?int
     {
@@ -48,26 +49,26 @@ class Template
         return $this;
     }
 
-    public function getRoute(): ?string
+    public function getRoute(): ?Route
     {
         return $this->route;
     }
 
-    public function setRoute(string $route): self
+    public function setRoute(?Route $route): self
     {
         $this->route = $route;
 
         return $this;
     }
 
-    public function getRouteParameters(): ?array
+    public function getFilename(): ?string
     {
-        return unserialize($this->routeParameters);
+        return $this->filename;
     }
 
-    public function setRouteParameters(?string $routeParameters): self
+    public function setFilename(string $filename): self
     {
-        $this->routeParameters = $routeParameters;
+        $this->filename = $filename;
 
         return $this;
     }

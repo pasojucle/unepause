@@ -17,9 +17,9 @@ class PriceController extends AbstractController
     }
 
     /**
-     * @Route("/prices/{page}", name="prices", defaults={"page": null})
+     * @Route("/prices/{page}", name="show_prices", defaults={"page": null})
      */
-    public function prices($page)
+    public function showPrices($page)
     {
         $articles = $this->manager->getRepository(Article::class)->findBySlug('prices', $page)
             ->getQuery()
@@ -30,6 +30,7 @@ class PriceController extends AbstractController
 
         return $this->render('price/show.html.twig', [
             'articles' => $articles,
+            'template' => 'prices',
         ]);
     }
 }

@@ -24,9 +24,9 @@ class Image
     private $title;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Article", inversedBy="images")
+     * @ORM\ManyToMany(targetEntity="App\Entity\PageContent", inversedBy="images")
      */
-    private $article;
+    private $pageContent;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -40,7 +40,7 @@ class Image
 
     public function __construct()
     {
-        $this->article = new ArrayCollection();
+        $this->pageContent = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -61,26 +61,26 @@ class Image
     }
 
     /**
-     * @return Collection|Article[]
+     * @return Collection|PageContent[]
      */
-    public function getArticle(): Collection
+    public function getPageContent(): Collection
     {
-        return $this->article;
+        return $this->pageContent;
     }
 
-    public function addArticle(Article $article): self
+    public function addPageContent(PageContent $pageContent): self
     {
-        if (!$this->article->contains($article)) {
-            $this->article[] = $article;
+        if (!$this->pageContent->contains($pageContent)) {
+            $this->pageContent[] = $pageContent;
         }
 
         return $this;
     }
 
-    public function removeArticle(Article $article): self
+    public function removePageContent(PageContent $pageContent): self
     {
-        if ($this->article->contains($article)) {
-            $this->article->removeElement($article);
+        if ($this->pageContent->contains($pageContent)) {
+            $this->pageContent->removeElement($pageContent);
         }
 
         return $this;

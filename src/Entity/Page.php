@@ -35,9 +35,9 @@ class Page
     private $template;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="page")
+     * @ORM\OneToMany(targetEntity="App\Entity\PageContainer", mappedBy="page")
      */
-    private $articles;
+    private $pageContainers;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Action", inversedBy="pages")
@@ -47,7 +47,7 @@ class Page
 
     public function __construct()
     {
-        $this->articles = new ArrayCollection();
+        $this->pageContainers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,30 +92,30 @@ class Page
     }
 
     /**
-     * @return Collection|Article[]
+     * @return Collection|PageContainer[]
      */
-    public function getArticles(): Collection
+    public function getPageContainers(): Collection
     {
-        return $this->articles;
+        return $this->pageContainers;
     }
 
-    public function addArticle(Article $article): self
+    public function addPageContainer(PageContainer $pageContainer): self
     {
-        if (!$this->articles->contains($article)) {
-            $this->articles[] = $article;
-            $article->setPage($this);
+        if (!$this->pageContainers->contains($pageContainer)) {
+            $this->pageContainers[] = $pageContainer;
+            $pageContainer->setPage($this);
         }
 
         return $this;
     }
 
-    public function removeArticle(Article $article): self
+    public function removePageContainer(PageContainer $pageContainer): self
     {
-        if ($this->articles->contains($article)) {
-            $this->articles->removeElement($article);
+        if ($this->pageContainers->contains($pageContainer)) {
+            $this->pageContainers->removeElement($pageContainer);
             // set the owning side to null (unless already changed)
-            if ($article->getPage() === $this) {
-                $article->setPage(null);
+            if ($pageContainer->getPage() === $this) {
+                $pageContainer->setPage(null);
             }
         }
 

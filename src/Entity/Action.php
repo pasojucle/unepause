@@ -43,6 +43,11 @@ class Action
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $icon;
+
     public function __construct()
     {
         $this->pages = new ArrayCollection();
@@ -143,6 +148,18 @@ class Action
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getIcon(): ?string
+    {
+        return $this->icon;
+    }
+
+    public function setIcon(?string $icon): self
+    {
+        $this->icon = $icon;
 
         return $this;
     }

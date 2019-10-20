@@ -1,26 +1,36 @@
 {% extends 'base.html.twig' %}
+{% set parameters = app.request.request.get('parameters') %}
 
-{% block title %}Une pause{% endblock %}
+{% block title %}{{parameters.company}}{% endblock %}
 
 {% block body %}
 <section class="grid grid-home">
-<figure class="slide-column first-column">
-        <picture class="slide-element slide-to-right">
-            <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
-            <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
-            <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
-        </picture>
+    <figure class="slide-column first-column">
+        {% if article.images[0] is defined %}
+            <picture class="slide-element slide-to-right">
+                <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
+                <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
+                <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
+            </picture>
+        {% endif %}
     </figure>
+    {% if article != null %}
     <h1>{{ article.title }}</h1>
     <main>
         {{ article.content| raw }}
     </main>
+    {% else %}
+        <p>L'article n'existe plus ou à été déplacé !</p>
+        <p><a href="{{ path('home')}}">Retour à l'acueil</a></p>
+    {% endif %}
     <figure class="slide-column last-column">
-        <picture class="slide-element slide-to-left">
-            <source media="(min-width: 768px)" srcset="/images/{{ article.images[1].filenameMd }}">
-            <source media="(min-width: 360px)" srcset="/images/{{ article.images[1].filenameXs }}">
-            <img src="/images/{{ article.images[1].filenameMd }}" alt="{{article.images[0].title}}">
-        </picture>
+        {% if article.images[1] is defined %}
+            <picture class="slide-element slide-to-left">
+                <source media="(min-width: 768px)" srcset="/images/{{ article.images[1].filenameMd }}">
+                <source media="(min-width: 360px)" srcset="/images/{{ article.images[1].filenameXs }}">
+                <img src="/images/{{ article.images[1].filenameMd }}" alt="{{article.images[1].title}}">
+            </picture>
+        {% endif %}
     </figure>
 </section>
 

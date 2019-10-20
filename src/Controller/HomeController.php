@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use App\Repository\ArticleRepository;
+use App\Repository\PageContentRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
     /**
-     * @Route("/", name="home")
+     * @Route("/homettt", name="homerr")
      */
-    public function index(ArticleRepository $repo)
+    /*public function index(PageContentRepository $repo)
     {
         $article = $repo->findBySlug('home')
         ->getQuery()
@@ -19,6 +19,7 @@ class HomeController extends AbstractController
         
         return $this->render('home/index.html.twig', [
             'article' => $article,
+            'template' => 'home',
         ]);
-    }
+    }*/
 }
