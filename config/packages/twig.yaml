@@ -3,3 +3,5 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     form_themes: ['form/themeType.html.twig']
+    globals:
+        form_contact: '@App\Service\FormContactService'

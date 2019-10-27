@@ -19,13 +19,13 @@ class PageContainer
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Container", inversedBy="pageContainers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Container")
      * @ORM\JoinColumn(nullable=false)
      */
     private $container;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Page")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Page", inversedBy="pageContainers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $page;

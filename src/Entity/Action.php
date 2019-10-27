@@ -48,6 +48,11 @@ class Action
      */
     private $icon;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : 0})
+     */
+    private $isAnchor;
+
     public function __construct()
     {
         $this->pages = new ArrayCollection();
@@ -160,6 +165,18 @@ class Action
     public function setIcon(?string $icon): self
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function getIsAnchor(): ?bool
+    {
+        return $this->isAnchor;
+    }
+
+    public function setIsAnchor(bool $isAnchor): self
+    {
+        $this->isAnchor = $isAnchor;
 
         return $this;
     }

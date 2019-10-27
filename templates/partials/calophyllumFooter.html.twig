@@ -1,0 +1,53 @@
+{% set container = "footer" %}
+{% set actions = app.request.request.get('footer_actions') %}
+{% set current_route = app.request.attributes.get('_route') %}
+{% set formContact = form_contact.getForm().createView() %}
+<footer class="footer dark-background">
+    <div class="max-width flex">
+        <div class="flex-item">
+            <h1>Me contacter</h1>
+        </div>
+        <div class="flex-item">
+            {{ form_start(formContact, {attr:{'id':'contact'}}) }}
+            {{ form_widget(formContact.firstname,{'attr' :{'class':'form-group'}})}}
+            {{ form_widget(formContact.lastname)}}
+            {{ form_widget(formContact.email)}}
+            {{ form_widget(formContact.content)}}
+            <div class="form-footer">
+                <button type="submit" class="btn btn-secondary float-right">
+                <i class="fas fa-check"></i>
+                Envoyer le message</button>
+            </div>
+            <div class="clear-fix"></div>
+            {{ form_end(formContact) }}
+        </div>
+
+    </div>
+    <hr class="max-width">
+    <ul>
+        {% for action in actions %}
+            {% set class_item = "footer-link" %}
+            {% if action.pages|length > 0 %}
+                {% set route = action.pages[0].template.route.name %}
+                {% set class_item_active = '' %}
+                {% if route == current_route  and (action_slug == action.slug) %}
+                    {% set class_item_active = ' item-active' %}
+                {% endif %}
+                <li class="footer-item{{ class_item_active }}">     
+                {% if action.pages|length > 1 %}
+                    {% if current_action == action.slug %}
+                        {% set class_active = ' active' %}
+                    {% endif %}
+                    {% for page in action.pages %}
+                        {% set class_item = "dropdown-item"%}
+                        {% include 'partials/routeParameters.html.twig' %}
+                    {% endfor %}
+                {% else %}
+                    {% set page = action.pages[0] %}
+                    {% include 'partials/routeParameters.html.twig' %}
+                {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</footer>

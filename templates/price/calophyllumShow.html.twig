@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+{% set parameters = app.request.request.get('parameters') %}
+{% block title %}{{parameters.company}} - {{ page.action.name }}{% endblock %}
+
+{% block body %}
+    <main class="page">
+        <div class="foreground">
+            <img src="/images/calophyllum/calophyle-tamanu.png" alt="calophyllum">
+        </div>
+        {% for pageContainer in  page.pageContainers %}
+            {% for pageContent in pageContainer.pageContents %}
+            <h1 class="max-width">{{ pageContent.title|raw }}</h1>
+                <section class="">
+                    <main class="max-width text-left">
+                        {% for family in pageContent.families %}
+                        <h2>{{ family.name }}</h2>
+                        <table class="price-table">
+                            <thead>
+                                <th></th>
+                                {% for unit in family.units %}
+                                    <th class="unit">{{ unit.label }}</th>
+                                {% endfor %}
+                            </thead>
+                            <tbody>
+                                {% for product in family.products %}
+                                <tr>
+                                    <td>{{ product.label }}</td>
+                                    {% for unit in family.units %}
+                                        {% set current_price = '' %}
+                                        {% for price in product.prices %}
+                                            {% if unit == price.unit %}
+                                                {% if price.amount is not null %}
+                                                    {% set current_price = price.amount|number_format(2, ',') ~ ' euros net' %}
+                                                {% else %}
+                                                    {% set current_price = 'nous consulter' %}
+                                                {% endif%}
+                                            {% endif %}
+                                        {% endfor %}
+                                        <td class="price">{{ current_price }}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </main>
+                    <footer class="legal-notices">
+                        {{ pageContent.content| raw }}
+                    </footer>
+                </section>
+            {% endfor %}
+        {% endfor %}
+    </main>
+{% endblock %}

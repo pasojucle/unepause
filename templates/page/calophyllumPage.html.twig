@@ -7,7 +7,7 @@
         <img src="/images/calophyllum/calophyle-tamanu.png" alt="calophyllum">
     </div>
     <main class="page">
-        <h1 class="section-content">{{ page.name}}</h1>
+        <h1 class="max-width">{{ page.name}}</h1>
         {% set listTitle, listClass, lists = null, null, null %}
         {% set foreword, sheduleTitle, shedules, afterwordTitle, afterwords, afterwordReference = null, null, null, null, null, null %}
         {% for pageContainer in  page.pageContainers %}
@@ -15,7 +15,7 @@
                 {% set foreword %}
                     <div class="foreword light-banner">
                         {% for pageContent in pageContainer.pageContents %}
-                            <section class="section-content">
+                            <section class="max-width bigger-text">
                                 {{ pageContent.content|raw }}
                             </section>
                         {% endfor %}
@@ -41,13 +41,14 @@
                             {% set filename = pageContent.images[0].filenameMd %}
                             {% set alt = pageContent.images[0].title %}
                         {% endif %}
-                        <article class="flex flex-right">  
+                        <article class="">  
                             <img class="background-image" src="/images/calophyllum/{{ filename }}" alt="{{alt}}">                   
-                                <main class="overlay width-30 flex-item">
-                                    <div class="text-justify">
+                                <main class="overlay width-33 float-rigth">
+                                    <div class="text-justify bigger-text">
                                         {{ pageContent.content| raw }}
                                     </div>
                                 </main>
+                                <div class="clear-fix"></div>
                         </article>
                     {% endfor %}
                 {% endset %}
@@ -71,19 +72,19 @@
         {% endfor %}
         {% if foreword is defined %}{{ foreword }}{% endif %}
         {% if lists is not null %}
-            <section class="grid {{ listClass }} section-content">
+            <section class="grid {{ listClass }} max-width">
                 <h2>{{ listTitle }}</h2>
                 {{ lists }}
             </section>
         {% endif %}
         {% if shedules is not null %}
-            <section class="section-content">
+            <section class="max-width">
                 {{ shedules }}
             </section>
         {% endif %}
         {% if afterwords is not null %}
             <div class="afterword light-banner">
-                <section class="section-content">
+                <section class="max-width">
                     <h2>{{ afterwordTitle }}</h2>
                     <div class="flex flex-center">
                         {{ afterwords }}

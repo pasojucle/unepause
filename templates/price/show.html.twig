@@ -4,7 +4,8 @@
 
 {% block body %}
     <main class="page">
-        {% for pageContent in page.pageContents %}
+        {% for pageContainer in  page.pageContainers %}
+        {% for pageContent in pageContainer.pageContents %}
             <section class="grid grid-prices">
                 <figure class="slide-column first-column">
                     {% if pageContent.images|length > 0 %}
@@ -49,6 +50,7 @@
                     {{ pageContent.content| raw }}
                 </footer>
             </section>
+        {% endfor %}
         {% endfor %}
     </main>
 {% endblock %}

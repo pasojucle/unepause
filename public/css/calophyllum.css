@@ -15,10 +15,22 @@
     font-weight: normal;
     font-style: normal;
 }
-
+@keyframes flash {
+    0% {opacity: 0;}
+    20% {opacity: 1;}
+    80% {opacity: 1;}
+  100% {opacity: 0;}
+}
+@-webkit-keyframes flash {
+    0% {opacity: 0;}
+    20% {opacity: 1;}
+    80% {opacity: 1;}
+  100% {opacity: 0;}
+}
 :root {
     --primary-color : #814792;
     --second-color : #68b737;
+    --second-color : #6cabde;
     --dark-grey : #636466;
     --ligth-grey: #dcdcdc75;
 }
@@ -132,7 +144,7 @@ header {
                         "nav"
                         "main"
                         "footer";
-    grid-template-rows: 150px 40px auto 40px;
+    grid-template-rows: 150px 40px auto auto;
     text-align: center;
     /*background-image: url("../images/calophyllum/fond-bois-blanc.jpg");
     background-size: cover;
@@ -146,7 +158,7 @@ header {
     grid-area: main;
     margin-top: 90px;
 }
-.section-content {
+.max-width {
     max-width: 920px;
     margin: 40px auto;
     box-sizing: border-box;
@@ -206,6 +218,9 @@ h2:not(:empty) {
 h2:empty {
     display: none;
 }
+.dark-background h1 {
+    color: #ffffff;
+}
 h3 {
     font-family: futura_medium_italic, sans-serif;
     margin: 10px 20px;
@@ -252,9 +267,12 @@ article {
     background-color: rgba(255,255,255,0.6);
     box-sizing: border-box;
 }
-.width-30 {
-    width: 30%;
+.width-33 {
+    width: 33%;
     margin: 20px 20px 20px auto;
+}
+.text-left {
+    text-align: left;
 }
 .text-center {
     text-align: center;
@@ -274,7 +292,7 @@ article {
     background-color: var(--ligth-grey);
     color: var(--dark-grey);
 }
-.light-banner p {
+.bigger-text {
     font-size: 1.1em;
     line-height: 1.4em;
 }
@@ -284,11 +302,14 @@ article {
 .flex-center {
     justify-content: center;
 }
-.flex-right {
-    justify-content: right;
+.float-right {
+    float: right;
+}
+.clear-fix {
+    clear: both;
 }
 .flex-item {
-    margin: 50px;
+    width: 50%;
 }
 .reference {
     font-size: 0.9em;
@@ -318,4 +339,65 @@ article {
 }
 .grid > footer {
     grid-area: footer;
+}
+.price-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .9em;
+    margin-bottom: 50px;
+}
+.price, .unit {
+    min-width: 30px;
+    text-align: right;
+}
+.price-table tr {
+    border-bottom: 1px solid var(--ligth-grey);
+    line-height: 25px;
+}
+.legal-notices {
+    margin-bottom: 50px;
+}
+.column-2 {
+    column-count: 2;
+    gap: 50px;
+}
+.marging-top:not(:first-child) {
+    margin-top: 50px;
+}
+form input, textarea, .btn {
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+}
+form input, textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+textarea {
+    min-height: 100px;
+}
+.btn-secondary {
+    background-color: var(--second-color);
+    color: #ffffff;
+    margin-top: 20px;
+}
+hr.max-width {
+    margin: 10px auto;
+    color: inherit;
+}
+.flashes {
+    position: fixed;
+    z-index: 99;
+    right: 0;
+    width: 150px;
+}
+.flash-success {
+    background-color: var(--second-color);
+    margin: 10px;
+    padding: 10px;
+    color: white;
+    opacity: 0;
+    -webkit-animation: flash 5s;
+    animation: flash 5s;
+
 }

@@ -15,27 +15,38 @@
     <ul>
         {% for action in actions %}
             {% if action.isActive == 1 %}
-                {% if action.pages|length > 0 %}
-                    {% set route = action.pages[0].template.route.name %}
-                    {% set class_nav_item_active = '' %}
-                    {% if route == current_route  and (action_slug == action.slug) %}
-                        {% set class_nav_item_active = ' nav-item-active' %}
+                {% if action.isAnchor == 0 %}
+                    {% if action.pages|length > 0 %}
+                        {% set route = action.pages[0].template.route.name %}
+                        {% set class_nav_item_active = '' %}
+                        {% if route == current_route  and (action_slug == action.slug) %}
+                            {% set class_nav_item_active = ' nav-item-active' %}
+                        {% endif %}
+                        <li class="nav-item {{class_nav_item_active}}"> 
+                        {% if action.pages|length > 1 %}
+                            <a class="nav-link">{{ action.name }}</a>
+                            <div class="dropdown-menu">
+                                {% for page in action.pages %}
+                                    {% set class_item = "dropdown-item"%}
+                                    {% include 'partials/routeParameters.html.twig' %}
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {% set page = action.pages[0] %}
+                            {% set class_active = '' %}
+                            {% set class_item = "nav-link" %}
+                            {% include 'partials/routeParameters.html.twig' %}
+                        {% endif %}
+                        </li>
                     {% endif %}
-                    <li class="nav-item {{class_nav_item_active}}"> 
-                    {% if action.pages|length > 1 %}
-                        <a class="nav-link">{{ action.name }}</a>
-                        <div class="dropdown-menu">
-                            {% for page in action.pages %}
-                                {% set class_item = "dropdown-item"%}
-                                {% include 'partials/routeParameters.html.twig' %}
-                            {% endfor %}
-                        </div>
+                {% else %}
+                    {% if action.icon is not null and class_item == "nav-link" and container == "header" %}
+                        {% set text = '<i class="' ~ action.icon ~ '"></i>' %}
                     {% else %}
-                        {% set page = action.pages[0] %}
-                        {% set class_active = '' %}
-                        {% set class_item = "nav-link" %}
-                        {% include 'partials/routeParameters.html.twig' %}
+                        {% set text = action.name %}
                     {% endif %}
+                    <li class="nav-item"> 
+                        <a href="#{{ action.slug }}" class="{{ class_item }}" title ="{{ action.name }}">{{ text|raw }}</a>
                     </li>
                 {% endif %}
             {% endif %}

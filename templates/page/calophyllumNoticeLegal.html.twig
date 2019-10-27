@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+{% set parameters = app.request.request.get('parameters') %}
+{% block title %}{{parameters.company}} - {{ page.action.name }}{% endblock %}
+
+{% block body %}
+    <div class="foreground">
+        <img src="/images/calophyllum/calophyle-tamanu.png" alt="calophyllum">
+    </div>
+    <main class="page">
+        <h1 class="max-width">{{ page.name}}</h1>
+        <section class="max-width column-2">
+            {% for pageContainer in  page.pageContainers %}
+                {% for pageContent in pageContainer.pageContents %}
+                    <article class="text-justify marging-top">
+                        <h2 class="text-left">{{ pageContent.title }}</h3>
+                        {{ pageContent.content| raw }}
+                    </article> 
+                {% endfor %}
+            {% endfor %}
+        </section>
+    </main>
+{% endblock %}

@@ -21,16 +21,12 @@ class PriceController extends AbstractController
      */
     public function showPrices($page)
     {
-        $articles = $this->manager->getRepository(Article::class)->findBySlug('prices', $page)
-            ->getQuery()
-            ->getResult();
-        /*$prices = $this->manager->getRepository(Price::class)->findByPage($page)
-        ->getQuery()
-        ->getResult();*/
+        $page = $this->manager->getRepository(Page::class)->findBySlug($actionSlug, $pageSlug);
 
-        return $this->render('price/show.html.twig', [
-            'articles' => $articles,
-            'template' => 'prices',
+        return $this->render($page->getTemplate()->getFilename(), [
+            'page' => $page,
+            'action_slug' => $actionSlug,
+            'page_slug' => $pageSlug,
         ]);
     }
 }

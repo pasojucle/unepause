@@ -29,7 +29,7 @@ class Price
     private $unit;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $amount;
 

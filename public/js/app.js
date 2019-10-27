@@ -6,10 +6,10 @@ $(function() {
             $('.nav-tab').removeClass('nav-tab-active');
         }
     });
-    
-    //setClassPicture();
-    //$(document).on('scroll', setClassPicture);
 
+    $('a').on('click', animateScroll);
+
+    $(document).on('submit', '#contact', sendConctactMessage);
 });
 
 function setClassPicture() {
@@ -24,4 +24,25 @@ function setClassPicture() {
     if ($('.picture-left, .picture-right').length == 0) {
         $(document).off('scroll', setClassPicture);
     }
+}
+
+function animateScroll(){
+    var curentAnchor = $(this).attr('href');
+    var speed = 1500;
+    var topHref = $(curentAnchor).offset().top;
+    $('html, body').animate( { scrollTop: topHref}, speed);
+}
+
+function sendConctactMessage(e){
+    e.preventDefault();
+    var $form = $(e.currentTarget);
+    $.ajax({
+        url: $form.attr('action'),
+        method: 'POST',
+        data: $form.serialize()
+    })
+    .done(function(flash) {
+        $( ".flashes" ).append(flash);
+        $("#contact").trigger('reset');
+    });
 }

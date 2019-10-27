@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ContactType extends ApplicationType
 {
@@ -27,5 +28,14 @@ class ContactType extends ApplicationType
         $resolver->setDefaults([
             'data_class' => EmailMessage::class,
         ]);
+    }
+
+    /**
+     * Return the class of the type being extended.
+     */
+    public static function getExtendedTypes(): iterable
+    {
+        // return FormType::class to modify (nearly) every field in the system
+        return [FileType::class];
     }
 }
