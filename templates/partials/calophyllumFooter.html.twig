@@ -1,7 +1,7 @@
 {% set container = "footer" %}
 {% set actions = app.request.request.get('footer_actions') %}
 {% set current_route = app.request.attributes.get('_route') %}
-{% set formContact = form_contact.getForm().createView() %}
+{% set formContact = form_contact.form.createView() %}
 <footer class="footer dark-background">
     <div class="max-width flex">
         <div class="flex-item">

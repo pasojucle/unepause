@@ -30,7 +30,7 @@
 :root {
     --primary-color : #814792;
     --second-color : #68b737;
-    --second-color : #6cabde;
+    /*--second-color : #6cabde;*/
     --dark-grey : #636466;
     --ligth-grey: #dcdcdc75;
 }

@@ -1,5 +1,5 @@
 {% set container = "footer" %}
-{% set actions = app.request.request.get('footer_actions') %}
+{% set actions = var_actions.footerActions %}
 {% set current_route = app.request.attributes.get('_route') %}
 <footer class="footer dark-background">
     <ul>

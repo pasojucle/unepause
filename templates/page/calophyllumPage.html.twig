@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% set parameters = app.request.request.get('parameters') %}
+{% set parameters = var_parameters.parameters %}
 {% block title %}{{parameters.company}} - {{ page.action.name }}{% endblock %}
 
 {% block body %}

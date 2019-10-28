@@ -5,7 +5,7 @@
         <title>{% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        {% set parameters = app.request.request.get('parameters') %}
+        {% set parameters = var_parameters.parameters %}
         {% set stylesheet_name = '/css/' ~ parameters.lowerCamelcase ~'.css' %}
         {% set container_class = app.request.request.get('containerClass') %}
         <link rel="stylesheet" href="/css/base.css">

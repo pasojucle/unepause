@@ -49,7 +49,7 @@ class NavSubscriber implements EventSubscriberInterface
         }
         $event->getRequest()->request->set('nav_actions', $navActions);
         $event->getRequest()->request->set('footer_actions', $footerActions);
-        $event->getRequest()->request->set('actions', $actions);
+        //$event->getRequest()->request->set('actions', $actions);
 
         $parameters = $this->manager->getRepository(Parameter::class)->findAll();
         $parametersArray = [];
@@ -62,7 +62,7 @@ class NavSubscriber implements EventSubscriberInterface
                 $parametersArray['dashCase'] = $value;
             }
         }
-        $event->getRequest()->request->set('parameters', $parametersArray);
+        //$event->getRequest()->request->set('parameters', $parametersArray);
 
         $containerClass = "winter";
         $event->getRequest()->request->set('containerClass', $containerClass);

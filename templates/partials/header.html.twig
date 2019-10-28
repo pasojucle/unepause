@@ -2,7 +2,8 @@
     {% set logo = "/images/calophyllum/" ~ parameters.dashCase ~ ".png" %}
     <img class="logo" src="{{logo}}" alt="{{parameters.company}}">
     {% set container = "header" %}
-    {% set actions = app.request.request.get('nav_actions') %}
+    {% set actions = var_actions.headerActions %}
+    {% set formContact = form_contact.form.createView() %}
     {% set current_route = app.request.attributes.get('_route') %}
 </header>
 <div class="nav-btn bars">

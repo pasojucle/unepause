@@ -27,7 +27,6 @@ class ArticleController extends AbstractController
      */
     public function showPage(Request $request, $actionSlug, $pageSlug)
     {
-        dump($request);
         if (null == $actionSlug) {
             $actionSlug = 'home';
         }
