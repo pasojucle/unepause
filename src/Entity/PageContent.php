@@ -44,12 +44,6 @@ class PageContent
      */
     private $families;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="App\Entity\PageContainer")
-//     * @ORM\JoinColumn(nullable=true)
-//     */
-//    private $pageContainer;
-
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PageContentType")
      */
@@ -59,6 +53,16 @@ class PageContent
      * @ORM\ManyToOne(targetEntity="App\Entity\PageContainer", inversedBy="pageContents")
      */
     private $pageContainer;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $orderBy;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Link", inversedBy="pageContents")
+     */
+    private $link;
 
     public function __construct()
     {
@@ -166,18 +170,6 @@ class PageContent
         return $this;
     }
 
-    /*public function getPageContainer(): ?PageContainer
-    {
-        return $this->pageContainer;
-    }
-
-    public function setPageContainer(?PageContainer $pageContainer): self
-    {
-        $this->pageContainer = $pageContainer;
-
-        return $this;
-    }*/
-
     public function getType(): ?PageContentType
     {
         return $this->type;
@@ -198,6 +190,30 @@ class PageContent
     public function setPageContainer(?PageContainer $pageContainer): self
     {
         $this->pageContainer = $pageContainer;
+
+        return $this;
+    }
+
+    public function getOrderBy(): ?int
+    {
+        return $this->orderBy;
+    }
+
+    public function setOrderBy(?int $orderBy): self
+    {
+        $this->orderBy = $orderBy;
+
+        return $this;
+    }
+
+    public function getLink(): ?Link
+    {
+        return $this->link;
+    }
+
+    public function setLink(?Link $link): self
+    {
+        $this->link = $link;
 
         return $this;
     }

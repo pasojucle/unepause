@@ -214,6 +214,7 @@ h2:not(:empty) {
     font-size: 1.5em;
     color: var(--primary-color);
     grid-column: 1 / 4;
+    margin-bottom: 30px;
 }
 h2:empty {
     display: none;
@@ -247,6 +248,11 @@ article {
     height: 100%;
     width: 100%;
 }
+.full-size {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
 .animate-background {
     display: flex;
     text-align: justify;
@@ -267,9 +273,20 @@ article {
     background-color: rgba(255,255,255,0.6);
     box-sizing: border-box;
 }
+.grid-2-col .text-overlay {
+    text-align: justify;
+}
+.grid-3-col .text-overlay {
+    text-align: center;
+}
+.position-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
 .width-33 {
     width: 33%;
-    margin: 20px 20px 20px auto;
+    height: 100%;
 }
 .text-left {
     text-align: left;
@@ -280,14 +297,14 @@ article {
 .text-justify {
     text-align: justify;
 }
-.foreword {
+.wrapper-text {
     grid-column: 3 / 5;
     text-align: justify;
 }
-.afterword {
+.wrapper-list {
     text-align: center;
 }
-.light-banner {
+.light-wrapper {
     padding: 15px;
     background-color: var(--ligth-grey);
     color: var(--dark-grey);
@@ -309,7 +326,22 @@ article {
     clear: both;
 }
 .flex-item {
-    width: 50%;
+    margin-bottom: 30px;
+}
+.flex-item a {
+    color: var(--dark-grey);
+}
+.flex-item a:hover img {
+    transform: scale(1.1);
+}
+.flex-item:not(:first-child) {
+    margin-left: 30px;
+}
+.flex-item:not(:last-child) {
+    margin-right: 30px;
+}
+.m-t-20 {
+    margin-top: 20px;
 }
 .reference {
     font-size: 0.9em;
@@ -399,5 +431,7 @@ hr.max-width {
     opacity: 0;
     -webkit-animation: flash 5s;
     animation: flash 5s;
-
+}
+iframe {
+    margin-top: 30px;
 }

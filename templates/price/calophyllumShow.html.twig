@@ -1,12 +1,9 @@
 {% extends 'base.html.twig' %}
-{% set parameters = app.request.request.get('parameters') %}
+{% set parameters = var_parameters.parameters %}
 {% block title %}{{parameters.company}} - {{ page.action.name }}{% endblock %}
 
 {% block body %}
     <main class="page">
-        <div class="foreground">
-            <img src="/images/calophyllum/calophyle-tamanu.png" alt="calophyllum">
-        </div>
         {% for pageContainer in  page.pageContainers %}
             {% for pageContent in pageContainer.pageContents %}
             <h1 class="max-width">{{ pageContent.title|raw }}</h1>

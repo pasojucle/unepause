@@ -1,6 +1,6 @@
-{% if pageContent.images|length > 0 %}
-    {% set filename = pageContent.images[0].filenameMd %}
-    {% set alt = pageContent.images[0].title %}
+{% if content.images|length > 0 %}
+    {% set filename = content.images[0].filenameMd %}
+    {% set alt = content.images[0].title %}
 {% else %}
     {% set filename = 'bois-gris.jpg' %}
     {% set alt = '' %}
@@ -9,9 +9,9 @@
     <img class="background-image" src="/images/calophyllum/{{ filename }}" alt="{{alt}}"> 
     <div class="animate-background">                   
         <main class="overlay">
-            <h3 class="">{{ pageContent.title }}</h3>
-            <div class="text-justify">
-                {{ pageContent.content| raw }}
+            <h3 class="">{{ content.title }}</h3>
+            <div class="text-overlay">
+                {{ content.content| raw }}
             </div>
         </main>
     </div>

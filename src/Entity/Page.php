@@ -36,6 +36,7 @@ class Page
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\PageContainer", mappedBy="page")
+     * @ORM\OrderBy({"orderBy" = "ASC"})
      */
     private $pageContainers;
 
@@ -45,9 +46,15 @@ class Page
      */
     private $action;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Link", mappedBy="page")
+     */
+    private $links;
+
     public function __construct()
     {
         $this->pageContainers = new ArrayCollection();
+        $this->links = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -130,6 +137,37 @@ class Page
     public function setAction(?Action $action): self
     {
         $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Link[]
+     */
+    public function getLinks(): Collection
+    {
+        return $this->links;
+    }
+
+    public function addLink(Link $link): self
+    {
+        if (!$this->links->contains($link)) {
+            $this->links[] = $link;
+            $link->setPage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLink(Link $link): self
+    {
+        if ($this->links->contains($link)) {
+            $this->links->removeElement($link);
+            // set the owning side to null (unless already changed)
+            if ($link->getPage() === $this) {
+                $link->setPage(null);
+            }
+        }
 
         return $this;
     }

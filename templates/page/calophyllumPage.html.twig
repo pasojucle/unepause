@@ -3,36 +3,38 @@
 {% block title %}{{parameters.company}} - {{ page.action.name }}{% endblock %}
 
 {% block body %}
-    <div class="foreground">
-        <img src="/images/calophyllum/calophyle-tamanu.png" alt="calophyllum">
-    </div>
     <main class="page">
         <h1 class="max-width">{{ page.name}}</h1>
-        {% set listTitle, listClass, lists = null, null, null %}
-        {% set foreword, sheduleTitle, shedules, afterwordTitle, afterwords, afterwordReference = null, null, null, null, null, null %}
+        {% set listTitle, listClass, lists, filename, alt = null, null, null, null, null %}
+        {% set sheduleTitle, shedules, wrapperListTitle, wrapperListReference =  null, null, null, null %}
         {% for pageContainer in  page.pageContainers %}
-            {% if pageContainer.container.id == constant('app\\entity\\Container::FOREWORD') %}
-                {% set foreword %}
-                    <div class="foreword light-banner">
-                        {% for pageContent in pageContainer.pageContents %}
-                            <section class="max-width bigger-text">
-                                {{ pageContent.content|raw }}
-                            </section>
-                        {% endfor %}
-                    </div>
-                {% endset %}
+            {% if pageContainer.container.id == constant('app\\entity\\Container::WRAPPER_TEXT') %}
+                <div class="wrapper-text light-wrapper">
+                    {% for pageContent in pageContainer.pageContents %}
+                        <section class="max-width bigger-text">
+                            {{ pageContent.content|raw }}
+                        </section>
+                    {% endfor %}
+                </div>
             {% endif %}
             {% if pageContainer.container.id == constant('app\\entity\\Container::LIST') %}
             {% set listClass = pageContainer.class.name %}
-                {% set lists %}
-                    {% for pageContent in pageContainer.pageContents %}
-                        {% if pageContent.type.id == constant('app\\entity\\PageContentType::TITLE') %}
-                            {% set listTitle = pageContent.title %}
-                        {% else %}
-                            {% include "/page/calophyllumArticle.html.twig" %} 
-                        {% endif %}
-                    {% endfor %}
-                {% endset %}
+                <section class="max-width">
+                    <h2>{{ pageContainer.title }}</h2>
+                    <div class="grid {{ listClass }}">
+                        {% for pageContent in pageContainer.pageContentsOrderByMonth %}
+                            {% if pageContent.link is not null and pageContent.link.pageContainer is not null %}
+                                {% for link in pageContent.link.pageContainer.firstOnesPageContents %}
+                                {% set content = link %}
+                                    {% include "/page/calophyllumArticle.html.twig" %} 
+                                {% endfor %}
+                            {% else %}
+                                {% set content = pageContent %}
+                                {% include "/page/calophyllumArticle.html.twig" %} 
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </section>
             {% endif %}
             {% if pageContainer.container.id == constant('app\\entity\\Container::SCHEDULE') %}
                 {% set shedules %}
@@ -42,56 +44,59 @@
                             {% set alt = pageContent.images[0].title %}
                         {% endif %}
                         <article class="">  
-                            <img class="background-image" src="/images/calophyllum/{{ filename }}" alt="{{alt}}">                   
-                                <main class="overlay width-33 float-rigth">
-                                    <div class="text-justify bigger-text">
+                            <img class="full-size" src="/images/calophyllum/{{ filename }}" alt="{{alt}}">                   
+                                <main class="overlay width-33 position-right">
+                                    <div class="text-justify bigger-text full-size">
                                         {{ pageContent.content| raw }}
                                     </div>
                                 </main>
-                                <div class="clear-fix"></div>
                         </article>
                     {% endfor %}
                 {% endset %}
+                <section class="max-width">
+                    {{ shedules }}
+                </section>
             {% endif %}
-            {% if pageContainer.container.id == constant('app\\entity\\Container::AFTERWORD') %}
-                {% set afterwords %}
-                    {% for pageContent in pageContainer.pageContents %}
-                        {% if pageContent.type.id == constant('app\\entity\\PageContentType::TITLE') %}
-                            {% set afterwordTitle = pageContent.title %}
-                        {% elseif pageContent.type.id == constant('app\\entity\\PageContentType::REFERENCE') %}
-                            {% set afterwordReference = pageContent.content %}
-                        {% else %}
-                            <div class="flex-item">
-                                <h3>{{ pageContent.title }}</h3>
-                                {{ pageContent.content|raw }}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endset %}
+            {% if pageContainer.container.id == constant('app\\entity\\Container::WRAPPER_LIST') %}
+                <div class="wrapper-list light-wrapper">
+                    <section class="max-width">
+                        <h2>{{ pageContainer.title }}</h2>
+                        <div class="flex flex-center">
+                            {% for pageContent in pageContainer.pageContents %}
+                                <div class="flex-item">
+                                    <h3>{{ pageContent.title }}</h3>
+                                    {{ pageContent.content|raw }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="reference">{{ pageContainer.footer|raw }}</div>
+                    </section>
+                </div>
+            {% endif %}
+            {% if pageContainer.container.id == constant('app\\entity\\Container::WRAPPER_BUTTON') %}
+                <div class="wrapper-list light-wrapper">
+                    <section class="max-width">
+                        <h2>{{ pageContainer.title }}</h2>
+                        <div class="flex flex-center">
+                            {% for pageContent in pageContainer.pageContents %}
+                                <div class="flex-item">
+                                    {% if pageContent.images|length > 0 %}
+                                        {% set filename = pageContent.images[0].filenameMd %}
+                                        {% set alt = pageContent.images[0].title %}
+                                    {% endif %}
+                                    {% set route = pageContent.link.page.template.route.name %}
+                                    {% set actionSlug = pageContent.link.page.action.slug %}
+                                    {% set pageSlug = pageContent.link.page.slug %}
+                                    <a href="{{path(route, {'pageSlug': pageSlug, 'actionSlug': actionSlug})}}">
+                                        <div><img src="/images/calophyllum/{{ filename }}" alt="{{ alt }}"></div>
+                                        <div class="m-t-20">{{ pageContent.title }}</div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </section>
+                </div>
             {% endif %}
         {% endfor %}
-        {% if foreword is defined %}{{ foreword }}{% endif %}
-        {% if lists is not null %}
-            <section class="grid {{ listClass }} max-width">
-                <h2>{{ listTitle }}</h2>
-                {{ lists }}
-            </section>
-        {% endif %}
-        {% if shedules is not null %}
-            <section class="max-width">
-                {{ shedules }}
-            </section>
-        {% endif %}
-        {% if afterwords is not null %}
-            <div class="afterword light-banner">
-                <section class="max-width">
-                    <h2>{{ afterwordTitle }}</h2>
-                    <div class="flex flex-center">
-                        {{ afterwords }}
-                    </div>
-                    <div class="reference">{{ afterwordReference|raw }}</div>
-                </section>
-            </div>
-        {% endif %}
     </main>
 {% endblock %}

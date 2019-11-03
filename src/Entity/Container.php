@@ -14,9 +14,10 @@ class Container
     public const NAV_ID = 1;
     public const FOOTER_ID = 2;
     const LIST = 3;
-    const FOREWORD = 4;
+    const WRAPPER_TEXT = 4;
     const SCHEDULE = 5;
-    const AFTERWORD = 6;
+    const WRAPPER_LIST = 6;
+    const WRAPPER_BUTTON = 7;
     
     /**
      * @ORM\Id()
