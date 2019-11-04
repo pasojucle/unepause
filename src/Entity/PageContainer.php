@@ -140,9 +140,10 @@ class PageContainer
         foreach ($pageContentsIterator as $pageContent) {
             $orderBy = ($pageContent->getOrderBy() < $month) ? $pageContent->getOrderBy() + 12 : $pageContent->getOrderBy();
             if ($orderBy < $month + $count) {
-                $firstOnesPageContents[] = $pageContent;
+                $firstOnesPageContents[$orderBy] = $pageContent;
             }
         }
+        sort($firstOnesPageContents);
         return new ArrayCollection($firstOnesPageContents);
     }
 

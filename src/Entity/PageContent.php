@@ -29,12 +29,6 @@ class PageContent
     private $content;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Page")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $page;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Image", mappedBy="pageContent")
      */
     private $images;
@@ -43,11 +37,6 @@ class PageContent
      * @ORM\OneToMany(targetEntity="App\Entity\Family", mappedBy="pageContent")
      */
     private $families;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PageContentType")
-     */
-    private $type;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PageContainer", inversedBy="pageContents")
@@ -95,18 +84,6 @@ class PageContent
     public function setContent(?string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getPage(): ?Page
-    {
-        return $this->page;
-    }
-
-    public function setPage(?Page $page): self
-    {
-        $this->page = $page;
 
         return $this;
     }
@@ -166,18 +143,6 @@ class PageContent
                 $family->setArticle(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getType(): ?PageContentType
-    {
-        return $this->type;
-    }
-
-    public function setType(?PageContentType $type): self
-    {
-        $this->type = $type;
 
         return $this;
     }
