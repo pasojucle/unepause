@@ -7,6 +7,7 @@ use Swift_Message;
 //use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use App\Service\ParameterService;
 
 
 
@@ -15,13 +16,15 @@ class EmailMessageService
     private $requestStack;
     private $templating;
     private $mailer;
+    private $parameter;
 
 
-    public function __construct(RequestStack $requestStack, EngineInterface $templating, Swift_Mailer $mailer)
+    public function __construct(RequestStack $requestStack, EngineInterface $templating, Swift_Mailer $mailer, ParameterService $parameter)
     {
         $this->requestStack = $requestStack;
         $this->templating = $templating;
         $this->mailer = $mailer;
+        $this->parameter = $parameter;
     }
 
     public function sendMessage($form)
@@ -32,7 +35,7 @@ class EmailMessageService
             $parameters = $this->requestStack->getCurrentRequest()->get('parameters');
             $message = (new Swift_Message('Message envoyé depuis le site "une pause"'))
             ->setFrom($emailMessage->getEmail())
-            ->setTo($parameters['email'])
+            ->setTo($parameter->getEmail())
             ->setBody(
                 $this->templating->render(
                     'contact/emailMessage.html.twig',

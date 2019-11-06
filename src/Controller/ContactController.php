@@ -6,6 +6,7 @@ use Swift_Mailer;
 use Swift_Message;
 use App\Entity\Article;
 use App\Form\ContactType;
+use App\Service\ParameterService;
 use App\Service\FormContactService;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -54,7 +55,7 @@ class ContactController extends AbstractController
      * @Route("/message/send", name="send_message", methods={"POST"}, condition="request.isXmlHttpRequest()")
     */
 
-    public function sendMessage(FormContactService $formContactService, Request $request, Swift_Mailer $mailer)
+    public function sendMessage(FormContactService $formContactService, Request $request, Swift_Mailer $mailer, ParameterService $parameter)
     {
         $form = $formContactService->getForm();
  
@@ -67,7 +68,7 @@ class ContactController extends AbstractController
             $parameters = $request->get('parameters');
             $message = (new Swift_Message('Message envoyé depuis le site "une pause"'))
             ->setFrom($emailMessage->getEmail())
-            ->setTo($parameters['email'])
+            ->setTo($parameter->getEmail())
             ->setBody(
                 $this->renderView(
                     'contact/emailMessage.html.twig',
