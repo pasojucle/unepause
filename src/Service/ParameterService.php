@@ -34,4 +34,8 @@ class ParameterService
     public function getEmail() {
         return $this->parametersArray['email'];
     }
+
+    public function getCompany() {
+        return $this->parametersArray['company'];
+    }
 }

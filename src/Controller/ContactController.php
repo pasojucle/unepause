@@ -19,7 +19,7 @@ class ContactController extends AbstractController
     /**
      * @Route("/contact", name="show_contact")
      */
-    public function showContact(ObjectManager $manager, Request $request,  Swift_Mailer $mailer)
+    public function showContact(ObjectManager $manager, Request $request,  Swift_Mailer $mailer, ParameterService $parameter)
     {
         $article = $manager->getRepository(Article::class)->findBySlug('contact')
         ->getQuery()
@@ -30,8 +30,8 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $emailMessage = $form->getData();
-            $parameters = $request->get('parameters');
-            $message = (new Swift_Message('Message envoyé depuis le site "une pause"'))
+            $topic = 'Message envoyé depuis le site "'.$parameter->getCompany().'"';
+            $message = (new Swift_Message($topic))
             ->setFrom($emailMessage->getEmail())
             ->setTo($parameters['email'])
             ->setBody(
@@ -65,8 +65,8 @@ class ContactController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $emailMessage = $form->getData();
-            $parameters = $request->get('parameters');
-            $message = (new Swift_Message('Message envoyé depuis le site "une pause"'))
+            $topic = 'Message envoyé depuis le site "'.$parameter->getCompany().'"';
+            $message = (new Swift_Message($topic))
             ->setFrom($emailMessage->getEmail())
             ->setTo($parameter->getEmail())
             ->setBody(
