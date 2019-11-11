@@ -6,9 +6,7 @@
     <main class="page">
         <h1 class="max-width">{{ page.name}}</h1>
         {% set sheduleTitle, shedules, wrapperListTitle, wrapperListReference =  null, null, null, null %}
-        
         {% for pageContainer in  page.pageContainers %}
-
             {% if pageContainer.container.id == constant('app\\entity\\Container::WRAPPER_TEXT') %}
                 <div class="wrapper-text light-wrapper">
                     {% for pageContent in pageContainer.pageContents %}

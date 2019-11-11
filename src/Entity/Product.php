@@ -54,10 +54,16 @@ class Product
      */
     private $title;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TimeLine", mappedBy="product")
+     */
+    private $timeLines;
+
     public function __construct()
     {
         $this->prices = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->timeLines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -178,6 +184,37 @@ class Product
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|TimeLine[]
+     */
+    public function getTimeLines(): Collection
+    {
+        return $this->timeLines;
+    }
+
+    public function addTimeLine(TimeLine $timeLine): self
+    {
+        if (!$this->timeLines->contains($timeLine)) {
+            $this->timeLines[] = $timeLine;
+            $timeLine->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTimeLine(TimeLine $timeLine): self
+    {
+        if ($this->timeLines->contains($timeLine)) {
+            $this->timeLines->removeElement($timeLine);
+            // set the owning side to null (unless already changed)
+            if ($timeLine->getProduct() === $this) {
+                $timeLine->setProduct(null);
+            }
+        }
 
         return $this;
     }

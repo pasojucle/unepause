@@ -408,10 +408,17 @@ form input, textarea {
 textarea {
     min-height: 100px;
 }
-.btn-secondary {
-    background-color: var(--second-color);
+.btn {
+    display: inline-block;
     color: #ffffff;
     margin-top: 20px;
+}
+.btn-primary {
+    background-color: var(--primary-color);
+
+}
+.btn-secondary {
+    background-color: var(--second-color);
 }
 hr.max-width {
     margin: 10px auto;

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Page;
 use App\Entity\Action;
+use App\Entity\Product;
 use App\Form\ContactType;
 use App\Service\EmailMessageService;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,21 @@ class ArticleController extends AbstractController
         $this->manager = $manager;
         $this->emailMessageService = $emailMessageService;
     }
+
+
+    /**
+     * @Route("/booking/{id}", name="booking")
+     */
+    public function index(Product $product )
+    {
+
+        $product = $this->manager->getRepository(Product::class)->find($product);
+        dump($product);
+        return $this->render('booking/index.html.twig', [
+            'controller_name' => 'BookingController',
+        ]);
+    }
+
 
     /**
      * @Route("/{actionSlug}/{pageSlug}", name="show_page", defaults={"actionSlug": null, "pageSlug": null}, methods={"GET"})
