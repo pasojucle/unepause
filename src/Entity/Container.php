@@ -18,6 +18,7 @@ class Container
     const SCHEDULE = 5;
     const WRAPPER_LIST = 6;
     const WRAPPER_BUTTON = 7;
+    const INTRODUCTION_LIST = 8;
     
     /**
      * @ORM\Id()

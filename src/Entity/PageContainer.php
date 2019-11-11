@@ -62,10 +62,16 @@ class PageContainer
      */
     private $footer;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Family", mappedBy="pageContainers")
+     */
+    private $families;
+
     public function __construct()
     {
         $this->pageContents = new ArrayCollection();
         $this->links = new ArrayCollection();
+        $this->families = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -103,48 +109,6 @@ class PageContainer
     public function getPageContents(): Collection
     {
         return $this->pageContents;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getPageContentsOrderByMonth(): ArrayCollection
-    {
-        $pageContentsIterator = $this->pageContents->getIterator();
-
-        $today = new DateTime();
-        $month = $today->format('m');
-
-        $pageContentsIterator->uasort(function ($a, $b) use ($month) {
-            $orderA = ($a->getOrderBy() < $month) ? $a->getOrderBy() + 12 : $a->getOrderBy();
-            $orderB = ($b->getOrderBy() < $month) ? $b->getOrderBy() + 12 : $b->getOrderBy();
-            if($orderA == $orderB) {
-                return 0;
-            }
-            return ($orderA < $orderB) ? -1 : 1;
-        });
-
-        return new ArrayCollection(iterator_to_array($pageContentsIterator));
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getFirstOnesPageContents($count = 3): ArrayCollection
-    {
-        $pageContentsIterator = $this->pageContents->getIterator();
-
-        $today = new DateTime();
-        $month = $today->format('m');
-        $firstOnesPageContents = [];
-        foreach ($pageContentsIterator as $pageContent) {
-            $orderBy = ($pageContent->getOrderBy() < $month) ? $pageContent->getOrderBy() + 12 : $pageContent->getOrderBy();
-            if ($orderBy < $month + $count) {
-                $firstOnesPageContents[$orderBy] = $pageContent;
-            }
-        }
-        sort($firstOnesPageContents);
-        return new ArrayCollection($firstOnesPageContents);
     }
 
     public function addPageContent(PageContent $pageContent): self
@@ -245,6 +209,34 @@ class PageContainer
     public function setFooter(?string $footer): self
     {
         $this->footer = $footer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Family[]
+     */
+    public function getFamilies(): Collection
+    {
+        return $this->families;
+    }
+
+    public function addFamily(Family $family): self
+    {
+        if (!$this->families->contains($family)) {
+            $this->families[] = $family;
+            $family->addPageContainer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFamily(Family $family): self
+    {
+        if ($this->families->contains($family)) {
+            $this->families->removeElement($family);
+            $family->removePageContainer($this);
+        }
 
         return $this;
     }

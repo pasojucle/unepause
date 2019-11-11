@@ -18,21 +18,27 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            {% if pageContainer.container.id == constant('app\\entity\\Container::LIST') %}
+            {% if pageContainer.container.id == constant('app\\entity\\Container::LIST') or pageContainer.container.id == constant('app\\entity\\Container::INTRODUCTION_LIST') %}
             {% set listClass = pageContainer.class.name %}
                 <section class="max-width">
                     <h2>{{ pageContainer.title }}</h2>
                     <div class="grid {{ listClass }}">
-                        {% for pageContent in pageContainer.pageContentsOrderByMonth %}
-                            {% if pageContent.link is not null and pageContent.link.pageContainer is not null %}
-                                {% for link in pageContent.link.pageContainer.firstOnesPageContents %}
-                                {% set content = link %}
-                                    {% include "/page/calophyllumArticle.html.twig" %} 
-                                {% endfor %}
-                            {% else %}
-                                {% set content = pageContent %}
-                                {% include "/page/calophyllumArticle.html.twig" %} 
+                        {% for family in pageContainer.families %}
+                            {% set products = family.products %}
+                            {% if family.hasSeasonalProducts == true %}
+                                {% set products = family.productsOrderByMonth %}
+                                {% if pageContainer.container.id == constant('app\\entity\\Container::INTRODUCTION_LIST') %}
+                                    {% set products = family.firstOnesProducts %}
+                                {% endif %}
                             {% endif %}
+                            {% for product in products %}
+                                {% set content = product %}
+                                {% include "/page/calophyllumArticle.html.twig" %} 
+                            {% endfor %}
+                        {% endfor %}
+                        {% for pageContent in pageContainer.pageContents %}
+                            {% set content = pageContent %}
+                            {% include "/page/calophyllumArticle.html.twig" %} 
                         {% endfor %}
                     </div>
                 </section>

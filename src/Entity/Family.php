@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,12 +25,6 @@ class Family
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PageContent", inversedBy="families")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $pageContent;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="family")
      */
     private $products;
@@ -39,10 +34,33 @@ class Family
      */
     private $units;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\PageContainer", inversedBy="families")
+     */
+    private $pageContainers;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": 0})
+     */
+    private $hasUniquesPrices;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": 0})
+     */
+    private $hasSeasonalProducts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Family")
+     */
+    private $parent;
+
+
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->units = new ArrayCollection();
+        $this->pageContainers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,24 +80,28 @@ class Family
         return $this;
     }
 
-    public function getPageContent(): ?PageContent
-    {
-        return $this->pageContent;
-    }
-
-    public function setPageContent(?PageContent $pageContent): self
-    {
-        $this->pageContent = $pageContent;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Product[]
      */
-    public function getProducts(): Collection
+    public function getProducts(): ArrayCollection
     {
-        return $this->products;
+        $products = [];
+        foreach ($this->products as $product) {
+            if(false === $product->getIsGeneric()) {
+                $products[] = $product;
+            }
+        }
+        return new ArrayCollection($products);
+    }
+
+    public function getGenericProduct(): ?Product
+    {
+        foreach ($this->products as $product) {
+            if(true === $product->getIsGeneric()) {
+                return $product;
+            }
+        }
+        return null;
     }
 
     public function addProduct(Product $product): self
@@ -103,6 +125,48 @@ class Family
         }
 
         return $this;
+    }
+
+        /**
+     * @return ArrayCollection
+     */
+    public function getProductsOrderByMonth(): ArrayCollection
+    {
+        $productsIterator = self::getProducts()->getIterator();
+
+        $today = new DateTime();
+        $month = $today->format('m');
+
+        $productsIterator->uasort(function ($a, $b) use ($month) {
+            $orderA = ($a->getOrderBy() < $month) ? $a->getOrderBy() + 12 : $a->getOrderBy();
+            $orderB = ($b->getOrderBy() < $month) ? $b->getOrderBy() + 12 : $b->getOrderBy();
+            if($orderA == $orderB) {
+                return 0;
+            }
+            return ($orderA < $orderB) ? -1 : 1;
+        });
+
+        return new ArrayCollection(iterator_to_array($productsIterator));
+    }
+
+        /**
+     * @return ArrayCollection
+     */
+    public function getFirstOnesProducts($count = 3): ArrayCollection
+    {
+        $productsIterator = $this->products->getIterator();
+
+        $today = new DateTime();
+        $month = $today->format('m');
+        $firstOnesProducts = [];
+        foreach ($productsIterator as $product) {
+            $orderBy = ($product->getOrderBy() < $month) ? $product->getOrderBy() + 12 : $product->getOrderBy();
+            if ($orderBy < $month + $count && false === $product->getIsGeneric()) {
+                $firstOnesProducts[$orderBy] = $product;
+            }
+        }
+        sort($firstOnesProducts);
+        return new ArrayCollection($firstOnesProducts);
     }
 
     /**
@@ -129,6 +193,68 @@ class Family
             $this->units->removeElement($unit);
             $unit->removeFamily($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PageContainer[]
+     */
+    public function getPageContainers(): Collection
+    {
+        return $this->pageContainers;
+    }
+
+    public function addPageContainer(PageContainer $pageContainer): self
+    {
+        if (!$this->pageContainers->contains($pageContainer)) {
+            $this->pageContainers[] = $pageContainer;
+        }
+
+        return $this;
+    }
+
+    public function removePageContainer(PageContainer $pageContainer): self
+    {
+        if ($this->pageContainers->contains($pageContainer)) {
+            $this->pageContainers->removeElement($pageContainer);
+        }
+
+        return $this;
+    }
+
+    public function getHasUniquesPrices(): ?bool
+    {
+        return $this->hasUniquesPrices;
+    }
+
+    public function setHasUniquesPrices(bool $hasUniquesPrices): self
+    {
+        $this->hasUniquesPrices = $hasUniquesPrices;
+
+        return $this;
+    }
+
+    public function getHasSeasonalProducts(): ?bool
+    {
+        return $this->hasSeasonalProducts;
+    }
+
+    public function setHasSeasonalProducts(bool $hasSeasonalProducts): self
+    {
+        $this->hasSeasonalProducts = $hasSeasonalProducts;
+
+        return $this;
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
 
         return $this;
     }

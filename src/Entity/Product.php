@@ -19,11 +19,6 @@ class Product
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $label;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Price", mappedBy="product")
      */
     private $prices;
@@ -34,26 +29,40 @@ class Product
      */
     private $family;
 
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $content;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $orderBy;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Image", inversedBy="products")
+     */
+    private $images;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": 0})
+     */
+    private $isGeneric;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $title;
+
     public function __construct()
     {
         $this->prices = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLabel(): ?string
-    {
-        return $this->label;
-    }
-
-    public function setLabel(string $label): self
-    {
-        $this->label = $label;
-
-        return $this;
     }
 
     /**
@@ -95,6 +104,80 @@ class Product
     public function setFamily(?Family $family): self
     {
         $this->family = $family;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getOrderBy(): ?int
+    {
+        return $this->orderBy;
+    }
+
+    public function setOrderBy(?int $orderBy): self
+    {
+        $this->orderBy = $orderBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Image[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+        }
+
+        return $this;
+    }
+
+    public function getIsGeneric(): ?bool
+    {
+        return $this->isGeneric;
+    }
+
+    public function setIsGeneric(bool $isGeneric): self
+    {
+        $this->isGeneric = $isGeneric;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }

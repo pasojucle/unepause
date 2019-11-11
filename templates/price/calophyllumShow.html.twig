@@ -5,13 +5,31 @@
 {% block body %}
     <main class="page">
         {% for pageContainer in  page.pageContainers %}
-            {% for pageContent in pageContainer.pageContents %}
-            <h1 class="max-width">{{ pageContent.title|raw }}</h1>
-                <section class="">
-                    <main class="max-width text-left">
-                        {% for family in pageContent.families %}
-                        <h2>{{ family.name }}</h2>
-                        <table class="price-table">
+        <h1 class="max-width">{{ pageContainer.title|raw }}</h1>
+            <section class="">
+                <main class="max-width text-left">
+                    {% for family in pageContainer.families %}
+                    <h2>{{ family.name }}</h2>
+                    <table class="price-table">
+                        {% if family.hasUniquesPrices == true %}
+                            {% for unit in family.units %}
+                                {% set current_price = '' %}
+                                {% for price in family.genericProduct.prices %}
+                                    {% if unit == price.unit %}
+                                        {% if price.amount is not null %}
+                                            {% set current_price = price.amount|number_format(2, ',') ~ ' euros net' %}
+                                        {% else %}
+                                            {% set current_price = 'nous consulter' %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                <tbody>
+                                    <tr>
+                                        <td>{{ unit.label }}</td>
+                                        <td class="price">{{ current_price }}</td>
+                                    </tr>
+                            {% endfor %}
+                        {% else %}
                             <thead>
                                 <th></th>
                                 {% for unit in family.units %}
@@ -19,33 +37,33 @@
                                 {% endfor %}
                             </thead>
                             <tbody>
-                                {% for product in family.products %}
-                                <tr>
-                                    <td>{{ product.label }}</td>
-                                    {% for unit in family.units %}
-                                        {% set current_price = '' %}
-                                        {% for price in product.prices %}
-                                            {% if unit == price.unit %}
-                                                {% if price.amount is not null %}
-                                                    {% set current_price = price.amount|number_format(2, ',') ~ ' euros net' %}
-                                                {% else %}
-                                                    {% set current_price = 'nous consulter' %}
-                                                {% endif%}
+                            {% for product in family.products %}
+                            <tr>
+                                <td>{{ product.title }}</td>
+                                {% for unit in family.units %}
+                                    {% set current_price = '' %}
+                                    {% for price in product.prices %}
+                                        {% if unit == price.unit %}
+                                            {% if price.amount is not null %}
+                                                {% set current_price = price.amount|number_format(2, ',') ~ ' euros net' %}
+                                            {% else %}
+                                                {% set current_price = 'nous consulter' %}
                                             {% endif %}
-                                        {% endfor %}
-                                        <td class="price">{{ current_price }}</td>
+                                        {% endif %}
                                     {% endfor %}
-                                </tr>
+                                    <td class="price">{{ current_price }}</td>
                                 {% endfor %}
-                            </tbody>
-                        </table>
-                        {% endfor %}
-                    </main>
-                    <footer class="legal-notices">
-                        {{ pageContent.content| raw }}
-                    </footer>
-                </section>
-            {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        {% endif %}
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                </main>
+                <footer class="legal-notices">
+                    {{ pageContainer.footer| raw }}
+                </footer>
+            </section>
         {% endfor %}
     </main>
 {% endblock %}

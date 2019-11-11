@@ -34,11 +34,6 @@ class PageContent
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Family", mappedBy="pageContent")
-     */
-    private $families;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PageContainer", inversedBy="pageContents")
      */
     private $pageContainer;
@@ -56,7 +51,6 @@ class PageContent
     public function __construct()
     {
         $this->images = new ArrayCollection();
-        $this->families = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -111,37 +105,6 @@ class PageContent
         if ($this->images->contains($image)) {
             $this->images->removeElement($image);
             $image->removeArticle($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Family[]
-     */
-    public function getFamilies(): Collection
-    {
-        return $this->families;
-    }
-
-    public function addFamily(Family $family): self
-    {
-        if (!$this->families->contains($family)) {
-            $this->families[] = $family;
-            $family->setArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFamily(Family $family): self
-    {
-        if ($this->families->contains($family)) {
-            $this->families->removeElement($family);
-            // set the owning side to null (unless already changed)
-            if ($family->getArticle() === $this) {
-                $family->setArticle(null);
-            }
         }
 
         return $this;

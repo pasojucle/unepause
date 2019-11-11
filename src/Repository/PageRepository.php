@@ -29,6 +29,8 @@ class PageRepository extends ServiceEntityRepository
             ->join('p.action', 'a')
             ->join('p.pageContainers', 'pc')
             ->join('pc.pageContents', 'pct')
+            ->leftJoin('pc.families', 'f')
+            ->leftJoin('f.products', 'pr')
             ->join('p.template', 't')
             ->join('t.route', 'r')
             ;
