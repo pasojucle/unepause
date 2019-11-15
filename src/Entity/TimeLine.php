@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\DateTime\DateTimeFrench;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,9 +62,9 @@ class TimeLine
         return $this;
     }
 
-    public function getDay(): ?\DateTimeInterface
+    public function getDay(): ?DateTimeFrench
     {
-        return $this->day;
+        return new DateTimeFrench($this->day->format('Y-m-d H:i:s'));
     }
 
     public function setDay(\DateTimeInterface $day): self
@@ -71,5 +72,11 @@ class TimeLine
         $this->day = $day;
 
         return $this;
+    }
+
+    public function getDayEnd(): ?\DateTimeInterface
+    {
+        $interval = new \DateInterval('PT'.$this->unit->getDuration().'M');
+        return $this->day->add($interval);
     }
 }

@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Page;
 use App\Entity\Action;
 use App\Entity\Product;
+use App\Form\BookingType;
 use App\Form\ContactType;
 use App\Service\EmailMessageService;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleController extends AbstractController
@@ -30,10 +32,13 @@ class ArticleController extends AbstractController
     public function index(Product $product )
     {
 
-        $product = $this->manager->getRepository(Product::class)->find($product);
+        $product = $this->manager->getRepository(Product::class)->findByProduct($product);
+        $form = $this->createForm(BookingType::class, null);
+        
         dump($product);
-        return $this->render('booking/index.html.twig', [
-            'controller_name' => 'BookingController',
+        return $this->render('booking/edit.html.twig', [
+            'product' => $product,
+            'form'=>$form->createView()
         ]);
     }
 

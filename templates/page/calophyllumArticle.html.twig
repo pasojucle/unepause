@@ -12,8 +12,8 @@
             <h3 class="">{{ content.title }}</h3>
             <div class="text-overlay">
                 {{ content.content| raw }}
-                {% if content.timeLines|length > 0 %}
-                <a class='btn btn-primary' href="{{path('booking', {'id': content.id}) }}"><i class="far fa-calendar-alt"></i> Réserver</a>
+                {% if content.timeLines is defined and content.timeLines|length > 0 %}
+                <a class='btn btn-primary' href="{{path('booking', {'id': content.id}) }}"><i class="far fa-calendar-alt"></i> Je réserve</a>
             {% endif %}
             </div>
         </main>

@@ -29,14 +29,14 @@ class Unit
     private $families;
 
     /**
-     * @ORM\Column(type="time", nullable=true)
-     */
-    private $duration;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\TimeLine", mappedBy="unit")
      */
     private $timeLines;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $duration;
 
     public function __construct()
     {
@@ -87,18 +87,6 @@ class Unit
         return $this;
     }
 
-    public function getDuration(): ?\DateTimeInterface
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(?\DateTimeInterface $duration): self
-    {
-        $this->duration = $duration;
-
-        return $this;
-    }
-
     /**
      * @return Collection|TimeLine[]
      */
@@ -126,6 +114,18 @@ class Unit
                 $timeLine->setUnit(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?int $duration): self
+    {
+        $this->duration = $duration;
 
         return $this;
     }
