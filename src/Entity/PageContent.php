@@ -145,4 +145,13 @@ class PageContent
 
         return $this;
     }
+
+    public function isImageButton()
+    {
+        $doc = new \DOMDocument();
+        $doc->loadHTML($this->content);
+        $text = $doc->getElementsByTagName ("p");
+        $img = $doc->getElementsByTagName ("img");
+        return ($text->length === 0 && $img->length === 1 && $this->link !== null) ? true : false; 
+    }
 }

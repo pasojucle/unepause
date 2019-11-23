@@ -29,14 +29,14 @@ class Link
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PageContainer", inversedBy="links")
-     */
-    private $pageContainer;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\PageContent", mappedBy="link")
      */
     private $pageContents;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $url;
 
     public function __construct()
     {
@@ -72,18 +72,6 @@ class Link
         return $this;
     }
 
-    public function getPageContainer(): ?PageContainer
-    {
-        return $this->pageContainer;
-    }
-
-    public function setPageContainer(?PageContainer $pageContainer): self
-    {
-        $this->pageContainer = $pageContainer;
-
-        return $this;
-    }
-
     /**
      * @return Collection|PageContent[]
      */
@@ -111,6 +99,18 @@ class Link
                 $pageContent->setLink(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
 
         return $this;
     }

@@ -35,8 +35,17 @@
                             {% endfor %}
                         {% endfor %}
                         {% for pageContent in pageContainer.pageContents %}
-                            {% set content = pageContent %}
-                            {% include "/page/calophyllumArticle.html.twig" %} 
+                            {% if pageContent.isImageButton %}
+                                <a href="{{ pageContent.link.url }}" target="_blank">
+                                    <figure>
+                                        {{ pageContent.content|raw}}
+                                        <legend>{{ pageContent.title }}</legend>
+                                    </figure>
+                                </a>
+                            {% else %}
+                                {% set content = pageContent %}
+                                {% include "/page/calophyllumArticle.html.twig" %}
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </section>

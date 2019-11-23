@@ -1,20 +1,31 @@
-{% if content.images|length > 0 %}
-    {% set filename = content.images[0].filenameMd %}
-    {% set alt = content.images[0].title %}
-{% else %}
-    {% set filename = 'bois-gris.jpg' %}
-    {% set alt = '' %}
-{% endif %}
-<article class="">  
-    <img class="background-image" src="/images/calophyllum/{{ filename }}" alt="{{alt}}"> 
+<article class="">
+    {% if content.images|length > 0 %}
+        {% set filename = content.images[0].filenameMd %}
+        {% set alt = content.images[0].title %}
+        <img class="background-image" src="/images/calophyllum/{{ filename }}" alt="{{alt}}"> 
+    {% endif %}
     <div class="animate-background">                   
         <main class="overlay">
             <h3 class="">{{ content.title }}</h3>
             <div class="text-overlay">
-                {{ content.content| raw }}
-                {% if content.timeLines is defined and content.timeLines|length > 0 %}
-                <a class='btn btn-primary' href="{{path('booking', {'id': content.id}) }}"><i class="far fa-calendar-alt"></i> Je réserve</a>
-            {% endif %}
+                {{ content.content|raw }}
+                {% if content.isService is defined and content.isService == 1 %}
+                    {% if content.timeLines is defined and content.timeLines|length > 0 %}
+                        <div class="text-center time-line">
+                            {% if content.timeLines|length == 1 %}
+                                {% set timeLine = content.timeLines.first.day|localizeddate('long', 'none', null) %}
+                            {% else %}
+                                {% set timeLine = content.timeLines|length ~ ' dates possibles' %}
+                            {% endif %}
+                                <p>{{ timeLine }}</p>
+                            <a class='btn btn-primary' href="{{path('booking', {'id': content.id}) }}"><i class="far fa-calendar-alt"></i> Je réserve</a>
+                        </div>
+                    {% elseif content.family.hasSeasonalProducts == false %}
+                        <div class="text-center time-line">
+                            <a class='btn btn-primary' href="{{path('booking', {'id': content.id}) }}"><i class="far fa-calendar-alt"></i> Je prends rendez-vous</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
         </main>
     </div>

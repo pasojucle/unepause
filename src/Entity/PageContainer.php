@@ -48,11 +48,6 @@ class PageContainer
     private $orderBy;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Link", mappedBy="pageContainer")
-     */
-    private $links;
-
-    /**
      * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $title;
@@ -70,7 +65,6 @@ class PageContainer
     public function __construct()
     {
         $this->pageContents = new ArrayCollection();
-        $this->links = new ArrayCollection();
         $this->families = new ArrayCollection();
     }
 
@@ -154,37 +148,6 @@ class PageContainer
     public function setOrderBy(int $orderBy): self
     {
         $this->orderBy = $orderBy;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Link[]
-     */
-    public function getLinks(): Collection
-    {
-        return $this->links;
-    }
-
-    public function addLink(Link $link): self
-    {
-        if (!$this->links->contains($link)) {
-            $this->links[] = $link;
-            $link->setPageContainer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLink(Link $link): self
-    {
-        if ($this->links->contains($link)) {
-            $this->links->removeElement($link);
-            // set the owning side to null (unless already changed)
-            if ($link->getPageContainer() === $this) {
-                $link->setPageContainer(null);
-            }
-        }
 
         return $this;
     }

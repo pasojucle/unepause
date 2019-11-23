@@ -442,3 +442,15 @@ hr.max-width {
 iframe {
     margin-top: 30px;
 }
+.time-line {
+    margin: 10px auto;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+a legend {
+    color: var(--dark-grey);
+}
+.large-picto {
+    font-size: 60px;
+    margin-right: 20px;
+}

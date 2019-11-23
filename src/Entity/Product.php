@@ -59,6 +59,11 @@ class Product
      */
     private $timeLines;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isService;
+
     public function __construct()
     {
         $this->prices = new ArrayCollection();
@@ -215,6 +220,18 @@ class Product
                 $timeLine->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsService(): ?bool
+    {
+        return $this->isService;
+    }
+
+    public function setIsService(bool $isService): self
+    {
+        $this->isService = $isService;
 
         return $this;
     }
