@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Identification!{% endblock %}
+
+{% block body %}
+<main class="page">
+    <section class="max-width flex dark-background padding-40">
+        <div class="flex-item">
+            <h1>Me connnecter</h1>
+        </div>
+        <div class="flex-item">
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    </div>
+                {% endif %}
+                
+                <label for="inputEmail" class="sr-only">Email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Mon adresse mail " required autofocus>
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mon mot de passe" required>
+
+                <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                >
+                <div class="checkbox-inline text-left">
+                    <input type="checkbox" name="_remember_me">
+                    <label for="_remenber_me">Se souvenir de moi</label>
+                </div>
+                <div class="form-footer float-right">
+                    <button class="btn btn-secondary" type="submit">
+                        <i class="fas fa-check"></i> S'identifier
+                    </button>
+                    <a class="btn btn-danger" href="{{ path('app_register')}}">
+                        <i class="fas fa-plus"></i> Créer un compte
+                    </a>
+                </div>
+                <div class="clear-fix"></div>
+            </form>
+        </div>
+    </section>
+</main>
+{% endblock %}

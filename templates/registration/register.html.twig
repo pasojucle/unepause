@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <section class="max-width flex dark-background padding-40">
+        <div class="flex-item">
+            <h1>Crée mon compte</h1>
+        </div>
+        <div class="flex-item">
+            {{ form_start(registrationForm) }}
+                {{ form_widget(registrationForm.firstName) }}
+                {{ form_widget(registrationForm.lastName) }}
+                {{ form_widget(registrationForm.email) }}
+                {{ form_widget(registrationForm.plainPassword.first) }}
+                {{ form_widget(registrationForm.plainPassword.second) }}
+                {# {{ form_row(registrationForm.agreeTerms) }} #}
+                {{ form_widget(registrationForm.phone) }}
+                {{ form_errors(registrationForm.plainPassword.first) }}
+                <div class="form-footer float-right">
+                    <button class="btn btn-secondary"><i class="fas fa-check"></i> Valider</button>
+                </div>
+            {{ form_end(registrationForm) }}
+            {% if not registrationForm.vars.valid %}
+                <ul>
+                    {# Loop through every form item #}
+                    {% for child in registrationForm.children %}
+                        {# Display the errors of the form item #}
+                        {%for error in child.vars.errors%}
+                            <li class="alert alert-danger">{{error.message}}</li>
+                        {%endfor%}
+                    {%endfor%}
+                </ul>
+            {% endif %}
+        </div>
+    </section>
+{% endblock %}

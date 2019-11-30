@@ -44,7 +44,18 @@ class ArticleController extends AbstractController
 
 
     /**
-     * @Route("/{actionSlug}/{pageSlug}", name="show_page", defaults={"actionSlug": null, "pageSlug": null}, methods={"GET"})
+     * @Route(
+     * "/",
+     * name="home",
+     * defaults={"actionSlug": null, "pageSlug": null},
+     * methods={"GET"}
+     * )
+     * @Route(
+     * "page/{actionSlug}/{pageSlug}",
+     * name="show_page",
+     * defaults={"actionSlug": null, "pageSlug": null},
+     * methods={"GET"}
+     * )
      */
     public function showPage(Request $request, $actionSlug, $pageSlug)
     {
@@ -52,14 +63,8 @@ class ArticleController extends AbstractController
             $actionSlug = 'home';
         }
         $page = $this->manager->getRepository(Page::class)->findBySlug($actionSlug, $pageSlug);
-        /*$form = $this->createForm(ContactType::class, null, [
-            'action' => $this->generateUrl($request->attributes->get('_route')).'#contact',
-        ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->emailMessageService->sendMessage($form);
-        }*/
+        dump($page);
+        dump($request->attributes);
 
         return $this->render($page->getTemplate()->getFilename(), [
             'page' => $page,

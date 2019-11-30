@@ -5,7 +5,7 @@
     {% set class_item_active = ' item-active' %}
 {% endif %}
 {% for parameter in route_parameters %}
-    {% if parameter.name == 'actionSlug' %}
+    {% if parameter.name == 'actionSlug'%}
         {% set parameters = parameters|merge({'actionSlug':attribute(action, parameter.value)}) %}
     {% endif %}
     {% if parameter.name == 'pageSlug' and action.slug != page.slug %}

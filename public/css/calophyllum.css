@@ -30,9 +30,11 @@
 :root {
     --primary-color : #814792;
     --second-color : #68b737;
+    --second-lighter-color : #83bb60;
     /*--second-color : #6cabde;*/
     --dark-grey : #636466;
     --ligth-grey: #dcdcdc75;
+    --danger-color: #d55824;
 }
 
 body {
@@ -159,7 +161,7 @@ header {
     margin-top: 90px;
 }
 .max-width {
-    max-width: 920px;
+    width: 920px;
     margin: 40px auto;
     box-sizing: border-box;
 }
@@ -175,6 +177,9 @@ header {
 }
 .dark-background {
     background-color: var(--primary-color);
+}
+.padding-40 {
+    padding: 40px;
 }
 .grid-2-col {
     grid-template-columns: 1fr 1fr;
@@ -328,10 +333,10 @@ article {
 .flex-item {
     margin-bottom: 30px;
 }
-.flex-item a {
+.light-wrapper .flex-item a {
     color: var(--dark-grey);
 }
-.flex-item a:hover img {
+.light-wrapper .flex-item a:hover img {
     transform: scale(1.1);
 }
 .flex-item:not(:first-child) {
@@ -412,6 +417,7 @@ textarea {
     display: inline-block;
     color: #ffffff;
     margin-top: 20px;
+    cursor: pointer;
 }
 .btn-primary {
     background-color: var(--primary-color);
@@ -419,6 +425,9 @@ textarea {
 }
 .btn-secondary {
     background-color: var(--second-color);
+}
+.btn-danger {
+    background-color: var(--danger-color);
 }
 hr.max-width {
     margin: 10px auto;
@@ -453,4 +462,8 @@ a legend {
 .large-picto {
     font-size: 60px;
     margin-right: 20px;
+}
+.checkbox-inline * {
+    display: inline-block;
+    width: auto;
 }

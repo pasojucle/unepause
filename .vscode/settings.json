@@ -1,2 +1,6 @@
 {
+    "php-docblocker.returnGap": true,
+    "php-docblocker.qualifyClassNames": true,
+    "emmet.showSuggestionsAsSnippets": true,
+    "emmet.triggerExpansionOnTab": true
 }

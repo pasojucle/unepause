@@ -3,6 +3,8 @@
 {% set current_route = app.request.attributes.get('_route') %}
 {% set formContact = form_contact.form.createView() %}
 <footer class="footer dark-background">
+    {% set excludedRoutes = ['app_register', 'app_login'] %}
+    {% if current_route not in excludedRoutes %}
     <div class="max-width flex">
         <div class="flex-item">
             <h1>Me contacter</h1>
@@ -24,6 +26,7 @@
 
     </div>
     <hr class="max-width">
+    {% endif %}
     <ul>
         {% for action in actions %}
             {% set class_item = "footer-link" %}

@@ -1,0 +1,4 @@
+Invalid credentials.: Mot de passe invalide.
+error:
+  email:
+    not_be_found: Adresse mail introuvable !
