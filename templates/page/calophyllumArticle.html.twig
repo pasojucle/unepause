@@ -2,15 +2,17 @@
     {% if content.images|length > 0 %}
         {% set filename = content.images[0].filenameMd %}
         {% set alt = content.images[0].title %}
-        <img class="background-image" src="/images/calophyllum/{{ filename }}" alt="{{alt}}"> 
+        <img class="{{ classImg }}" src="/images/calophyllum/{{ filename }}" alt="{{alt}}"> 
     {% endif %}
     <div class="animate-background">                   
-        <main class="overlay">
-            <h3 class="">{{ content.title }}</h3>
-            <div class="text-overlay">
+        <main class="{{ classMain }}">
+            {% if content.title is not null and classImg != 'full-size' %}
+                <h3 class="">{{ content.title }}</h3>
+            {% endif %}
+            <div class="{{ classText }}">
                 {{ content.content|raw }}
                 {% if content.isService is defined and content.isService == 1 %}
-                    {% if content.timeLines is defined and content.timeLines|length > 0 %}
+                    {% if content.timeLines is defined and content.activeTimeLines|length > 0 %}
                         <div class="text-center time-line">
                             {% if content.timeLines|length == 1 %}
                                 {% set timeLine = content.timeLines.first.day|localizeddate('long', 'none', null) %}

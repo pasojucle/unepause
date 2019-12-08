@@ -4,7 +4,7 @@
 
 {% block body %}
 <main class="page">
-    <section class="max-width flex dark-background padding-40">
+    <section class="max-width flex light-background padding-40">
         <div class="flex-item">
             <h1>Me connnecter</h1>
         </div>
@@ -32,15 +32,16 @@
                     <input type="checkbox" name="_remember_me">
                     <label for="_remenber_me">Se souvenir de moi</label>
                 </div>
-                <div class="form-footer float-right">
-                    <button class="btn btn-secondary" type="submit">
+
+                <div class="form-footer">
+                    <div class="btn btn-hint float-left">
+                        <a href="{{ path('app_register')}}">Créer un compte</a>
+                    </div>
+                    <button class="btn btn-secondary float-right" type="submit">
                         <i class="fas fa-check"></i> S'identifier
                     </button>
-                    <a class="btn btn-danger" href="{{ path('app_register')}}">
-                        <i class="fas fa-plus"></i> Créer un compte
-                    </a>
+                    <div class="clear-fix"></div>
                 </div>
-                <div class="clear-fix"></div>
             </form>
         </div>
     </section>

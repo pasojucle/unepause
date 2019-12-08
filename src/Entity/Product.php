@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
@@ -199,6 +200,22 @@ class Product
     public function getTimeLines(): Collection
     {
         return $this->timeLines;
+    }
+
+    /**
+     * @return Collection|TimeLine[]
+     */
+    public function getActiveTimeLines(): Collection
+    {
+        $timeLines = [];
+        $timeLinesIterator = self::getTimeLines()->getIterator();
+        $today = new DateTime();
+        foreach ($timeLinesIterator as $timeLine) {
+            if($today < $timeLine->getDay()) {
+                $timeLines[] = $timeLine;
+            }
+        }
+        return new ArrayCollection($timeLines);
     }
 
     public function addTimeLine(TimeLine $timeLine): self

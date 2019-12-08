@@ -10,6 +10,8 @@ $(function() {
     $('a').on('click', animateScroll);
 
     $(document).on('submit', '#contact', sendConctactMessage);
+
+   $(':radio[name="booking[timeLine]"]').change(setBooingQuantity);
 });
 
 function setClassPicture() {
@@ -44,5 +46,20 @@ function sendConctactMessage(e){
     .done(function(flash) {
         $( ".flashes" ).append(flash);
         $("#contact").trigger('reset');
+    });
+}
+function setBooingQuantity() {
+    var $form = $(this).closest('form');
+    var data = {};
+    data[$(this).attr('name')] = $(this).filter(':checked').val();
+    $.ajax({
+        url : $form.attr('action'),
+        type: $form.attr('method'),
+        data : data,
+        success: function(html) {
+        $('#booking_quantity').replaceWith(
+            $(html).find('#booking_quantity')
+        );
+        }
     });
 }

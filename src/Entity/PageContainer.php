@@ -203,4 +203,24 @@ class PageContainer
 
         return $this;
     }
+
+    public function getItems()
+    {
+        $items = [];
+        $families = self::getFamilies();
+        foreach ($families as $family) {
+            if (self::getContainer()->getId() == Container::INTRODUCTION_LIST) {
+                $items = Array_merge($family->getFirstOnesProducts()->toArray(), $items);
+            } else {
+                $items = (true === $family->getHasSeasonalProducts())
+                ? Array_merge($family->getProductsOrderByMonth()->toArray(), $items) 
+                : Array_merge($family->getProducts()->toArray(), $items);
+            }
+        }
+        $pageContentsIterator = self::getPageContents()->getIterator();
+        $items = Array_merge($items, iterator_to_array($pageContentsIterator));
+
+        return new ArrayCollection($items);
+
+    }
 }

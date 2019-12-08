@@ -303,14 +303,15 @@ article {
     text-align: justify;
 }
 .wrapper-text {
+    padding: 15px;
     grid-column: 3 / 5;
     text-align: justify;
 }
 .wrapper-list {
+    padding: 15px;
     text-align: center;
 }
-.light-wrapper {
-    padding: 15px;
+.light-background {
     background-color: var(--ligth-grey);
     color: var(--dark-grey);
 }
@@ -324,6 +325,9 @@ article {
 .flex-center {
     justify-content: center;
 }
+.float-left {
+    float: left;
+}
 .float-right {
     float: right;
 }
@@ -333,10 +337,10 @@ article {
 .flex-item {
     margin-bottom: 30px;
 }
-.light-wrapper .flex-item a {
+.wrapper-list .flex-item a {
     color: var(--dark-grey);
 }
-.light-wrapper .flex-item a:hover img {
+.wrapper-list .flex-item a:hover img {
     transform: scale(1.1);
 }
 .flex-item:not(:first-child) {
@@ -425,6 +429,9 @@ textarea {
 }
 .btn-secondary {
     background-color: var(--second-color);
+}
+.btn-hint {
+    color: var(--primary-color);
 }
 .btn-danger {
     background-color: var(--danger-color);

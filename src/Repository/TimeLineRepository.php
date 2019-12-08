@@ -47,4 +47,18 @@ class TimeLineRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findAvailabitityQuantity($timeLine) {
+        $qb = $this->createQueryBuilder('t');
+        return $qb
+            ->leftJoin('t.bookings', 'b')
+            ->select($qb->expr()->diff('t.maxQuantity', 'SUM(b.quantity)').' AS availabilityQuantity')
+            ->andWhere(
+                $qb->expr()->eq('t.id', ':timeLine')
+            )
+            ->setParameter('timeLine', $timeLine->getId())
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
 }

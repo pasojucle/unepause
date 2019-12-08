@@ -5,10 +5,9 @@
 {% block body %}
     <main class="page">
         <h1 class="max-width">{{ page.name}}</h1>
-        {% set sheduleTitle, shedules, wrapperListTitle, wrapperListReference =  null, null, null, null %}
         {% for pageContainer in  page.pageContainers %}
             {% if pageContainer.container.id == constant('app\\entity\\Container::WRAPPER_TEXT') %}
-                <div class="wrapper-text light-wrapper">
+                <div class="wrapper-text light-background">
                     {% for pageContent in pageContainer.pageContents %}
                         <section class="max-width bigger-text">
                             {{ pageContent.content|raw }}
@@ -16,63 +15,41 @@
                     {% endfor %}
                 </div>
             {% endif %}
-            {% if pageContainer.container.id == constant('app\\entity\\Container::LIST') or pageContainer.container.id == constant('app\\entity\\Container::INTRODUCTION_LIST') %}
-            {% set listClass = pageContainer.class.name %}
+            {% if pageContainer.container.id == constant('app\\entity\\Container::LIST') 
+                or pageContainer.container.id == constant('app\\entity\\Container::INTRODUCTION_LIST') %}
+            {% set contents = pageContainer.items %}
+            {% if contents|length > 1 %}
+                {% set listClass, classImg, classMain, classText 
+                    = pageContainer.class.name, 'background-image', 'overlay', 'text-overlay' %}
+            {% else %}
+                {% set listClass, classImg, classMain, classText 
+                    = '', 'full-size', 'overlay width-33 position-right', 'text-justify bigger-text full-size' %}
+            {% endif %}
                 <section class="max-width">
-                    <h2>{{ pageContainer.title }}</h2>
+                    {% if pageContainer.title is not null %}
+                        <h2>{{ pageContainer.title }}</h2>
+                    {% endif %}
                     <div class="grid {{ listClass }}">
-                        {% for family in pageContainer.families %}
-                            {% set products = family.products %}
-                            {% if family.hasSeasonalProducts == true %}
-                                {% set products = family.productsOrderByMonth %}
-                                {% if pageContainer.container.id == constant('app\\entity\\Container::INTRODUCTION_LIST') %}
-                                    {% set products = family.firstOnesProducts %}
-                                {% endif %}
-                            {% endif %}
-                            {% for product in products %}
-                                {% set content = product %}
-                                {% include "/page/calophyllumArticle.html.twig" %} 
-                            {% endfor %}
-                        {% endfor %}
-                        {% for pageContent in pageContainer.pageContents %}
-                            {% if pageContent.isImageButton %}
-                                <a href="{{ pageContent.link.url }}" target="_blank">
+                        {% for content in contents %}
+                            {% if content is instanceof('app\\entity\\PageContent') and content.isImageButton %}
+                                <a href="{{ content.link.url }}" target="_blank">
                                     <figure>
-                                        {{ pageContent.content|raw}}
-                                        <legend>{{ pageContent.title }}</legend>
+                                        {{ content.content|raw}}
+                                        <legend>{{ content.title }}</legend>
                                     </figure>
                                 </a>
                             {% else %}
-                                {% set content = pageContent %}
                                 {% include "/page/calophyllumArticle.html.twig" %}
-                            {% endif %}
+                            {% endif %} 
                         {% endfor %}
                     </div>
                 </section>
             {% endif %}
             {% if pageContainer.container.id == constant('app\\entity\\Container::SCHEDULE') %}
-                {% set shedules %}
-                    {% for pageContent in pageContainer.pageContents %}
-                        {% if pageContent.images|length > 0 %}
-                            {% set filename = pageContent.images[0].filenameMd %}
-                            {% set alt = pageContent.images[0].title %}
-                        {% endif %}
-                        <article class="">  
-                            <img class="full-size" src="/images/calophyllum/{{ filename }}" alt="{{alt}}">                   
-                                <main class="overlay width-33 position-right">
-                                    <div class="text-justify bigger-text full-size">
-                                        {{ pageContent.content| raw }}
-                                    </div>
-                                </main>
-                        </article>
-                    {% endfor %}
-                {% endset %}
-                <section class="max-width">
-                    {{ shedules }}
-                </section>
+                
             {% endif %}
             {% if pageContainer.container.id == constant('app\\entity\\Container::WRAPPER_LIST') %}
-                <div class="wrapper-list light-wrapper">
+                <div class="wrapper-list light-background">
                     <section class="max-width">
                         <h2>{{ pageContainer.title }}</h2>
                         <div class="flex flex-center">
@@ -88,7 +65,7 @@
                 </div>
             {% endif %}
             {% if pageContainer.container.id == constant('app\\entity\\Container::WRAPPER_BUTTON') %}
-                <div class="wrapper-list light-wrapper">
+                <div class="wrapper-list light-background">
                     <section class="max-width">
                         <h2>{{ pageContainer.title }}</h2>
                         <div class="flex flex-center">

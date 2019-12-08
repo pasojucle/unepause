@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\DateTime\DateTimeFrench;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +34,21 @@ class TimeLine
      * @ORM\Column(type="datetime")
      */
     private $day;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Booking", mappedBy="timeLine")
+     */
+    private $bookings;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $maxQuantity;
+
+    public function __construct()
+    {
+        $this->bookings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -78,5 +95,48 @@ class TimeLine
     {
         $interval = new \DateInterval('PT'.$this->unit->getDuration().'M');
         return $this->day->add($interval);
+    }
+
+    /**
+     * @return Collection|Booking[]
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): self
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings[] = $booking;
+            $booking->setTimeLine($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): self
+    {
+        if ($this->bookings->contains($booking)) {
+            $this->bookings->removeElement($booking);
+            // set the owning side to null (unless already changed)
+            if ($booking->getTimeLine() === $this) {
+                $booking->setTimeLine(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getMaxQuantity(): ?int
+    {
+        return $this->maxQuantity;
+    }
+
+    public function setMaxQuantity(int $maxQuantity): self
+    {
+        $this->maxQuantity = $maxQuantity;
+
+        return $this;
     }
 }

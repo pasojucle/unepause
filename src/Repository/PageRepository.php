@@ -25,10 +25,12 @@ class PageRepository extends ServiceEntityRepository
 
     public function findBySlug($action, $page = null)
     {
+        dump($action);
+        dump($page);
         $qb = $this->createQueryBuilder('p')
             ->join('p.action', 'a')
             ->join('p.pageContainers', 'pc')
-            ->join('pc.pageContents', 'pct')
+            ->leftjoin('pc.pageContents', 'pct')
             ->leftJoin('pc.families', 'f')
             ->leftJoin('f.products', 'pr')
             ->join('p.template', 't')
@@ -47,16 +49,6 @@ class PageRepository extends ServiceEntityRepository
 
         return $qb->getQuery()
             ->getOneOrNullResult();
-
-        /*$page = [];
-        foreach($pageObject->getPageContents() as $pageContent) {
-            $containerId = $pageContent->getPageContainer()->getId();
-            $page[$containerId][]= $pageContent;
-        }
-        $page['template'] = $pageObject->getTemplate()->getFilename();
-        $page['action'] = $pageObject->getAction()->getName();
-
-        return $page;*/
     }
 
     /*

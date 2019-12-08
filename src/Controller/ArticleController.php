@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Page;
 use App\Entity\Action;
+use App\Entity\Booking;
 use App\Entity\Product;
+use App\Entity\TimeLine;
 use App\Form\BookingType;
 use App\Form\ContactType;
 use App\Service\EmailMessageService;
@@ -29,16 +31,31 @@ class ArticleController extends AbstractController
     /**
      * @Route("/booking/{id}", name="booking")
      */
-    public function index(Product $product )
+    public function booking(Product $product, Request $request)
     {
-
         $product = $this->manager->getRepository(Product::class)->findByProduct($product);
-        $form = $this->createForm(BookingType::class, null);
-        
-        dump($product);
+        $timeLine = $this->manager->getRepository(TimeLine::class)->findBy(['product' => $product]);
+
+        $booking = new Booking();
+        if (!empty($timeLine) && null === $booking->getTimeLine()) {
+            $booking->setTimeLine($timeLine[0]);
+        }
+        dump($booking);
+        $form = $this->createForm(BookingType::class, $booking,[
+            'timeLines' => $timeLine,
+        ]);
+dump($request);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $booking = $form->getData();
+            $booking->setProduct($product)
+                ->setUser($this->getUser());
+            $this->manager->persist($booking);
+            $this->manager->flush();
+        }
         return $this->render('booking/edit.html.twig', [
+            'form' => $form->createView(),
             'product' => $product,
-            'form'=>$form->createView()
         ]);
     }
 
