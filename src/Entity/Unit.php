@@ -34,6 +34,11 @@ class Unit
     private $timeLines;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Price", mappedBy="unit")
+     */
+    private $prices;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $duration;
@@ -42,6 +47,7 @@ class Unit
     {
         $this->families = new ArrayCollection();
         $this->timeLines = new ArrayCollection();
+        $this->prices = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +118,38 @@ class Unit
             // set the owning side to null (unless already changed)
             if ($timeLine->getUnit() === $this) {
                 $timeLine->setUnit(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return Collection|Price[]
+     */
+    public function getPrices(): Collection
+    {
+        return $this->prices;
+    }
+
+    public function addPrice(Price $price): self
+    {
+        if (!$this->prices->contains($price)) {
+            $this->prices[] = $price;
+            $price->setPrice($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrice(Price $price): self
+    {
+        if ($this->prices->contains($price)) {
+            $this->price->removeElement($price);
+            // set the owning side to null (unless already changed)
+            if ($price->getPrice() === $this) {
+                $price->setPrice(null);
             }
         }
 

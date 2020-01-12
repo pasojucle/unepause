@@ -44,6 +44,11 @@ class Booking
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $price;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +110,18 @@ class Booking
     public function setComments(?string $comments): self
     {
         $this->comments = $comments;
+
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

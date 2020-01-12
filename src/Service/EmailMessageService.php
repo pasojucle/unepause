@@ -5,9 +5,11 @@ namespace App\Service;
 use Swift_Mailer;
 use Swift_Message;
 //use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use App\Entity\Booking;
+use App\Entity\Product;
 use App\Service\ParameterService;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 
 
 
@@ -29,24 +31,73 @@ class EmailMessageService
 
     public function sendMessage($form)
     {
-            dump($form->getData());
-            dump($this->requestStack->getCurrentRequest());
-            $emailMessage = $form->getData();
-            $parameters = $this->requestStack->getCurrentRequest()->get('parameters');
-            $message = (new Swift_Message('Message envoyé depuis le site "une pause"'))
-            ->setFrom($emailMessage->getEmail())
-            ->setTo($parameter->getEmail())
-            ->setBody(
-                $this->templating->render(
-                    'contact/emailMessage.html.twig',
-                    ['email_message' => $emailMessage,]
-                ),
-                'text/html'
-            );
-            $send = $this->mailer->send($message);
+        $emailMessage = $form->getData();
+        $message = (new Swift_Message('Message envoyé depuis le site '.$this->parameter->getCompany()))
+        ->setFrom($emailMessage->getEmail())
+        ->setTo($this->parameter->getEmail())
+        ->setBody(
+            $this->templating->render(
+                'contact/emailMessage.html.twig',
+                ['email_message' => $emailMessage,]
+            ),
+            'text/html'
+        );
+        $send = $this->mailer->send($message);
         
     }
 
+    public function sendBookingConfirmation($booking)
+    {
+        $mails = [
+            ['recipient' => 'user', 'to' => $booking->getUser()->getEmail()],
+            ['recipient' => 'company', 'to' => $this->parameter->getEmail()]
+        ];
 
+        foreach($mails as $mail) {
+            $message = (new Swift_Message('Message envoyé depuis le site '.$this->parameter->getCompany()))
+                ->setFrom($this->parameter->getEmail())
+                ->setTo($mail['to'])
+                ->setBody(
+                    $this->templating->render(
+                        'email/booking.html.twig',
+                        [
+                            'booking' => $booking,
+                            'recipient' => $mail['recipient'],
+                        ]
+                    ),
+                    'text/html'
+                );
+            $send = $this->mailer->send($message);
+        }
+
+    }
+
+    public function sendConfirmation($data, $product = null)
+    {
+        dump($data);
+        $mails = [
+            ['recipient' => 'user', 'to' => $data->getEmail()],
+            ['recipient' => 'company', 'to' => $this->parameter->getEmail()]
+        ];
+
+        foreach($mails as $mail) {
+            $message = (new Swift_Message('Message envoyé depuis le site '.$this->parameter->getCompany()))
+                ->setFrom($this->parameter->getEmail())
+                ->setTo($mail['to'])
+                ->setBody(
+                    $this->templating->render(
+                        'email/contact.html.twig',
+                        [
+                            'data' => $data,
+                            'product' => $product,
+                            'recipient' => $mail['recipient'],
+                        ]
+                    ),
+                    'text/html'
+                );
+            $send = $this->mailer->send($message);
+        }
+        return $send;
+    }
 
 }

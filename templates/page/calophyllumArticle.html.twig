@@ -1,4 +1,4 @@
-<article class="">
+<article class="list-item">
     {% if content.images|length > 0 %}
         {% set filename = content.images[0].filenameMd %}
         {% set alt = content.images[0].title %}
@@ -11,20 +11,38 @@
             {% endif %}
             <div class="{{ classText }}">
                 {{ content.content|raw }}
-                {% if content.isService is defined and content.isService == 1 %}
-                    {% if content.timeLines is defined and content.activeTimeLines|length > 0 %}
-                        <div class="text-center time-line">
-                            {% if content.timeLines|length == 1 %}
-                                {% set timeLine = content.timeLines.first.day|localizeddate('long', 'none', null) %}
-                            {% else %}
-                                {% set timeLine = content.timeLines|length ~ ' dates possibles' %}
-                            {% endif %}
-                                <p>{{ timeLine }}</p>
-                            <a class='btn btn-primary' href="{{path('booking', {'id': content.id}) }}"><i class="far fa-calendar-alt"></i> Je réserve</a>
-                        </div>
-                    {% elseif content.family.hasSeasonalProducts == false %}
+                {% if content.type is defined %}
+                    {% if content.type is defined and content.type == constant('app\\Entity\\Product::SHEDULE_SERVICE') %}
+                        {% if content.timeLines is defined and content.activeTimeLines|length > 0 %}
+                            <div class="text-center time-line">
+                                {% set timeLines = product_service.getAvailabilitiesQuantities(content) %}
+                                {% set btn %}
+                                    <a class='btn btn-primary' href="{{ path('booking', {'id': content.id}) }}"><i class="far fa-calendar-alt"></i> Je réserve</a>
+                                {% endset %}
+                                {% dump(timeLines) %}
+                                {% if timeLines|length == 0 %}
+                                    {% set timeLine = '' %}
+                                    {% set btn %}
+                                        <a class='btn btn-disabled'><i class="fas fa-times-circle"></i> Complet</a>
+                                    {% endset %}
+                                {% elseif timeLines|length == 1 %}
+                                    {% set timeLine = timeLines[0].day|localizeddate('long', 'none', null)|capitalize %}
+                                {% else %}
+                                    {% set timeLine = timeLines|length ~ ' dates possibles' %}
+                                {% endif %}
+                                    <p>{{ timeLine }}</p>
+                                    {{ btn }}
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    {% if content.type is defined and content.type == constant('app\\Entity\\Product::APPOINTMENT_SERVICE') %}
                         <div class="text-center time-line">
                             <a class='btn btn-primary' href="{{path('booking', {'id': content.id}) }}"><i class="far fa-calendar-alt"></i> Je prends rendez-vous</a>
+                        </div>
+                    {% endif %}
+                    {% if content.type is defined and content.type == constant('app\\Entity\\Product::BESPOKE_SERVICE') %}
+                        <div class="text-center time-line">
+                            <a class='btn btn-primary' href="{{path('informations', {'product': content.id}) }}"><i class="fas fa-envelope"></i> En savoir plus</a>
                         </div>
                     {% endif %}
                 {% endif %}

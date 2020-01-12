@@ -1,0 +1,32 @@
+{% extends 'email/base.html.twig' %}
+{% block body %}
+<div>
+    {% if recipient == 'user' %}
+    <p>Nous avons bien reçu votre demande, et vous en remercions.</p>
+    {% else %}
+        <h2>Client : </h2>
+        <p>{{ data.lastName }} {{ data.Firstname }}</p>
+        <p>{{ data.email }}</p>        
+    {% endif %}
+</div>
+<h1>Demande d'informations</h1>
+    {% if null != product %}
+    <div class="light-background">
+        <h2>{{ product.family.name }}</h2>
+        <div class="grid grid-2-col">
+            <div>
+                <h3>{{ product.title }}</h3>
+                <p>{{ product.content|raw }}</p>
+            </div>
+            <div>
+                <h3>Message : /h3>
+                <p>{{ data.content }}</p>
+            </div>
+        </div>
+    </div>
+    {% else %}
+        <div class="light-background">
+            <p>{{ data.content }}</p>
+        </div>
+    {% endif %}
+{% endblock %}

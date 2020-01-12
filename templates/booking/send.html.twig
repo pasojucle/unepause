@@ -16,14 +16,12 @@
             <h2>{{ product.family.name }}</h2>
             <h3>{{ product.title }}</h3>
             <p>{{ product.content|raw }}</p>
-            {% set timeLines = product_service.getAvailabilitiesQuantities(product) %}
-
-            {% if timeLines|length == 1 %}
-                <div>{{ timeLines.first.day|localizeddate('full', 'none', null)|capitalize }}</div>
+            {% if product.timeLines|length == 1 %}
+                <div>{{ product.timeLines[0].day|localizeddate('full', 'none', null)|capitalize }}</div>
             {% endif %}
             {% if form.timeLine is defined %}
                 <div class="time-line">
-                    {{ timeLines|length ~ ' dates possibles' }}. {{ form_label(form.timeLine) }}
+                    {{ product.timeLines|length ~ ' dates possibles' }}. {{ form_label(form.timeLine) }}
                     {{ form_widget(form.timeLine) }}
                 </div>
             {% endif %}

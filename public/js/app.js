@@ -11,7 +11,8 @@ $(function() {
 
     $(document).on('submit', '#contact', sendConctactMessage);
 
-   $(':radio[name="booking[timeLine]"]').change(setBooingQuantity);
+    $(document).on('change','#booking_timeLine, #booking_quantity', setBookingQuantity);
+   //$(':radio[name="booking[timeLine]"]').change(setBookingQuantity);
 });
 
 function setClassPicture() {
@@ -48,18 +49,15 @@ function sendConctactMessage(e){
         $("#contact").trigger('reset');
     });
 }
-function setBooingQuantity() {
-    var $form = $(this).closest('form');
-    var data = {};
-    data[$(this).attr('name')] = $(this).filter(':checked').val();
+function setBookingQuantity() {
+    var form = $(this).closest('form');
+    var route = Routing.generate("booking",{'id': form.data('id')});
     $.ajax({
-        url : $form.attr('action'),
-        type: $form.attr('method'),
-        data : data,
+        url : route,
+        type: form.attr('method'),
+        data : form.serialize(),
         success: function(html) {
-        $('#booking_quantity').replaceWith(
-            $(html).find('#booking_quantity')
-        );
+            form.replaceWith($(html).find('form'));
         }
     });
 }

@@ -4,43 +4,50 @@
 
 {% block body %}
     <section class="grid grid-home">
-        {% if article.images[0] is defined %}
-            <figure class="slide-column first-column">
-                <picture class="slide-element slide-to-right">
-                    <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
-                    <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
-                    <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
-                </picture>
-            </figure>
-        {% endif %}
-        <h1>{{ article.title|raw }}</h1>
-        <main>
-            {% if send == 0 %}
-                {{ form_start(form) }}
-                {{ form_row(form.firstname,{'attr' :{'class':'form-group'}})}}
-                {{ form_row(form.lastname)}}
-                {{ form_row(form.email)}}
-                {{ form_row(form.content)}}
-                <div class="form-footer">
-                    <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-check"></i>
-                    Envoyer le message</button>
+
+        {% for pageContainer in page.pageContainers %}
+            {% for content in pageContainer.items %}
+
+
+                {% if content.images[0] is defined %}
+                    <figure class="slide-column first-column">
+                        <picture class="slide-element slide-to-right">
+                            <source media="(min-width: 768px)" srcset="/images/{{ content.images[0].filenameMd }}">
+                            <source media="(min-width: 360px)" srcset="/images/{{ content.images[0].filenameXs }}">
+                            <img src="/images/{{ content.images[0].filenameMd }}" alt="{{content.images[0].title}}">
+                        </picture>
+                    </figure>
+                {% endif %}
+                <h1>{{ content.title|raw }}</h1>
+                <main>
+                    {% if send == 0 %}
+                        {{ form_start(form) }}
+                        {{ form_row(form.firstname,{'attr' :{'class':'form-group'}})}}
+                        {{ form_row(form.lastname)}}
+                        {{ form_row(form.email)}}
+                        {{ form_row(form.content)}}
+                        <div class="form-footer">
+                            <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-check"></i>
+                            Envoyer le message</button>
+                        </div>
+                        {{ form_end(form) }}
+                    {% else %}
+                        {{ content.content|raw }}
+                    {% endif %}
+                </main>
+                <div class="slide-column last-column">
+                    <div class="slide-element slide-to-left dark-background">
+                        {% set parameters = app.request.request.get('parameters') %}
+                        <h2>{{ parameters.company }}</h2>
+                        <p>{{ parameters.adress }}<br>{{ parameters.postal_code }} {{ parameters.town }}</p>
+                        <p>{{ parameters.phone_number }}</p>
+                        <p>{{ parameters.email }}</p>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d84384.49086623835!2d6.0995526085660945!3d48.62868851489357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4794a10bc5ed3bc9%3A0xe54c064a005dfd0a!2sUne%20Pause!5e0!3m2!1sfr!2sfr!4v1569083307154!5m2!1sfr!2sfr" width="100%" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+                    </div>
                 </div>
-                {{ form_end(form) }}
-            {% else %}
-                {{ article.content|raw }}
-            {% endif %}
-        </main>
-        <div class="slide-column last-column">
-            <div class="slide-element slide-to-left dark-background">
-                {% set parameters = app.request.request.get('parameters') %}
-                <h2>{{ parameters.company }}</h2>
-                <p>{{ parameters.adress }}<br>{{ parameters.postal_code }} {{ parameters.town }}</p>
-                <p>{{ parameters.phone_number }}</p>
-                <p>{{ parameters.email }}</p>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d84384.49086623835!2d6.0995526085660945!3d48.62868851489357!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4794a10bc5ed3bc9%3A0xe54c064a005dfd0a!2sUne%20Pause!5e0!3m2!1sfr!2sfr!4v1569083307154!5m2!1sfr!2sfr" width="100%" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-            </div>
-        </div>
+            {% endfor %}
+        {% endfor %}
     </section>
 
 {% endblock %}

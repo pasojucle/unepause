@@ -27,6 +27,8 @@
 			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
               crossorigin="anonymous"></script>
         <script src="/js/app.js"></script>
+        <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

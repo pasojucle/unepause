@@ -1,0 +1,41 @@
+{% extends 'email/base.html.twig' %}
+{% block body %}
+<div>
+    {% if recipient == 'user' %}
+    <p>Nous avons bien reçu votre demande, et vous en remercions.</p>
+    {% else %}
+        <h2>Client : </h2>
+        <p>{{ booking.user.lastName }} {{ booking.user.Firstname }}</p>
+        <p>{{ booking.user.email }}<br>{{ booking.user.phone }}</p>
+    {% endif %}
+</div>
+<h1>Réservation</h1>
+    <div class="light-background">
+        <h2>{{ booking.product.family.name }}</h2>
+        <div class="grid grid-2-col">
+            <div>
+                <h3>{{ booking.product.title }}</h3>
+                <p>{{ booking.product.content|raw }}</p>
+            </div>
+            <div>
+                {% if booking.timeLine is not null %}
+                    <p>{{ booking.timeLine.day|localizeddate('full', 'none', null)|capitalize }}</p>
+                {% endif %}
+                {% if booking.quantity is not null %}
+                    <p>{{ booking.quantity }} personne(s)</p>
+                {% endif %}
+                {% if booking.price is not null %}
+                    <p>{{ booking.price|localizedcurrency('EUR') }}</p>
+                {% endif %}
+                <p>{{ booking.comments }}</p>
+            </div>
+        </div>
+    </div>
+         
+    {% if recipient == 'user' %}
+        <div>
+            <p>Pour tout empèchement, merci de prévenir 48 h à l'avance</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

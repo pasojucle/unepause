@@ -45,6 +45,8 @@ class TimeLine
      */
     private $maxQuantity;
 
+    private $availabilityQuantity;
+
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
@@ -136,6 +138,18 @@ class TimeLine
     public function setMaxQuantity(int $maxQuantity): self
     {
         $this->maxQuantity = $maxQuantity;
+
+        return $this;
+    }
+
+    public function getAvailabilityQuantity(): ?int
+    {
+        return $this->availabilityQuantity;
+    }
+
+    public function setAvailabilityQuantity(int $availabilityQuantity): self
+    {
+        $this->availabilityQuantity = $availabilityQuantity;
 
         return $this;
     }

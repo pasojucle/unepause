@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\ContactType;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BookingController extends AbstractController
 {
@@ -21,4 +22,5 @@ class BookingController extends AbstractController
             'controller_name' => 'BookingController',
         ]);
     }
-}
+
+  }

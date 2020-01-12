@@ -1,9 +1,9 @@
 {% set container = "footer" %}
-{% set actions = app.request.request.get('footer_actions') %}
+{% set actions = var_actions.footerActions %}
 {% set current_route = app.request.attributes.get('_route') %}
 {% set formContact = form_contact.form.createView() %}
 <footer class="footer dark-background">
-    {% set excludedRoutes = ['app_register', 'app_login', 'booking'] %}
+    {% set excludedRoutes = ['app_register', 'app_login', 'booking', 'informations'] %}
     {% if current_route not in excludedRoutes %}
     <div class="max-width flex">
         <div class="flex-item">

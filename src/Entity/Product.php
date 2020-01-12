@@ -12,6 +12,12 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Product
 {
+    const HARDWARE = 1;
+    const SHEDULE_SERVICE = 2;
+    const APPOINTMENT_SERVICE = 3;
+    const BESPOKE_SERVICE = 4;
+
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -61,9 +67,9 @@ class Product
     private $timeLines;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer", options={"default": 1})
      */
-    private $isService;
+    private $type = 1;
 
     public function __construct()
     {
@@ -241,14 +247,14 @@ class Product
         return $this;
     }
 
-    public function getIsService(): ?bool
+    public function getType(): int
     {
-        return $this->isService;
+        return $this->type;
     }
 
-    public function setIsService(bool $isService): self
+    public function setType(int $typec): self
     {
-        $this->isService = $isService;
+        $this->type = $type;
 
         return $this;
     }

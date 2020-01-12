@@ -17,6 +17,7 @@ class ActionService
         $containers = $this->manager->getRepository(Container::class)->findAllContainers()
         ->getQuery()
         ->getResult();
+        
         $this->actions = [];
         foreach($containers as $container) {
             $this->actions[$container->getTagName()] = $container->getActions()->toArray();

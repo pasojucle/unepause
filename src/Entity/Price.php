@@ -23,7 +23,7 @@ class Price
     private $product;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Unit")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Unit", inversedBy="prices")
      * @ORM\JoinColumn(nullable=false)
      */
     private $unit;

@@ -25,11 +25,9 @@ class PageRepository extends ServiceEntityRepository
 
     public function findBySlug($action, $page = null)
     {
-        dump($action);
-        dump($page);
         $qb = $this->createQueryBuilder('p')
             ->join('p.action', 'a')
-            ->join('p.pageContainers', 'pc')
+            ->leftjoin('p.pageContainers', 'pc')
             ->leftjoin('pc.pageContents', 'pct')
             ->leftJoin('pc.families', 'f')
             ->leftJoin('f.products', 'pr')

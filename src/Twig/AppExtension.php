@@ -4,6 +4,7 @@ namespace App\Twig;
 use Twig\TwigTest;
 use Twig\TwigFilter;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 class AppExtension extends AbstractExtension
 {
@@ -30,5 +31,17 @@ class AppExtension extends AbstractExtension
     public function instanceof($var, $instance)
     {
         return $var instanceof $instance;
+    }
+
+    public function getFunctions()
+    {
+        return [
+            new TwigFunction('encodeImg', [$this, 'encodeImg']),
+        ];
+    }
+
+    public function encodeImg(string $filename)
+    {
+        return base64_encode(file_get_contents($filename));
     }
 }

@@ -180,6 +180,7 @@ header {
 }
 .padding-40 {
     padding: 40px;
+    box-sizing: border-box;
 }
 .grid-2-col {
     grid-template-columns: 1fr 1fr;
@@ -227,14 +228,14 @@ h2:empty {
 .dark-background h1 {
     color: #ffffff;
 }
-h3 {
+.list-item h3 {
     font-family: futura_medium_italic, sans-serif;
     margin: 10px 20px;
     color: var(--primary-color);
     text-align: center;
     font-size: 1.2em;
 }
-h3::after {
+.list-item h3::after {
     content: '';
     height: 1px;
     background-color: var(--primary-color);
@@ -322,6 +323,10 @@ article {
 .flex {
     display: flex;
 }
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
 .flex-center {
     justify-content: center;
 }
@@ -331,7 +336,8 @@ article {
 .float-right {
     float: right;
 }
-.clear-fix {
+.float-left::after, .float-right::after {
+    content: '';
     clear: both;
 }
 .flex-item {
@@ -425,10 +431,15 @@ textarea {
 }
 .btn-primary {
     background-color: var(--primary-color);
-
 }
 .btn-secondary {
     background-color: var(--second-color);
+}
+.btn-disabled {
+    background-color: #81479282;
+}
+.btn-disabled:hover {
+    cursor: not-allowed;
 }
 .btn-hint {
     color: var(--primary-color);
@@ -470,7 +481,13 @@ a legend {
     font-size: 60px;
     margin-right: 20px;
 }
-.checkbox-inline * {
+.inline * {
     display: inline-block;
     width: auto;
+}
+.form-group:not(:last-child) {
+    margin-bottom: 15px;
+}
+.price {
+    font-size: 30px;
 }

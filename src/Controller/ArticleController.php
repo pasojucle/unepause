@@ -9,7 +9,11 @@ use App\Entity\Product;
 use App\Entity\TimeLine;
 use App\Form\BookingType;
 use App\Form\ContactType;
+use App\Form\AppointmentType;
+use App\Service\ProductService;
+use App\Repository\PriceRepository;
 use App\Service\EmailMessageService;
+use App\Repository\TimeLineRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,35 +33,91 @@ class ArticleController extends AbstractController
 
 
     /**
-     * @Route("/booking/{id}", name="booking")
+     * @Route(
+     * "/booking/{id}",
+     *  name="booking",
+     * options={"expose"=true}
+     * )
      */
-    public function booking(Product $product, Request $request)
+    public function booking(
+        Request $request,
+        PriceRepository $priceRepo,
+        EmailMessageService $emailService,
+        TimeLineRepository $timeLineRepo,
+        ProductService $productService,
+        Product $product)
     {
         $product = $this->manager->getRepository(Product::class)->findByProduct($product);
-        $timeLine = $this->manager->getRepository(TimeLine::class)->findBy(['product' => $product]);
+        $timeLines = $productService->getAvailabilitiesQuantities($product);
+
+        $price = null;
 
         $booking = new Booking();
-        if (!empty($timeLine) && null === $booking->getTimeLine()) {
-            $booking->setTimeLine($timeLine[0]);
+        $booking->setProduct($product);
+        if (!empty($timeLines) && null === $booking->getTimeLine()) {
+            $booking->setTimeLine($timeLines[0]);
         }
-        dump($booking);
+        $price = $priceRepo->findByBooking($booking);
+        $booking->setPrice($price);
         $form = $this->createForm(BookingType::class, $booking,[
-            'timeLines' => $timeLine,
+            'timeLines' => $timeLines,
         ]);
-dump($request);
+
         $form->handleRequest($request);
+
+        if ($request->isXmlHttpRequest()) {
+            $booking = $form->getData();
+            $price = $priceRepo->findByBooking($booking);
+            $booking->setPrice($price);
+
+            $form = $this->createForm(BookingType::class, $booking,[
+                'timeLines' => $timeLines,
+            ]);
+
+            return $this->render('booking/edit.html.twig', [
+                'form' => $form->createView(),
+                'product' => $product,
+                'price' => $price,
+            ]);
+        }
+
         if($form->isSubmitted() && $form->isValid()) {
             $booking = $form->getData();
-            $booking->setProduct($product)
-                ->setUser($this->getUser());
+            $booking->setUser($this->getUser());
             $this->manager->persist($booking);
             $this->manager->flush();
+
+            $emailService->sendBookingConfirmation($booking);
+
+            //return $this->redirectToRoute('app_lucky_number', ['max' => 10]);
         }
         return $this->render('booking/edit.html.twig', [
             'form' => $form->createView(),
             'product' => $product,
+            'price' => $price,
         ]);
-    }
+    }    /**
+    * @Route(
+    * "/appointment/{id}",
+    *  name="appointment",
+    * options={"expose"=true}
+    * )
+    */
+   public function appointment(Request $request, Product $product)
+   {
+       $product = $this->manager->getRepository(Product::class)->findByProduct($product);
+
+       $form = $this->createForm(ContactType::class);
+
+       $form->handleRequest($request);
+       if($form->isSubmitted() && $form->isValid()) {
+
+       }
+       return $this->render('appointment/edit.html.twig', [
+           'form' => $form->createView(),
+           'product' => $product,
+       ]);
+   }
 
 
     /**
@@ -80,9 +140,8 @@ dump($request);
             $actionSlug = 'home';
         }
         $page = $this->manager->getRepository(Page::class)->findBySlug($actionSlug, $pageSlug);
-        dump($page);
-        dump($request->attributes);
 
+        dump($page);
         return $this->render($page->getTemplate()->getFilename(), [
             'page' => $page,
             'action_slug' => $actionSlug,

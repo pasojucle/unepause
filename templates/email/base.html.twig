@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            body {
+                font-family: yu gothic ui m, sans-serif;
+                color: #333333;
+            }
+            .light-background {
+                background-color: #dcdcdc75;
+                padding: 40px;
+                box-sizing: border-box;
+            }
+            footer {
+                font-size: x-small;
+            }
+            h1 {
+                color: #814792;
+            }
+            .grid {
+                display: grid;
+                width: 100%;
+            }
+            .grid-2-col {
+                grid-template-columns: 1fr 1fr;
+                gap: 50px;
+                    column-gap: 50px;
+                grid-column-gap: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        {% set logo = encodeImg('./images/calophyllum/logo-email.jpg') %}
+        <img alt="Embedded Image" src="data:image/jpg;base64,{{ logo }}" />
+        {% block body %}{% endblock %}
+    </body>
+    <footer>
+        <hr>
+        {% set parameters = var_parameters.parameters %}
+        <h2>{{parameters.company}}</h2>
+        <p>{{parameters.adress}}<br>{{parameters.postal_code}} {{parameters.town}}</p>
+        <p>{{parameters.email}}</p>
+    </footer>
+</html>

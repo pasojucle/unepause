@@ -7,3 +7,4 @@ twig:
         form_contact: '@App\Service\FormContactService'
         var_actions: '@App\Service\ActionService'
         var_parameters: '@App\Service\ParameterService' 
+        product_service: '@App\Service\ProductService' 
