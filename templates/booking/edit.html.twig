@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
+{% set parameters = var_parameters.parameters %}
+
 {% if product.type == constant('app\\Entity\\Product::SHEDULE_SERVICE') %}
     {% set title = 'Réservation' %}
 {% else %}
     {% set title = 'Prise de rendez-vous' %}
 {% endif %}
-{% block title %}{{ title }}{% endblock %}
+{% block title %}{{parameters.company}} - {{ title }}{% endblock %}
 
 {% block body %}
 

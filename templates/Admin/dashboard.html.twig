@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% set parameters = var_parameters.parameters %}
+{% block title %}{{parameter.company}} - Admin{% endblock %}
+
+{% block body %}
+
+<div class="max-width">
+    <h1>Tableau de bord</h1>
+    <div class="flex">
+    <div class="badge flex-item">
+        <div class="badge-title">
+            <h2>Mes réservations</h2>
+        </div>
+        <div class="badge-body">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbobdy>
+                {% for booking in bookings %}
+                    <tr>
+                        {% if null != booking.timeLine %}
+                            <td>{{ booking.timeLine.day|date('d/m/Y') }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        <td>{{ booking.product.family.name }} {{ booking.product.title }}</td>
+                        <td class="quantity">{{ booking.quantity }}</td>
+                        <td class="price">{{ booking.price|localizedcurrency('EUR') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbobdy>
+        </table>
+        </div>
+    </div>
+    <div class="badge flex-item">
+        <div class="badge-title">
+            <h2>Mes coordonnées</h2>
+        </div>
+        <div class="badge-body">
+            <p>
+                <span class="label">Prénom : </span><span>{{ user.firstname }}</span>
+            </p>
+            <p>
+                <span class="label">Nom : </span><span>{{ user.lastname }}</span>
+            </p>
+            <p>
+                <span class="label">Adresse mail :</span><span>{{ user.email }}</span>
+            </p>
+        </div>
+    </div>
+    
+</div>
+{% endblock %}
