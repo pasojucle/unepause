@@ -179,7 +179,7 @@ header {
     background-color: var(--primary-color);
 }
 .padding-40 {
-    padding: 40px;
+    padding: 40px 40px 0 40px;
     box-sizing: border-box;
 }
 .grid-2-col {
@@ -397,6 +397,10 @@ article {
     min-width: 30px;
     text-align: right;
 }
+.quantity {
+    min-width: 30px;
+    text-align: center;
+}
 .price-table tr {
     border-bottom: 1px solid var(--ligth-grey);
     line-height: 25px;
@@ -488,6 +492,30 @@ a legend {
 .form-group:not(:last-child) {
     margin-bottom: 15px;
 }
-.price {
+.form-group .price {
     font-size: 30px;
+}
+.badge {
+    border: 1px solid var(--dark-grey);
+}
+.badge-body {
+    text-align: left;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.badge-title {
+    background-color: var(--primary-color);
+    display: block;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.badge-title h2 {
+    color: white;
+    margin-bottom: initial;
+}
+thead {
+    text-align: center;
+}
+td, th {
+    padding: 5px;
 }

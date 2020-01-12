@@ -69,12 +69,11 @@ class EmailMessageService
                 );
             $send = $this->mailer->send($message);
         }
-
+        return $send;
     }
 
     public function sendConfirmation($data, $product = null)
     {
-        dump($data);
         $mails = [
             ['recipient' => 'user', 'to' => $data->getEmail()],
             ['recipient' => 'company', 'to' => $this->parameter->getEmail()]

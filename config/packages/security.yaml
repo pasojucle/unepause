@@ -41,3 +41,4 @@ security:
         - { path: ^/loging$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/booking, roles: ROLE_USER }
+        - { path: ^/user/account, roles: ROLE_USER }

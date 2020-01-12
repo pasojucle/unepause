@@ -87,16 +87,21 @@ class ArticleController extends AbstractController
             $this->manager->persist($booking);
             $this->manager->flush();
 
-            $emailService->sendBookingConfirmation($booking);
+            $send = $emailService->sendBookingConfirmation($booking);
 
-            //return $this->redirectToRoute('app_lucky_number', ['max' => 10]);
+            return $this->redirectToRoute('user_account', [
+                'user' => $this->getUser()->getId(),
+                'send' => $send,
+            ]);
         }
         return $this->render('booking/edit.html.twig', [
             'form' => $form->createView(),
             'product' => $product,
             'price' => $price,
         ]);
-    }    /**
+    }
+    
+    /**
     * @Route(
     * "/appointment/{id}",
     *  name="appointment",
@@ -141,12 +146,10 @@ class ArticleController extends AbstractController
         }
         $page = $this->manager->getRepository(Page::class)->findBySlug($actionSlug, $pageSlug);
 
-        dump($page);
         return $this->render($page->getTemplate()->getFilename(), [
             'page' => $page,
             'action_slug' => $actionSlug,
             'page_slug' => $pageSlug,
-            //'form'=>$form->createView(),
         ]);
     }
 
