@@ -343,7 +343,7 @@ article {
 .flex-item {
     margin-bottom: 30px;
 }
-.wrapper-list .flex-item a {
+.wrapper-list .flex-item a, td a {
     color: var(--dark-grey);
 }
 .wrapper-list .flex-item a:hover img {
@@ -387,7 +387,7 @@ article {
 .grid > footer {
     grid-area: footer;
 }
-.price-table {
+table {
     width: 100%;
     border-collapse: collapse;
     font-size: .9em;
@@ -401,7 +401,7 @@ article {
     min-width: 30px;
     text-align: center;
 }
-.price-table tr {
+table tr {
     border-bottom: 1px solid var(--ligth-grey);
     line-height: 25px;
 }
@@ -451,6 +451,12 @@ textarea {
 .btn-danger {
     background-color: var(--danger-color);
 }
+.btn a {
+    color: white;
+}
+.btn:not(:first-child) {
+    margin-left: 10px;
+}
 hr.max-width {
     margin: 10px auto;
     color: inherit;
@@ -489,6 +495,14 @@ a legend {
     display: inline-block;
     width: auto;
 }
+.admin .form-group {
+    display: flex;
+    width: 100%;
+}
+.admin .form-label {
+    width: 30%;
+}
+
 .form-group:not(:last-child) {
     margin-bottom: 15px;
 }

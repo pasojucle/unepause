@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% set parameters = var_parameters.parameters %}
+{% block title %}{{parameters.company}} - Admin{% endblock %}
+
+{% block body %}
+
+<div class="max-width">
+    <h1>>Réservations</h1>
+    <div class="price-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix</th>
+                </tr>
+            </thead>
+            <tbobdy>
+                {% for booking in bookings %}
+                    <tr>
+                        {% if null != booking.timeLine %}
+                            <td>{{ booking.timeLine.day|date('d/m/Y') }}</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        <td>{{ booking.product.family.name }} {{ booking.product.title }}</td>
+                        <td class="quantity">{{ booking.quantity }}</td>
+                        <td class="price">{{ booking.price|localizedcurrency('EUR') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbobdy>
+        </table>
+    </div>    
+</div>
+{% endblock %}

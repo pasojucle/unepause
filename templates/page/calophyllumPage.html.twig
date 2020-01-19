@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% set parameters = var_parameters.parameters %}
 {% block title %}{{parameters.company}} - {{ page.action.name }}{% endblock %}
+{% set hasContactForm = true %}
 
 {% block body %}
     <main class="page">
@@ -19,11 +20,11 @@
                 or pageContainer.container.id == constant('app\\entity\\Container::INTRODUCTION_LIST') %}
             {% set contents = pageContainer.items %}
             {% if contents|length > 1 %}
-                {% set listClass, classImg, classMain, classText 
-                    = pageContainer.class.name, 'background-image', 'overlay', 'text-overlay' %}
+                {% set listClass, classImg, classMain, classText, classBackground 
+                    = pageContainer.class.name, 'background-image', 'overlay', 'text-overlay', 'animate-background' %}
             {% else %}
-                {% set listClass, classImg, classMain, classText 
-                    = '', 'full-size', 'overlay width-33 position-right', 'text-justify bigger-text full-size' %}
+                {% set listClass, classImg, classMain, classText , classBackground 
+                    = '', 'full-size', 'overlay width-33 position-right', 'text-justify bigger-text full-size','' %}
             {% endif %}
                 <section class="max-width">
                     {% if pageContainer.title is not null %}

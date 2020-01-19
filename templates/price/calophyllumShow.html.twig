@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 {% set parameters = var_parameters.parameters %}
 {% block title %}{{parameters.company}} - {{ page.action.name }}{% endblock %}
+{% set hasContactForm = true %}
 
 {% block body %}
     <main class="page">

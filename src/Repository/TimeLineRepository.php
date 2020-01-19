@@ -67,4 +67,13 @@ class TimeLineRepository extends ServiceEntityRepository
         return  $timeLine->getMaxQuantity() - $bookingQuantity;
     }
 
+    public function findNextTimeLines (): array
+    {
+        $qb = $this->createQueryBuilder('t');
+        return $qb->where(
+            $qb->expr()->gt('t.day', ':now')
+        )
+        ->setParameter('now', new \DateTime('now'))
+        ->getQuery()->getResult();
+    }
 }

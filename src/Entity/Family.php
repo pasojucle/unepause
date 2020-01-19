@@ -54,8 +54,6 @@ class Family
      */
     private $parent;
 
-
-
     public function __construct()
     {
         $this->products = new ArrayCollection();

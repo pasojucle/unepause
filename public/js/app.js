@@ -12,6 +12,7 @@ $(function() {
     $(document).on('submit', '#contact', sendConctactMessage);
 
     $(document).on('change','#booking_timeLine, #booking_quantity', setBookingQuantity);
+    $(document).on('change','#time_line_product', setAdminTimeLine);
    //$(':radio[name="booking[timeLine]"]').change(setBookingQuantity);
 });
 
@@ -57,6 +58,19 @@ function setBookingQuantity() {
         type: form.attr('method'),
         data : form.serialize(),
         success: function(html) {
+            form.replaceWith($(html).find('form'));
+        }
+    });
+}
+function setAdminTimeLine() {
+    var form = $(this).closest('form');
+    var route = Routing.generate("time_line_edit",{'id': form.data('id')});
+    $.ajax({
+        url : route,
+        type: form.attr('method'),
+        data : form.serialize(),
+        success: function(html) {
+            console.log($(html).find('form'));
             form.replaceWith($(html).find('form'));
         }
     });

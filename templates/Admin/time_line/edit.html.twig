@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - {% endblock %}
+
+{% block body %}
+<div class="page admin">
+        <div class="max-width">
+            <h1>Calendrier</h1>
+        </div>
+        <div class="max-width light-background padding-40">
+
+            <h2>Ajouter une date</h2>
+            {{ form_start(form, {'attr': {'data-id': timeLineId}}) }}
+            {{ form_row(form.product)}}
+            {{ form_row(form.unit)}}
+            {{ form_row(form.day)}}
+            {{ form_row(form.maxQuantity)}}
+
+            <button class="btn btn-secondary float-right"><i class="fas fa-check"></i> Valider</button>
+
+        </div>
+        {{ form_end(form) }}
+</div>
+
+
+
+{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\DateTime\DateTimeFrench;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -43,7 +44,7 @@ class TimeLine
     /**
      * @ORM\Column(type="integer")
      */
-    private $maxQuantity;
+    private $maxQuantity = 1;
 
     private $availabilityQuantity;
 
@@ -83,7 +84,7 @@ class TimeLine
 
     public function getDay(): ?DateTimeFrench
     {
-        return new DateTimeFrench($this->day->format('Y-m-d H:i:s'));
+        return (null !== $this->day) ? new DateTimeFrench($this->day->format('Y-m-d H:i:s')) : null;
     }
 
     public function setDay(\DateTimeInterface $day): self
@@ -152,5 +153,10 @@ class TimeLine
         $this->availabilityQuantity = $availabilityQuantity;
 
         return $this;
+    }
+
+    public function isPastDate(): bool
+    {
+        return (new DateTime() > $this->day) ? 1 : 0;
     }
 }

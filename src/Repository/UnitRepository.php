@@ -16,25 +16,36 @@ class UnitRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Units::class);
+        parent::__construct($registry, Unit::class);
     }
 
-    // /**
-    //  * @return Units[] Returns an array of Units objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+    * @return Units[] Returns an array of Units objects
+    */
+
+    public function findByProduct($product)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
+        $products[] = $product->getId();
+        $family = $product->getFamily();
+        $parent = $family->getParent();
+        if ($family->getHasUniquesPrices() == true && $parent === null) {
+            $products[] = $family->getGenericProduct()->getId();
+        }
+        if ($parent !== null && $parent->getGenericProduct() !== null) {
+            $products[] = $parent->getGenericProduct()->getId();
+        }
+        $qb = $this->createQueryBuilder('u');
+        return $qb->leftJoin('u.families', 'f')
+            ->leftJoin('f.products', 'p')
+            ->where(
+                $qb->expr()->in('p.id', ':products')
+            )
+            ->setParameter('products', $products)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Units

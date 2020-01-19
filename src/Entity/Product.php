@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Product
 {
     const HARDWARE = 1;
-    const SHEDULE_SERVICE = 2;
+    const SCHEDULE_SERVICE = 2;
     const APPOINTMENT_SERVICE = 3;
     const BESPOKE_SERVICE = 4;
 
