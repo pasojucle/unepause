@@ -23,7 +23,7 @@ class TimeLineRepository extends ServiceEntityRepository
     //  * @return TimeLine[] Returns an array of TimeLine objects
     //  */
     /*
-    public function findByExampleField($value)
+    public function findAllOrder($value)
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

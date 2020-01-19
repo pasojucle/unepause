@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CompanyRepository;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CompanyRepository")
@@ -57,7 +58,7 @@ class Company
     private $instagramUrl;
 
     /**
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $timeTables = [];
 
@@ -162,15 +163,25 @@ class Company
         return $this;
     }
 
-    public function getTimeTables(): ?array
+    public function getTimeTables(): ?string
     {
         return $this->timeTables;
     }
 
-    public function setTimeTables(?array $timeTables): self
+    public function setTimeTables(?string $timeTables): self
     {
         $this->timeTables = $timeTables;
 
         return $this;
+    }
+
+    public function getLowerCamelcase(): ?string
+    {
+        return preg_replace_callback('/\s(.?)/',function($matches) {return strtoupper(ltrim($matches[0]));}, strtolower($this->name));
+    }
+
+    public function getDashCase(): ?string
+    {
+        return preg_replace('/\s/','-', strtolower($this->name));
     }
 }

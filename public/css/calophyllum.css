@@ -225,7 +225,7 @@ h2:not(:empty) {
 h2:empty {
     display: none;
 }
-.dark-background h1 {
+.dark-background h1, .dark-background h2, .dark-background a i {
     color: #ffffff;
 }
 .list-item h3 {
@@ -320,13 +320,15 @@ article {
     font-size: 1.1em;
     line-height: 1.4em;
 }
+.bigger-i {
+    font-size: 3em; 
+}
 .flex {
     display: flex;
 }
 .flex-wrap {
     flex-wrap: wrap;
 }
-
 .flex-center {
     justify-content: center;
 }
@@ -532,4 +534,11 @@ thead {
 }
 td, th {
     padding: 5px;
+}
+.position-relatif {
+    position: relative;
+}
+.position-bottom {
+    position: absolute;
+    bottom: 0;
 }

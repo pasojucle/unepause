@@ -4,25 +4,40 @@
 {% set formContact = form_contact.form.createView() %}
 <footer class="footer dark-background">
     {% if hasContactForm is defined and hasContactForm == true %}
+
     <div class="max-width flex padding-40">
         <div class="flex-item">
-            <h1>Me contacter</h1>
+            <div class="flex">
+                <div class="flex-item position-relatif">
+                    <h1>Me contacter</h1>
+                    <div class="position-bottom">
+                        <h3>Retrouvez-nous sur</h3>
+                        <a class="btn" href="{{ company.getCompany.facebookUrl }}" target="_blank" title="facebook"><i class="fab fa-facebook-square bigger-i"></i></a>
+                        <a class="btn" href="{{ company.getCompany.instagramUrl }}" target="_blank" title="instagram"><i class="fab fa-instagram bigger-i"></i></a>
+                    </div>
+                </div>
+                <div class="flex-item">
+                    {{ form_start(formContact, {attr:{'id':'contact'}}) }}
+                    {{ form_widget(formContact.firstname,{'attr' :{'class':'form-group'}})}}
+                    {{ form_widget(formContact.lastname)}}
+                    {{ form_widget(formContact.email)}}
+                    {{ form_widget(formContact.content)}}
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-secondary float-right">
+                        <i class="fas fa-check"></i>
+                        Envoyer le message</button>
+                    </div>
+                    <div class="clear-fix"></div>
+                    {{ form_end(formContact) }}
+                </div>
+            </div>
         </div>
         <div class="flex-item">
-            {{ form_start(formContact, {attr:{'id':'contact'}}) }}
-            {{ form_widget(formContact.firstname,{'attr' :{'class':'form-group'}})}}
-            {{ form_widget(formContact.lastname)}}
-            {{ form_widget(formContact.email)}}
-            {{ form_widget(formContact.content)}}
-            <div class="form-footer">
-                <button type="submit" class="btn btn-secondary float-right">
-                <i class="fas fa-check"></i>
-                Envoyer le message</button>
+            <div>
+                <h2><i class="far fa-clock bigger-i"></i></h2>
+                {{ company.getCompany.timeTables|raw }}
             </div>
-            <div class="clear-fix"></div>
-            {{ form_end(formContact) }}
         </div>
-
     </div>
     <hr class="max-width">
     {% endif %}
