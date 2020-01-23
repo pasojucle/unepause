@@ -10,16 +10,23 @@
                 <h3 class="">{{ content.title }}</h3>
             {% endif %}
             <div class="{{ classText }}">
-                {{ content.content|raw }}
+                {% if content.summary is defined and content.summary is not null %}
+                    {{ content.summary|raw }}
+                {% else %}
+                    {{ content.content|raw }}
+                {% endif %}
                 {% if content.type is defined %}
                     {% if content.type is defined and content.type == constant('app\\Entity\\Product::SCHEDULE_SERVICE') %}
                         {% if content.timeLines is defined and content.activeTimeLines|length > 0 %}
                             <div class="text-center time-line">
-                                {% set timeLines = product_service.getAvailabilitiesQuantities(content) %}
+                                {% set timeLines = var_product.getAvailabilitiesQuantities(content) %}
                                 {% set btn %}
-                                    <a class='btn btn-primary' href="{{ path('booking', {'id': content.id}) }}"><i class="far fa-calendar-alt"></i> Je réserve</a>
+                                    {% if content.summary is not null %}
+                                        <a class='btn btn-primary' href="{{ path('product_show', {'product': content.id}) }}"><i class="fas fa-info-circle"></i>  En savoir plus</a>
+                                    {% else %}
+                                        <a class='btn btn-primary' href="{{ path('booking', {'id': content.id}) }}"><i class="far fa-calendar-alt"></i> Je réserve</a>
+                                    {% endif %}
                                 {% endset %}
-                                {% dump(timeLines) %}
                                 {% if timeLines|length == 0 %}
                                     {% set timeLine = '' %}
                                     {% set btn %}
@@ -42,7 +49,7 @@
                     {% endif %}
                     {% if content.type is defined and content.type == constant('app\\Entity\\Product::BESPOKE_SERVICE') %}
                         <div class="text-center time-line">
-                            <a class='btn btn-primary' href="{{path('informations', {'product': content.id}) }}"><i class="fas fa-envelope"></i> En savoir plus</a>
+                            <a class='btn btn-primary' href="{{path('informations', {'product': content.id}) }}"><i class="fas fa-info-circle"></i> En savoir plus</a>
                         </div>
                     {% endif %}
                 {% endif %}

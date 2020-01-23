@@ -3,7 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Price;
-use App\Entity\Booking;
+use App\Entity\Product;
+use App\Entity\TimeLine;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -44,9 +45,9 @@ class PriceRepository extends ServiceEntityRepository
         return $qb;
     }
     
-    public function findByBooking(Booking $booking): ?float {
-        $timeLine = $booking->getTimeLine();
-        $unitPrice = $booking->getProduct()->getPrices()[0];
+    public function findByProductTimeLine(Product $product, ?TimeLine $timeLine): ?float {
+        
+        $unitPrice = $product->getPrices()[0];
 
         if (null !== $timeLine) {
             $products = [];
@@ -81,7 +82,7 @@ class PriceRepository extends ServiceEntityRepository
                 ->getOneOrNullResult();
 
         }
-        return ($unitPrice !== null) ? $unitPrice->getAmount() * $booking->getQuantity(): null;
+        return ($unitPrice !== null) ? $unitPrice->getAmount(): null;
     }
 
     /*

@@ -71,6 +71,11 @@ class Product
      */
     private $type = 1;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $summary;
+
     public function __construct()
     {
         $this->prices = new ArrayCollection();
@@ -255,6 +260,18 @@ class Product
     public function setType(int $typec): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getSummary(): ?string
+    {
+        return $this->summary;
+    }
+
+    public function setSummary(?string $summary): self
+    {
+        $this->summary = $summary;
 
         return $this;
     }

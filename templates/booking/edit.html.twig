@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% set parameters = var_parameters.parameters %}
 
-{% if product.type == constant('app\\Entity\\Product::SHEDULE_SERVICE') %}
+{% if product.type == constant('app\\Entity\\Product::SCHEDULE_SERVICE') %}
     {% set title = 'Réservation' %}
 {% else %}
     {% set title = 'Prise de rendez-vous' %}
@@ -18,7 +18,7 @@
             <h2>{{ product.family.name }}</h2>
             <h3>{{ product.title }}</h3>
             <p>{{ product.content|raw }}</p>
-            {% set timeLines = product_service.getAvailabilitiesQuantities(product) %}
+            {% set timeLines = var_product.getAvailabilitiesQuantities(product) %}
 
             {% if timeLines|length == 1 %}
                 <div>{{ timeLines.first.day|localizeddate('full', 'none', null)|capitalize }}</div>

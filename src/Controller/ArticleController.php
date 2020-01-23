@@ -10,6 +10,7 @@ use App\Entity\TimeLine;
 use App\Form\BookingType;
 use App\Form\ContactType;
 use App\Form\AppointmentType;
+use App\Service\BookingService;
 use App\Service\ProductService;
 use App\Repository\PriceRepository;
 use App\Service\EmailMessageService;
@@ -45,6 +46,7 @@ class ArticleController extends AbstractController
         EmailMessageService $emailService,
         TimeLineRepository $timeLineRepo,
         ProductService $productService,
+        BookingService $bookingService,
         Product $product)
     {
         $product = $this->manager->getRepository(Product::class)->findByProduct($product);
@@ -57,7 +59,10 @@ class ArticleController extends AbstractController
         if (!empty($timeLines) && null === $booking->getTimeLine()) {
             $booking->setTimeLine($timeLines[0]);
         }
-        $price = $priceRepo->findByBooking($booking);
+        $unitPrice = $booking->getProduct()->getPrices()[0];
+
+        $price = $bookingService->getPrice($booking);
+        dump($price);
         $booking->setPrice($price);
         $form = $this->createForm(BookingType::class, $booking,[
             'timeLines' => $timeLines,
@@ -67,7 +72,7 @@ class ArticleController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
             $booking = $form->getData();
-            $price = $priceRepo->findByBooking($booking);
+            $price = $bookingService->getPrice($booking);
             $booking->setPrice($price);
 
             $form = $this->createForm(BookingType::class, $booking,[

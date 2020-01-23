@@ -30,7 +30,7 @@ class BookingType extends ApplicationType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($builder->getData()->getProduct()->getType() == Product::SHEDULE_SERVICE) {
+        if ($builder->getData()->getProduct()->getType() == Product::SCHEDULE_SERVICE) {
             $commentsPlacehoder = 'Possez vous questions...';
         } else {
             $commentsPlacehoder = 'Donnez-moi vous disponniblités et je vous recontacte pour fixer le rendez-vous';
