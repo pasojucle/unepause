@@ -456,7 +456,7 @@ textarea {
 .btn-danger {
     background-color: var(--danger-color);
 }
-.btn a {
+.btn-danger a, .btn-primary a, .btn-secondary a {
     color: white;
 }
 .btn:not(:first-child) {
@@ -516,10 +516,11 @@ a legend {
 }
 .badge {
     border: 1px solid var(--dark-grey);
+    font-size: 0.9em;
 }
 .badge-body {
     text-align: left;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
 }
 .badge-title {
@@ -531,7 +532,7 @@ a legend {
 .badge-title h2 {
     color: white;
     margin-bottom: initial;
-    font-size: 1.2em;
+    font-size: 1em;
     text-align: center;
 }
 .badge-body p:not(:last-child):after {
@@ -558,4 +559,8 @@ td, th {
 }
 .max-content {
     width: max-content;
+}
+.x-footer {
+    padding: 20px;
+    text-align: right;
 }

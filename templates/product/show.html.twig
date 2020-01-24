@@ -5,46 +5,49 @@
 {% block body %}
     <main class="page">
         <h1 class="max-width">{{ product.family.name }}</h1>
-        <div class="light-background padding-40 grid grid-2-col text-left">
-            <div class="grid-item">
-                <h2>{{ product.title }}</h2>
-                {{ product.content|raw }}
-            </div>
-            <div class="grid-item">
-                {% set timeLines = var_product.getAvailabilitiesQuantities(product) %}
-                {% if timeLines|length == 0 %}
-                    {% set timeLine = '' %}
-                    {% set btn %}
-                        <a class='btn btn-disabled'><i class="fas fa-times-circle"></i> Complet</a>
-                    {% endset %}
-                {% else %}
-                    <h3>{{ timeLines|length ~ ' dates possibles' }}</h3>
-                {% endif %}
-                <div>
-                    <div class="flex">
-                        {% for timeLine in timeLines %}
-                        <div class="badge flex-item">
-                            <div class="badge-title">
-                                <h2>{{ timeLine.day|localizeddate('long', 'none')|capitalize }}</h2>
-                            </div>
-                            <div class="badge-body">
-                                <p>{{ timeLine.day|localizeddate('none', 'none', null, null, "'de' H'h'mm") }} à {{timeLine.dayEnd|localizeddate('none', 'none', null, null, "H'h'mm")}}</span>
-                                {% set price = var_timeLine.getPrice(timeLine) %}
-                                {% if price is not null %}
-                                    <p>{{ price|localizedcurrency('EUR') }} par personne</p>
-                                {% endif %}
-                                <p>{{ timeLine.availabilityQuantity}} places disponibles</p>
-                            </div>  
-                        </div>
-                        {% endfor %}
-                    </div>
-                    <div class="text-center time-line">
-                        <a class='btn btn-primary' href="{{path('booking', {'id': product.id}) }}"><i class="far fa-calendar-alt"></i> Je prends rendez-vous</a>
-                    </div>
-
+        <div class="light-background padding-40">
+            <div class="grid grid-2-col text-left">
+                <div class="grid-item text-justify">
+                    <h2>{{ product.title }}</h2>
+                    {{ product.content|raw }}
                 </div>
-                    
+                <div class="grid-item">
+                    {% set timeLines = var_product.getAvailabilitiesQuantities(product) %}
+                    {% if timeLines|length == 0 %}
+                        {% set timeLine = '' %}
+                        {% set btn %}
+                            <a class='btn btn-disabled'><i class="fas fa-times-circle"></i> Complet</a>
+                        {% endset %}
+                    {% else %}
+                        <h2 class="text-center"><i class="far fa-clock bigger-i"></i></h2>
+                        {#<h3>{{ timeLines|length ~ ' dates possibles' }}</h3>#}
+                    {% endif %}
+                    <div>
+                        <div class="flex flex-center">
+                            {% for timeLine in timeLines %}
+                            <div class="badge flex-item">
+                                <div class="badge-title">
+                                    <h2>{{ timeLine.day|localizeddate('long', 'none')|capitalize }}</h2>
+                                </div>
+                                <div class="badge-body">
+                                    <p>{{ timeLine.day|localizeddate('none', 'none', null, null, "'de' H'h'mm") }} à {{timeLine.dayEnd|localizeddate('none', 'none', null, null, "H'h'mm")}}</span>
+                                    {% set price = var_timeLine.getPrice(timeLine) %}
+                                    {% if price is not null %}
+                                        <p>{{ price|localizedcurrency('EUR') }} par personne</p>
+                                    {% endif %}
+                                    <p>{{ timeLine.availabilityQuantity}} places disponibles</p>
+                                </div>  
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                        
+                </div>
+            </div>
+            <div class="x-footer">
+                <a class='btn btn-primary align-right' href="{{path('booking', {'id': product.id}) }}"><i class="far fa-calendar-alt"></i> Je prends rendez-vous</a>
             </div>
         </div>
+
     </main>
 {% endblock %}

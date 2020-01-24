@@ -13,34 +13,41 @@
 <div class="max-width ">
     <h1>{{ title }}</h1>
     {{ form_start(form, {'attr': {'data-id': product.id}}) }}
-    <div class="light-background padding-40 grid grid-2-col text-left">
-        <div>
-            <h2>{{ product.family.name }}</h2>
-            <h3>{{ product.title }}</h3>
-            <p>{{ product.content|raw }}</p>
-            {% set timeLines = var_product.getAvailabilitiesQuantities(product) %}
+    <div class="light-background padding-40">
+        <div class="grid grid-2-col text-justify">
+            <div>
+                <h2>{{ product.family.name }}</h2>
+                <h3>{{ product.title }}</h3>
+                <p>{{ product.content|raw }}</p>
+                {% set timeLines = var_product.getAvailabilitiesQuantities(product) %}
 
-            {% if timeLines|length == 1 %}
-                <div>{{ timeLines.first.day|localizeddate('full', 'none', null)|capitalize }}</div>
-            {% endif %}
-            {% if form.timeLine is defined %}
-                <div class="time-line">
-                    {{ timeLines|length ~ ' dates possibles' }}. {{ form_label(form.timeLine) }}
-                    {{ form_widget(form.timeLine) }}
-                </div>
-            {% endif %}
-        </div>
-        <div>
-            <div class="form-group inline">
-                {% if form.quantity is defined %}
-                    {{ form_label(form.quantity) }} {{ form_widget(form.quantity) }}
+                {% if timeLines|length == 1 %}
+                    <div>{{ timeLines.first.day|localizeddate('full', 'none', null)|capitalize }}</div>
                 {% endif %}
-                {% if price is not null %}
-                    <div class="float-right price">{{ price|localizedcurrency('EUR') }}</div>
+                {% if form.timeLine is defined %}
+                    <div class="time-line">
+                        {{ timeLines|length ~ ' dates possibles' }}. {{ form_label(form.timeLine) }}
+                        {{ form_widget(form.timeLine) }}
+                    </div>
                 {% endif %}
             </div>
-            {{ form_row(form.comments) }}
-            <button class="btn btn-secondary float-right"><i class="fas fa-check"></i> Réserver</button>
+            <div>
+                <h2 class="text-center">
+                    <img src="/images/calophyllum/{{ product.family.image.filenameMd }}" alt="{{ product.family.image.title }}">
+                </h2>
+                <div class="form-group inline">
+                    {% if form.quantity is defined %}
+                        {{ form_label(form.quantity) }} {{ form_widget(form.quantity) }}
+                    {% endif %}
+                    {% if price is not null %}
+                        <div class="float-right price">{{ price|localizedcurrency('EUR') }}</div>
+                    {% endif %}
+                </div>
+                {{ form_row(form.comments) }}
+            </div>
+        </div>
+        <div class="x-footer">
+            <button class="btn btn-secondary"><i class="fas fa-check"></i> Réserver</button>
         </div>
     </div>
     {{ form_end(form) }}
