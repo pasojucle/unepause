@@ -228,6 +228,9 @@ h2:empty {
 h3 {
     margin-bottom: 10px;
 }
+h4 {
+    margin-top: 10px;
+}
 .dark-background h1, .dark-background h2, .dark-background a i, .dark-background hr {
     color: #ffffff;
 }
@@ -563,4 +566,11 @@ td, th {
 .x-footer {
     padding: 20px;
     text-align: right;
+}
+.list-item-border {
+    border: 1px solid var(--ligth-grey);
+    padding: 20px;
+}
+.list-item-border:hover {
+    box-shadow: 3px 2px 2px var(--ligth-grey);
 }

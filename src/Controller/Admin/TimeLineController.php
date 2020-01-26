@@ -35,7 +35,7 @@ class TimeLineController extends AbstractController
         $form = $this->createForm(TimeLineType::class, $timeLine);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (false ==$request->isXmlHttpRequest() && $form->isSubmitted() && $form->isValid()) {
             $timeLine = $form->getData();
             $manager->persist($timeLine);
             $manager->flush();

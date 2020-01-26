@@ -44,13 +44,14 @@ class TimeLine
     /**
      * @ORM\Column(type="integer")
      */
-    private $maxQuantity = 1;
+    private $maxQuantity = 8;
 
     private $availabilityQuantity;
 
     public function __construct()
     {
         $this->bookings = new ArrayCollection();
+        $this->day = new DateTime();
     }
 
     public function getId(): ?int

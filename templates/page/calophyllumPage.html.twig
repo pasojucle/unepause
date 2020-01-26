@@ -17,7 +17,8 @@
                 </div>
             {% endif %}
             {% if pageContainer.container.id == constant('app\\entity\\Container::LIST') 
-                or pageContainer.container.id == constant('app\\entity\\Container::INTRODUCTION_LIST') %}
+                or pageContainer.container.id == constant('app\\entity\\Container::INTRODUCTION_LIST')
+                or pageContainer.container.id == constant('app\\entity\\Container::ARTICLE_LIST')  %}
             {% set contents = pageContainer.items %}
             {% if contents|length > 1 %}
                 {% set listClass, classImg, classMain, classText, classBackground 
@@ -40,7 +41,19 @@
                                     </figure>
                                 </a>
                             {% else %}
-                                {% include "/page/calophyllumArticle.html.twig" %}
+                                {% if pageContainer.container.id == constant('app\\entity\\Container::ARTICLE_LIST') %}
+                                    <article class="list-item list-item-border">
+                                        <h3 class="">{{ content.title }}</h3>
+                                        {% if content.images|length > 0 %}
+                                            {% set filename = content.images[0].filenameMd %}
+                                            {% set alt = content.images[0].title %}
+                                            <img src="/images/calophyllum/{{ filename }}" alt="{{alt}}"> 
+                                        {% endif %}
+                                        <div class="text-left">{{ content.content|raw}}</div>
+                                    </article>
+                                {% else %}
+                                    {% include "/page/calophyllumArticle.html.twig" %}
+                                {% endif %}
                             {% endif %} 
                         {% endfor %}
                     </div>
