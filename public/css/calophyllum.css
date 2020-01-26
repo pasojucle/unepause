@@ -562,6 +562,7 @@ td, th {
 }
 .max-content {
     width: max-content;
+    min-width: 120px;
 }
 .x-footer {
     padding: 20px;
