@@ -1,6 +1,8 @@
 <header>
     {% set logo = "/images/calophyllum/" ~ parameters.dashCase ~ ".png" %}
-    <img class="logo" src="{{logo}}" alt="{{parameters.company}}">
+    <a href="{{ app.request.getSchemeAndHttpHost() }}">
+        <img class="logo" src="{{logo}}" alt="{{parameters.company}}">
+    </a>
     {% set container = "header" %}
     {% set actions = var_actions.headerActions %}
     {% set formContact = form_contact.form.createView() %}

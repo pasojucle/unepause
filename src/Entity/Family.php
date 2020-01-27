@@ -31,7 +31,7 @@ class Family
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Unit", mappedBy="families")
-    * @ORM\OrderBy({"duration" = "ASC", "id" = "ASC"})
+     * @ORM\OrderBy({"duration" = "ASC", "id" = "ASC"})
      */
     private $units;
 

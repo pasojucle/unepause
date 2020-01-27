@@ -51,6 +51,11 @@ class Page
      */
     private $links;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $orderBy;
+
     public function __construct()
     {
         $this->pageContainers = new ArrayCollection();
@@ -168,6 +173,18 @@ class Page
                 $link->setPage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOrderBy(): ?int
+    {
+        return $this->orderBy;
+    }
+
+    public function setOrderBy(?int $orderBy): self
+    {
+        $this->orderBy = $orderBy;
 
         return $this;
     }

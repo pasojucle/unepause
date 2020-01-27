@@ -20,6 +20,7 @@ class Container
     const WRAPPER_BUTTON = 7;
     const INTRODUCTION_LIST = 8;
     const ARTICLE_LIST = 10;
+    const PROFIL = 11;
     
     /**
      * @ORM\Id()

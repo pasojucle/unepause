@@ -62,6 +62,18 @@
             {% if pageContainer.container.id == constant('app\\entity\\Container::SCHEDULE') %}
                 
             {% endif %}
+            {% if pageContainer.container.id == constant('app\\entity\\Container::PROFIL') %}
+                <section class="max-width text-center">
+                {% set contents = pageContainer.items %}
+                    {% for content in contents %}
+                        {% if content.images|length > 0 %}
+                            {% set filename = content.images[0].filenameMd %}
+                            {% set alt = content.images[0].title %}
+                            <div class="profil" style="background-image: url(/images/calophyllum/{{ filename }})"></div>
+                        {% endif %}
+                    {% endfor %}
+                </section>
+            {% endif %}
             {% if pageContainer.container.id == constant('app\\entity\\Container::WRAPPER_LIST') %}
                 <div class="wrapper-list light-background">
                     <section class="max-width">

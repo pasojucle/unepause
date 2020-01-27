@@ -575,3 +575,9 @@ td, th {
 .list-item-border:hover {
     box-shadow: 3px 2px 2px var(--ligth-grey);
 }
+.profil {
+    height: 200px;
+    width: 200px;
+    border-radius: 100px;
+    display: inline-block;
+}

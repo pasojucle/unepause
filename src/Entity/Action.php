@@ -30,6 +30,7 @@ class Action
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Page", mappedBy="action")
+     * @ORM\OrderBy({"orderBy" = "ASC"})
      */
     private $pages;
 
