@@ -17,9 +17,10 @@
                 {% endif %}
                 {% if content.type is defined %}
                     {% if content.type is defined and content.type == constant('app\\Entity\\Product::SCHEDULE_SERVICE') %}
-                        {% if content.timeLines is defined and content.activeTimeLines|length > 0 %}
+                        {% if content.dateHeaders is defined and content.activeDateHeaders|length > 0 %}
                             <div class="text-center time-line">
-                                {% set timeLines = var_product.getAvailabilitiesQuantities(content) %}
+                                {% set dateHeaders = var_product.getAvailabilitiesQuantities(content) %}
+                                {% dump(dateHeaders) %}
                                 {% set btn %}
                                     {% if content.summary is not null %}
                                         <a class='btn btn-primary' href="{{ path('product_show', {'product': content.id}) }}"><i class="fas fa-info-circle"></i>  En savoir plus</a>
@@ -27,17 +28,22 @@
                                         <a class='btn btn-primary' href="{{ path('booking', {'id': content.id}) }}"><i class="far fa-calendar-alt"></i> Je réserve</a>
                                     {% endif %}
                                 {% endset %}
-                                {% if timeLines|length == 0 %}
-                                    {% set timeLine = '' %}
+                                {% if dateHeaders|length == 0 %}
+                                    {% set dateHeaders = '' %}
                                     {% set btn %}
                                         <a class='btn btn-disabled'><i class="fas fa-times-circle"></i> Complet</a>
                                     {% endset %}
-                                {% elseif timeLines|length == 1 %}
-                                    {% set timeLine = timeLines[0].day|localizeddate('long', 'none', null)|capitalize %}
+                                {% elseif dateHeaders|length == 1 %}
+                                    {% set dateHeader = dateHeaders[0]%}
                                 {% else %}
-                                    {% set timeLine = timeLines|length ~ ' dates possibles' %}
+                                    {% set dateHeader = dateHeaders|length ~ ' dates possibles' %}
                                 {% endif %}
-                                    <p>{{ timeLine }}</p>
+                                    {% if dateHeader.dateLines|length == 1 %}
+                                        {% set date = dateHeader.dateLines[0].date|localizeddate('long', 'none', null)|capitalize %}
+                                    {% elseif dateHeader.dateLines|length > 1 %}
+                                        {% set date = dateHeader.dateLines|date('d/m/Y')|join(', ', ' et ') %}
+                                    {% endif %}
+                                    <p>{{ date }}</p>
                                     {{ btn }}
                             </div>
                         {% endif %}

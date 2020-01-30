@@ -5,32 +5,32 @@ namespace App\Service;
 use DateTime;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
-use App\Repository\TimeLineRepository;
+use App\Repository\DateHeaderRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class ProductService
 {
     private $productRepository;
-    private $timeLineRepository;
+    private $dateHeaderRepository;
 
-    public function __construct(ProductRepository $productRepository, TimeLineRepository $timeLineRepository)
+    public function __construct(ProductRepository $productRepository, DateHeaderRepository $dateHeaderRepository)
     {
         $this->productRepository = $productRepository;
-        $this->timeLineRepository = $timeLineRepository;
+        $this->dateHeaderRepository = $dateHeaderRepository;
     }
 
     public function getAvailabilitiesQuantities($product):?Collection {
-        $timeLines = [];
-        $timeLinesIterator =$product->getActiveTimeLines()->getIterator();
-        foreach ($timeLinesIterator as $timeLine) {
-            $availabitityQuantity = $this->timeLineRepository->findAvailabitityQuantity($timeLine);
+        $dateHeaders = [];
+        $dateHeadersIterator = $product->getActiveDateHeaders()->getIterator();
+        foreach ($dateHeadersIterator as $dateHeader) {
+            $availabitityQuantity = $this->dateHeaderRepository->findAvailabitityQuantity($dateHeader);
             if ($availabitityQuantity > 0 || null == $availabitityQuantity) {
-                $timeLine->setAvailabilityQuantity($availabitityQuantity);
-                $timeLines[] = $timeLine;
+                $dateHeader->setAvailabilityQuantity($availabitityQuantity);
+                $dateHeaders[] = $dateHeader;
             }
         }
-        return new ArrayCollection($timeLines);
+        return new ArrayCollection($dateHeaders);
     }
 
 

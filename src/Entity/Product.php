@@ -62,11 +62,6 @@ class Product
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TimeLine", mappedBy="product")
-     */
-    private $timeLines;
-
-    /**
      * @ORM\Column(type="integer", options={"default": 1})
      */
     private $type = 1;
@@ -76,11 +71,16 @@ class Product
      */
     private $summary;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DateHeader", mappedBy="product")
+     */
+    private $dateHeaders;
+
     public function __construct()
     {
         $this->prices = new ArrayCollection();
         $this->images = new ArrayCollection();
-        $this->timeLines = new ArrayCollection();
+        $this->dateHeaders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -205,53 +205,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection|TimeLine[]
-     */
-    public function getTimeLines(): Collection
-    {
-        return $this->timeLines;
-    }
-
-    /**
-     * @return Collection|TimeLine[]
-     */
-    public function getActiveTimeLines(): Collection
-    {
-        $timeLines = [];
-        $timeLinesIterator = self::getTimeLines()->getIterator();
-        $today = new DateTime();
-        foreach ($timeLinesIterator as $timeLine) {
-            if($today < $timeLine->getDay()) {
-                $timeLines[] = $timeLine;
-            }
-        }
-        return new ArrayCollection($timeLines);
-    }
-
-    public function addTimeLine(TimeLine $timeLine): self
-    {
-        if (!$this->timeLines->contains($timeLine)) {
-            $this->timeLines[] = $timeLine;
-            $timeLine->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTimeLine(TimeLine $timeLine): self
-    {
-        if ($this->timeLines->contains($timeLine)) {
-            $this->timeLines->removeElement($timeLine);
-            // set the owning side to null (unless already changed)
-            if ($timeLine->getProduct() === $this) {
-                $timeLine->setProduct(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getType(): int
     {
         return $this->type;
@@ -275,4 +228,59 @@ class Product
 
         return $this;
     }
+
+    /**
+     * @return Collection|DateHeader[]
+     */
+    public function getDateHeaders(): Collection
+    {
+        return $this->dateHeaders;
+    }
+
+    public function addDateHeader(DateHeader $dateHeader): self
+    {
+        if (!$this->dateHeaders->contains($dateHeader)) {
+            $this->dateHeaders[] = $dateHeader;
+            $dateHeader->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDateHeader(DateHeader $dateHeader): self
+    {
+        if ($this->dateHeaders->contains($dateHeader)) {
+            $this->dateHeaders->removeElement($dateHeader);
+            // set the owning side to null (unless already changed)
+            if ($dateHeader->getProduct() === $this) {
+                $dateHeader->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+     /**
+     * @return Collection|DateHeader[]
+     */
+    public function getActiveDateHeaders(): Collection
+    {
+        $dateHeaders = [];
+        $dateHeadersIterator = self::getDateHeaders()->getIterator();
+        $today = new DateTime();
+        foreach ($dateHeadersIterator as $dateHeader) {
+            $isActive = true;
+            foreach ($dateHeader->getDateLines() as $dateLine) {
+                if($today > $dateLine->getDate()) {
+                    $isActive = false;
+                }
+            }
+            if (true === $isActive) {
+                $dateHeaders[] = $dateHeader;
+            }
+            
+        }
+        return new ArrayCollection($dateHeaders);
+    }
+
 }

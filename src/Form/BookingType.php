@@ -5,11 +5,11 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Booking;
 use App\Entity\Product;
-use App\Entity\TimeLine;
+use App\Entity\DateLine;
 use App\Form\ApplicationType;
 use App\Repository\PriceRepository;
 use Symfony\Component\Form\FormEvent;
-use App\Repository\TimeLineRepository;
+use App\Repository\DateLineRepository;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,11 +20,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class BookingType extends ApplicationType
 {
-    private $timeLineRepo;
+    private $dateLineRepo;
     private $priceRepo;
 
-    public function __construct(TimeLineRepository $timeLineRepo, PriceRepository $priceRepo){
-        $this->timeLineRepo = $timeLineRepo;
+    public function __construct(DateLineRepository $dateLineRepo, PriceRepository $priceRepo){
+        $this->dateLineRepo = $dateLineRepo;
         $this->priceRepo = $priceRepo;
     }
 

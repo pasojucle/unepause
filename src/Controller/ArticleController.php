@@ -6,7 +6,7 @@ use App\Entity\Page;
 use App\Entity\Action;
 use App\Entity\Booking;
 use App\Entity\Product;
-use App\Entity\TimeLine;
+use App\Entity\DateLine;
 use App\Form\BookingType;
 use App\Form\ContactType;
 use App\Form\AppointmentType;
@@ -14,7 +14,7 @@ use App\Service\BookingService;
 use App\Service\ProductService;
 use App\Repository\PriceRepository;
 use App\Service\EmailMessageService;
-use App\Repository\TimeLineRepository;
+use App\Repository\DateLineRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -32,7 +32,6 @@ class ArticleController extends AbstractController
         $this->emailMessageService = $emailMessageService;
     }
 
-
     /**
      * @Route(
      * "/booking/{id}",
@@ -44,7 +43,7 @@ class ArticleController extends AbstractController
         Request $request,
         PriceRepository $priceRepo,
         EmailMessageService $emailService,
-        TimeLineRepository $timeLineRepo,
+        DateLineRepository $timeLineRepo,
         ProductService $productService,
         BookingService $bookingService,
         Product $product)

@@ -2,22 +2,22 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\TimeLine;
-use App\Form\TimeLineType;
-use App\Repository\TimeLineRepository;
+use App\Entity\DateLine;
+use App\Form\DateLineType;
+use App\Repository\DateLineRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class TimeLineController extends AbstractController
+class DateLineController extends AbstractController
 {
     /**
      * @Route("/admin/timelines/", name="time_line_list")
      */
-    public function timeLineList(TimeLineRepository $timeLineRepository) 
+    public function timeLineList(DateLineRepository $dateLineRepository) 
     {
-        $timeLines = $timeLineRepository->findAll();
+        $timeLines = $dateLineRepository->findAll();
 
         return $this->render('Admin/time_line/list.html.twig', [
             'timeLines' => $timeLines,
@@ -27,12 +27,12 @@ class TimeLineController extends AbstractController
     /**
      * @Route("/admin/timeline/{timeLine}", name="time_line_edit", defaults ={"timeLine": null}, options={"expose"=true})
      */
-    public function timeLineEdit(ObjectManager $manager, Request $request, ?TimeLine $timeLine)
+    public function timeLineEdit(ObjectManager $manager, Request $request, ?DateLine $timeLine)
     {
         if (null === $timeLine) {
-            $timeLine = new Timeline();
+            $timeLine = new Dateline();
         }
-        $form = $this->createForm(TimeLineType::class, $timeLine);
+        $form = $this->createForm(DateLineType::class, $timeLine);
         $form->handleRequest($request);
 
         if (false ==$request->isXmlHttpRequest() && $form->isSubmitted() && $form->isValid()) {

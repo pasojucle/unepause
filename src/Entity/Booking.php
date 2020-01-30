@@ -29,12 +29,6 @@ class Booking
     private $product;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\TimeLine", inversedBy="bookings")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $timeLine;
-
-    /**
      * @ORM\Column(type="integer", options={"default" : 1})
      */
     private $quantity = 1;
@@ -48,6 +42,11 @@ class Booking
      * @ORM\Column(type="float", nullable=true)
      */
     private $price;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\DateHeader", inversedBy="bookings")
+     */
+    private $dateHeader;
 
     public function getId(): ?int
     {
@@ -74,18 +73,6 @@ class Booking
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
-
-        return $this;
-    }
-
-    public function getTimeLine(): ?TimeLine
-    {
-        return $this->timeLine;
-    }
-
-    public function setTimeLine(?TimeLine $timeLine): self
-    {
-        $this->timeLine = $timeLine;
 
         return $this;
     }
@@ -122,6 +109,18 @@ class Booking
     public function setPrice(?float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getDateHeader(): ?DateHeader
+    {
+        return $this->dateHeader;
+    }
+
+    public function setDateHeader(?DateHeader $dateHeader): self
+    {
+        $this->dateHeader = $dateHeader;
 
         return $this;
     }

@@ -29,11 +29,6 @@ class Unit
     private $families;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\TimeLine", mappedBy="unit")
-     */
-    private $timeLines;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Price", mappedBy="unit")
      */
     private $prices;
@@ -43,11 +38,16 @@ class Unit
      */
     private $duration;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\DateHeader", mappedBy="unit")
+     */
+    private $dateHeaders;
+
     public function __construct()
     {
         $this->families = new ArrayCollection();
-        $this->timeLines = new ArrayCollection();
         $this->prices = new ArrayCollection();
+        $this->dateHeaders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,38 +94,6 @@ class Unit
     }
 
     /**
-     * @return Collection|TimeLine[]
-     */
-    public function getTimeLines(): Collection
-    {
-        return $this->timeLines;
-    }
-
-    public function addTimeLine(TimeLine $timeLine): self
-    {
-        if (!$this->timeLines->contains($timeLine)) {
-            $this->timeLines[] = $timeLine;
-            $timeLine->setUnit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTimeLine(TimeLine $timeLine): self
-    {
-        if ($this->timeLines->contains($timeLine)) {
-            $this->timeLines->removeElement($timeLine);
-            // set the owning side to null (unless already changed)
-            if ($timeLine->getUnit() === $this) {
-                $timeLine->setUnit(null);
-            }
-        }
-
-        return $this;
-    }
-
-
-    /**
      * @return Collection|Price[]
      */
     public function getPrices(): Collection
@@ -164,6 +132,37 @@ class Unit
     public function setDuration(?int $duration): self
     {
         $this->duration = $duration;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DateHeader[]
+     */
+    public function getDateHeaders(): Collection
+    {
+        return $this->dateHeaders;
+    }
+
+    public function addDateHeader(DateHeader $dateHeader): self
+    {
+        if (!$this->dateHeaders->contains($dateHeader)) {
+            $this->dateHeaders[] = $dateHeader;
+            $dateHeader->setUnit($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDateHeader(DateHeader $dateHeader): self
+    {
+        if ($this->dateHeaders->contains($dateHeader)) {
+            $this->dateHeaders->removeElement($dateHeader);
+            // set the owning side to null (unless already changed)
+            if ($dateHeader->getUnit() === $this) {
+                $dateHeader->setUnit(null);
+            }
+        }
 
         return $this;
     }
