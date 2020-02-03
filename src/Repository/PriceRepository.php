@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Price;
 use App\Entity\Product;
-use App\Entity\TimeLine;
+use App\Entity\DateHeader;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -45,13 +45,13 @@ class PriceRepository extends ServiceEntityRepository
         return $qb;
     }
     
-    public function findByProductTimeLine(Product $product, ?TimeLine $timeLine): ?float {
+    public function findByProductDateHeader(Product $product, ?DateHeader $dateHeader): ?float {
         
         $unitPrice = $product->getPrices()[0];
 
-        if (null !== $timeLine) {
+        if (null !== $dateHeader) {
             $products = [];
-            $product = $timeLine->getProduct();
+            $product = $dateHeader->getProduct();
             $products[] = $product->getId();
             $family = $product->getFamily();
             $parent = $family->getParent();
@@ -64,7 +64,7 @@ class PriceRepository extends ServiceEntityRepository
 
             $qb = $this->createQueryBuilder('pri');
             $qb->leftJoin('pri.product', 'pro')
-                ->leftJoin('pro.timeLines', 'tl')
+                ->leftJoin('pro.dateHeaders', 'dh')
                 ->leftJoin('pro.family', 'fa')
                 ->leftJoin('fa.products', 'pros')
                 ->andWhere(
@@ -74,7 +74,7 @@ class PriceRepository extends ServiceEntityRepository
                     $qb->expr()->in('pri.product', ':products')
                 )
                 ->setParameters([
-                    'unit'=> $timeLine->getunit(),
+                    'unit'=> $dateHeader->getunit(),
                     'products'=> $products
                 ]);
 

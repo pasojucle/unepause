@@ -47,6 +47,11 @@ class DateHeader
      */
     private $bookings;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $details;
+
     public function __construct()
     {
         $this->dateLines = new ArrayCollection();
@@ -142,6 +147,24 @@ class DateHeader
         return $this;
     }
 
+    public function getEditableDateLines(): ?string
+    {
+        if (!empty($this->dateLines->toArray())) {
+            if (count($this->dateLines->toArray()) > 1) {
+                $dateLinesEditable = array_map(function($dateLine){
+                    return $dateLine->getDate()->format('d M à h:m');
+                }, $this->dateLines->toArray());
+                return $this->unit->getLabel().' les '.implode(' - ', $dateLinesEditable);
+            } else {
+                $dateLine = $this->dateLines[0];
+                return $dateLine->getDate()->format('l j F Y \d\e H\hi')
+                .' à '.$dateLine->getDateEnd()->format('H\hi');
+            }
+        } else {
+            return null;
+        }
+    }
+
     /**
      * @return Collection|Booking[]
      */
@@ -169,6 +192,18 @@ class DateHeader
                 $booking->setDateHeader(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDetails(): ?string
+    {
+        return $this->details;
+    }
+
+    public function setDetails(?string $details): self
+    {
+        $this->details = $details;
 
         return $this;
     }

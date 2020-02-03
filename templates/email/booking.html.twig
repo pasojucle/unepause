@@ -18,8 +18,8 @@
                 <p>{{ booking.product.content|raw }}</p>
             </div>
             <div>
-                {% if booking.timeLine is not null %}
-                    <p>{{ booking.timeLine.day|localizeddate('full', 'none', null)|capitalize }}</p>
+                {% if booking.dateHeader is not null %}
+                    <p>{{ booking.dateHeader.editableDateLines }}</p>
                 {% endif %}
                 {% if booking.quantity is not null %}
                     <p>{{ booking.quantity }} personne(s)</p>

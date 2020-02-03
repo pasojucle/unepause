@@ -6,7 +6,7 @@ use App\Entity\Page;
 use App\Entity\Action;
 use App\Entity\Booking;
 use App\Entity\Product;
-use App\Entity\DateLine;
+use App\Entity\DateHeader;
 use App\Form\BookingType;
 use App\Form\ContactType;
 use App\Form\AppointmentType;
@@ -14,7 +14,7 @@ use App\Service\BookingService;
 use App\Service\ProductService;
 use App\Repository\PriceRepository;
 use App\Service\EmailMessageService;
-use App\Repository\DateLineRepository;
+use App\Repository\DateHeaderRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,33 +43,33 @@ class ArticleController extends AbstractController
         Request $request,
         PriceRepository $priceRepo,
         EmailMessageService $emailService,
-        DateLineRepository $timeLineRepo,
+        DateHeaderRepository $dateHeaderRepo,
         ProductService $productService,
         BookingService $bookingService,
         Product $product)
     {
         $product = $this->manager->getRepository(Product::class)->findByProduct($product);
-        $timeLines = $productService->getAvailabilitiesQuantities($product);
+        $dateHeaders = $productService->getAvailabilitiesQuantities($product);
 
         $price = null;
 
         $booking = new Booking();
         $booking->setProduct($product);
-        if (!empty($timeLines) && null === $booking->getTimeLine()) {
-            $booking->setTimeLine($timeLines[0]);
+        if (!empty($dateHeaders) && null === $booking->getDateHeader()) {
+            $booking->setDateHeader($dateHeaders[0]);
         }
         $unitPrice = $booking->getProduct()->getPrices()[0];
 
         $price = $bookingService->getPrice($booking);
-        dump($price);
+
         $booking->setPrice($price);
         $form = $this->createForm(BookingType::class, $booking,[
-            'timeLines' => $timeLines,
+            'dateHeaders' => $dateHeaders,
         ]);
 
         $form->handleRequest($request);
 
-        if ($request->isXmlHttpRequest()) {
+        /*if ($request->isXmlHttpRequest()) {
             $booking = $form->getData();
             $price = $bookingService->getPrice($booking);
             $booking->setPrice($price);
@@ -83,7 +83,7 @@ class ArticleController extends AbstractController
                 'product' => $product,
                 'price' => $price,
             ]);
-        }
+        }*/
 
         if($form->isSubmitted() && $form->isValid()) {
             $booking = $form->getData();

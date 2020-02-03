@@ -25,11 +25,7 @@
                 <tbobdy>
                     {% for booking in bookings %}
                         <tr>
-                            {% if null != booking.timeLine %}
-                                <td>{{ booking.timeLine.day|date('d/m/Y') }}</td>
-                            {% else %}
-                                <td></td>
-                            {% endif %}
+                            <td>{% if booking.dateHeader is not null %}{{ booking.dateHeader.editableDateLines }}{% endif %}</td>
                             <td>{{ booking.product.family.name }} {{ booking.product.title }}</td>
                             <td class="quantity">{{ booking.quantity }}</td>
                             <td class="price">{{ booking.price|localizedcurrency('EUR') }}</td>

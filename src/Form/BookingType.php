@@ -5,11 +5,11 @@ namespace App\Form;
 use App\Entity\User;
 use App\Entity\Booking;
 use App\Entity\Product;
-use App\Entity\DateLine;
+use App\Entity\DateHeader;
 use App\Form\ApplicationType;
 use App\Repository\PriceRepository;
 use Symfony\Component\Form\FormEvent;
-use App\Repository\DateLineRepository;
+use App\Repository\DateHeaderRepository;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -20,11 +20,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class BookingType extends ApplicationType
 {
-    private $dateLineRepo;
+    private $dateHeaderRepo;
     private $priceRepo;
 
-    public function __construct(DateLineRepository $dateLineRepo, PriceRepository $priceRepo){
-        $this->dateLineRepo = $dateLineRepo;
+    public function __construct(DateHeaderRepository $dateHeaderRepo, PriceRepository $priceRepo){
+        $this->dateHeaderRepo = $dateHeaderRepo;
         $this->priceRepo = $priceRepo;
     }
 
@@ -46,24 +46,23 @@ class BookingType extends ApplicationType
                 'placeholder' => $commentsPlacehoder,
             ]
         ]); 
-        if(!empty($options['timeLines'])) {
-            $timeLine = $builder->getData()->getTimeLine();
-            $availabilityQuantity = null === $timeLine ? 0 : $this->timeLineRepo->findAvailabitityQuantity($timeLine);
-                if (1 < count($options['timeLines'])) {
+        if(!empty($options['dateHeaders'])) {
+            $dateHeader = $builder->getData()->getDateHeader();
+            $availabilityQuantity = (null === $dateHeader) ? 0 : $this->dateHeaderRepo->findAvailabitityQuantity($dateHeader);
+                if (1 < count($options['dateHeaders'])) {
                     $builder
-                    ->add('timeLine', EntityType::class, [
-                        'class' => TimeLine::class,
-                        'choices' => $options['timeLines'],
-                        'choice_label' => function ($timeLine) {
-                            return $timeLine->getDay()->format('l j F Y \d\e H\hi')
-                                    .' à '.$timeLine->getDayEnd()->format('H\hi');
+                    ->add('dateHeader', EntityType::class, [
+                        'class' => DateHeader::class,
+                        'choices' => $options['dateHeaders'],
+                        'choice_label' => function ($dateHeader) {
+                            return $dateHeader->getEditableDateLines();
                         },
-                        'expanded' => false,
+                        'expanded' => true,
                         'multiple' => false,
                         'label' => 'Selectionner une date',
                     ]);
                 }
-dump($availabilityQuantity);
+
                 $builder
                 ->add('quantity', ChoiceType::class, [
                     'choices' => range(1, $availabilityQuantity),
@@ -80,7 +79,7 @@ dump($availabilityQuantity);
     {
         $resolver->setDefaults([
             'data_class' => Booking::class,
-            'timeLines' => [],
+            'dateHeaders' => [],
         ]);
     }
 }

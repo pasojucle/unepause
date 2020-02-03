@@ -56,7 +56,8 @@ class DateLine
 
     public function getDateEnd(): ?\DateTimeInterface
     {
-        $interval = new \DateInterval('PT'.$this->unit->getDuration().'M');
+        $unit = $this->getDateHeader()->getUnit();
+        $interval = new \DateInterval('PT'.$unit->getDuration().'M');
         return $this->date->add($interval);
     }
 

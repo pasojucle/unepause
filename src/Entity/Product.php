@@ -271,7 +271,7 @@ class Product
         foreach ($dateHeadersIterator as $dateHeader) {
             $isActive = true;
             foreach ($dateHeader->getDateLines() as $dateLine) {
-                if($today > $dateLine->getDate()) {
+                if($today >= $dateLine->getDate()) {
                     $isActive = false;
                 }
             }

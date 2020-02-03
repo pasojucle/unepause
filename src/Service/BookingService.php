@@ -18,11 +18,11 @@ class BookingService
 
     public function getPrice(Booking $booking): ?float
     {
-        $timeLine = $booking->getTimeLine();
+        $dateHeader = $booking->getDateHeader();
         $product = $booking->getProduct();
 
-        $priceUnit = $this->manager->getRepository(Price::class)->findByProductTimeLine($product, $timeLine);
-        dump($priceUnit);
+        $priceUnit = $this->manager->getRepository(Price::class)->findByProductDateHeader($product, $dateHeader);
+
         return ($priceUnit != null) ? $priceUnit * $booking->getQuantity() : null;
     }
 

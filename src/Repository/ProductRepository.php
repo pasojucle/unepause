@@ -26,7 +26,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p');
         return $qb->leftJoin('p.prices', 'pr')
-            ->leftJoin('p.timeLines', 't')
+            ->leftJoin('p.dateHeaders', 'd')
             ->leftJoin('p.images', 'i')
             ->andWhere(
                 $qb->expr()->eq('p.id',':id')

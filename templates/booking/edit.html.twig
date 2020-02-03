@@ -19,15 +19,16 @@
                 <h2>{{ product.family.name }}</h2>
                 <h3>{{ product.title }}</h3>
                 <p>{{ product.content|raw }}</p>
-                {% set timeLines = var_product.getAvailabilitiesQuantities(product) %}
+                {% set dateHeaders = var_product.getAvailabilitiesQuantities(product) %}
 
-                {% if timeLines|length == 1 %}
-                    <div>{{ timeLines.first.day|localizeddate('full', 'none', null)|capitalize }}</div>
+                {% if dateHeaders|length == 1 %}
+                    <div>{{ dateHeaders.first.editableDateLines }}</div>
                 {% endif %}
-                {% if form.timeLine is defined %}
+                {% if form.dateHeader is defined %}
+                    {% dump(form.dateHeader) %}
                     <div class="time-line">
-                        {{ timeLines|length ~ ' dates possibles' }}. {{ form_label(form.timeLine) }}
-                        {{ form_widget(form.timeLine) }}
+                        {{ dateHeaders|length ~ ' dates possibles' }}. {{ form_label(form.dateHeader) }}
+                        {{ form_widget(form.dateHeader) }}
                     </div>
                 {% endif %}
             </div>
