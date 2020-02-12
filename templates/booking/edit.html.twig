@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% form_theme form _self %}
 {% set parameters = var_parameters.parameters %}
 
 {% if product.type == constant('app\\Entity\\Product::SCHEDULE_SERVICE') %}
@@ -9,28 +10,27 @@
 {% block title %}{{parameters.company}} - {{ title }}{% endblock %}
 
 {% block body %}
-
+{% dump(form) %}
 <div class="max-width ">
     <h1>{{ title }}</h1>
     {{ form_start(form, {'attr': {'data-id': product.id}}) }}
     <div class="light-background padding-40">
         <div class="grid grid-2-col text-justify">
             <div>
-                <h2>{{ product.family.name }}</h2>
-                <h3>{{ product.title }}</h3>
-                <p>{{ product.content|raw }}</p>
-                {% set dateHeaders = var_product.getAvailabilitiesQuantities(product) %}
-
-                {% if dateHeaders|length == 1 %}
-                    <div>{{ dateHeaders.first.editableDateLines }}</div>
-                {% endif %}
-                {% if form.dateHeader is defined %}
-                    {% dump(form.dateHeader) %}
-                    <div class="time-line">
-                        {{ dateHeaders|length ~ ' dates possibles' }}. {{ form_label(form.dateHeader) }}
+                <div>
+                    <h2>{{ product.family.name }}</h2>
+                    <h3>{{ product.title }}</h3>
+                    <p>{{ product.content|raw }}</p>
+                    {% set dateHeaders = var_product.getAvailabilitiesQuantities(product) %}
+                </diV>
+                <div>
+                    {% if dateHeaders|length == 1 %}
+                        <h3>{{ dateHeaders.first.editableDateLines }}</h3>
+                    {% endif %}
+                    {% if form.dateHeader is defined %}
                         {{ form_widget(form.dateHeader) }}
-                    </div>
-                {% endif %}
+                    {% endif %}
+                </div>
             </div>
             <div>
                 <h2 class="text-center">
@@ -53,4 +53,18 @@
     </div>
     {{ form_end(form) }}
 </div>
+{% endblock %}
+
+{% block selectbox_widget %}
+    <h3>{{ form|length ~ ' dates possibles' }}. {{ form_label(form) }}</h3>
+    {% for child in form %}
+    <div class="select-box{% if child.vars.checked == true %} active{% endif %}">
+        {{ form_widget(child, {'attr':{'class':'hidden'}})}}
+        <h4>{{ child.vars.label }}</h4>
+        {% set date_lines = unserialize(child.vars.attr['data-date-lines']) %}
+        {% for date_line in date_lines %}
+            <p>{{ date_line }}</p>
+        {% endfor %}
+    </div>
+    {% endfor %}
 {% endblock %}

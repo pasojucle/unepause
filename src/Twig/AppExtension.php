@@ -23,8 +23,6 @@ class AppExtension extends AbstractExtension
 
     public function sortArticles($pageContainer)
     {
-        dump($articles);
-
         return $articles;
     }
 
@@ -37,11 +35,17 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('encodeImg', [$this, 'encodeImg']),
+            new TwigFunction('unserialize', [$this, 'unserialize']),
         ];
     }
 
     public function encodeImg(string $filename)
     {
         return base64_encode(file_get_contents($filename));
+    }
+
+    public function unserialize(string $value):array
+    {
+        return unserialize($value);
     }
 }

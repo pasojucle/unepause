@@ -7,10 +7,11 @@ use App\Entity\Booking;
 use App\Entity\Product;
 use App\Entity\DateHeader;
 use App\Form\ApplicationType;
+use App\DateTime\DateTimeFrench;
 use App\Repository\PriceRepository;
 use Symfony\Component\Form\FormEvent;
-use App\Repository\DateHeaderRepository;
 use Symfony\Component\Form\FormEvents;
+use App\Repository\DateHeaderRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -49,17 +50,33 @@ class BookingType extends ApplicationType
         if(!empty($options['dateHeaders'])) {
             $dateHeader = $builder->getData()->getDateHeader();
             $availabilityQuantity = (null === $dateHeader) ? 0 : $this->dateHeaderRepo->findAvailabitityQuantity($dateHeader);
+                dump($availabilityQuantity);
                 if (1 < count($options['dateHeaders'])) {
                     $builder
                     ->add('dateHeader', EntityType::class, [
                         'class' => DateHeader::class,
                         'choices' => $options['dateHeaders'],
                         'choice_label' => function ($dateHeader) {
-                            return $dateHeader->getEditableDateLines();
+                            //return $dateHeader->getEditableDateLines();
+                            return $dateHeader->getUnit()->getLabel();
                         },
-                        'expanded' => true,
+                        'expanded' =>true,
                         'multiple' => false,
+                        'block_prefix' => 'selectbox',
                         'label' => 'Selectionner une date',
+                        'choice_attr' => function($choice, $key, $value){
+                            $dateLines = $choice->getDateLines()->toArray();
+                            $dateLinesArray = [];
+                            foreach($dateLines as $dateLine) {
+                                $date = new DateTimeFrench($dateLine->getDate()->format('Y-m-d H:i:s'));
+                                $dateLinesArray[] = $date->format('l j M y à \p\a\r\t\i\r \d\e h:i');
+                            }
+                            dump($dateLinesArray);
+                            return [
+                                'data-date-lines' => serialize($dateLinesArray),
+                            ];
+
+                        },
                     ]);
                 }
 

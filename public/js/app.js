@@ -13,7 +13,8 @@ $(function() {
 
     $(document).on('change','#booking_timeLine, #booking_quantity', setBookingQuantity);
     $(document).on('change','#time_line_product', setAdminTimeLine);
-   //$(':radio[name="booking[timeLine]"]').change(setBookingQuantity);
+    $(document).on('click', '.select-box', selectBox);
+    //$(':radio[name="booking[timeLine]"]').change(setBookingQuantity);
 });
 
 function setClassPicture() {
@@ -72,6 +73,18 @@ function setAdminTimeLine() {
         success: function(html) {
             console.log($(html).find('form'));
             form.replaceWith($(html).find('form'));
+        }
+    });
+}
+
+function selectBox() {
+    var target = this;
+    $('.select-box').each(function(){
+        if (this == target) {
+            $(target).addClass('active');
+            $(this).find('input[type="radio"]').prop('checked', true)
+        } else {
+            $(this).removeClass('active');
         }
     });
 }
