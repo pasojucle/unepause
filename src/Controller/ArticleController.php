@@ -58,7 +58,6 @@ class ArticleController extends AbstractController
         if (!empty($dateHeaders) && null === $booking->getDateHeader()) {
             $booking->setDateHeader($dateHeaders[0]);
         }
-        dump($booking);
 
         $unitPrice = $booking->getProduct()->getPrices()[0];
 
@@ -72,23 +71,7 @@ class ArticleController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($request->isXmlHttpRequest()) {
-            $booking = $form->getData();
-            $price = $bookingService->getPrice($booking);
-            $booking->setPrice($price);
-
-            $form = $this->createForm(BookingType::class, $booking,[
-                'dateHeaders' => $dateHeaders,
-            ]);
-
-            return $this->render('booking/edit.html.twig', [
-                'form' => $form->createView(),
-                'product' => $product,
-                'price' => $price,
-            ]);
-        }
-
-        if($form->isSubmitted() && $form->isValid()) {
+        if(!$request->isXmlHttpRequest() && $form->isSubmitted() && $form->isValid()) {
             $booking = $form->getData();
             $booking->setUser($this->getUser());
             $this->manager->persist($booking);

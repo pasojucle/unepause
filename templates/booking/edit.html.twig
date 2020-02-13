@@ -10,7 +10,6 @@
 {% block title %}{{parameters.company}} - {{ title }}{% endblock %}
 
 {% block body %}
-{% dump(form) %}
 <div class="max-width ">
     <h1>{{ title }}</h1>
     {{ form_start(form, {'attr': {'data-id': product.id}}) }}
@@ -23,7 +22,7 @@
                     <p>{{ product.content|raw }}</p>
                     {% set dateHeaders = var_product.getAvailabilitiesQuantities(product) %}
                 </diV>
-                <div>
+                <div class="marging-top">
                     {% if dateHeaders|length == 1 %}
                         <h3>{{ dateHeaders.first.editableDateLines }}</h3>
                     {% endif %}

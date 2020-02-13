@@ -11,8 +11,8 @@ $(function() {
 
     $(document).on('submit', '#contact', sendConctactMessage);
 
-    $(document).on('change','#booking_timeLine, #booking_quantity', setBookingQuantity);
-    $(document).on('change','#time_line_product', setAdminTimeLine);
+    $(document).on('change','.select-box, #booking_quantity', setBookingQuantity);
+    $(document).on('change','.select-box', setAdminTimeLine);
     $(document).on('click', '.select-box', selectBox);
     //$(':radio[name="booking[timeLine]"]').change(setBookingQuantity);
 });
