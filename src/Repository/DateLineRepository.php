@@ -49,13 +49,5 @@ class DateLineRepository extends ServiceEntityRepository
     */
 
     
-    public function findNextDateLines (): array
-    {
-        $qb = $this->createQueryBuilder('t');
-        return $qb->where(
-            $qb->expr()->gt('t.day', ':now')
-        )
-        ->setParameter('now', new \DateTime('now'))
-        ->getQuery()->getResult();
-    }
+
 }

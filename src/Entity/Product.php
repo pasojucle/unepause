@@ -283,4 +283,23 @@ class Product
         return new ArrayCollection($dateHeaders);
     }
 
+    public function getShortDateHeaders(): ?string
+    {
+        $dateHeaders = $this->dateHeaders->toArray();
+        if (!empty($dateHeaders)) {
+            $count = count($dateHeaders);
+            if ( $count > 1){
+                return $count.' dates possibles';
+            } else {
+                $dateLines = $dateHeaders[0]->getDateLines()->toArray();
+                if (count($dateLines) > 1) {
+                    return $dateHeaders[0]->getUnit()->getLabel();
+                } 
+                return $dateLines[0]->getDate()->format('l j F \d\e G\hi')
+                .' à '.$dateLines[0]->getDateEnd()->format('G\hi');
+            }
+        }
+        return null;
+    }
+
 }

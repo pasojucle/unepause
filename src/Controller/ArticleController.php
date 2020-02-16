@@ -59,20 +59,20 @@ class ArticleController extends AbstractController
             $booking->setDateHeader($dateHeaders[0]);
         }
 
-        $unitPrice = $booking->getProduct()->getPrices()[0];
-
-        $price = $bookingService->getPrice($booking);
-
-
-        $booking->setPrice($price);
         $form = $this->createForm(BookingType::class, $booking,[
             'dateHeaders' => $dateHeaders,
         ]);
 
         $form->handleRequest($request);
+        $booking = $form->getData();
+
+        if($request->isXmlHttpRequest()) {
+            $form = $this->createForm(BookingType::class, $booking,[
+                'dateHeaders' => $dateHeaders,
+            ]);
+        }
 
         if(!$request->isXmlHttpRequest() && $form->isSubmitted() && $form->isValid()) {
-            $booking = $form->getData();
             $booking->setUser($this->getUser());
             $this->manager->persist($booking);
             $this->manager->flush();

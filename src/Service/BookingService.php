@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Entity\Price;
 use App\Entity\Booking;
+use App\Entity\Product;
+use App\Entity\DateHeader;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class BookingService
@@ -25,5 +27,4 @@ class BookingService
 
         return ($priceUnit != null) ? $priceUnit * $booking->getQuantity() : null;
     }
-
 }

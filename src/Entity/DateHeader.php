@@ -147,22 +147,19 @@ class DateHeader
         return $this;
     }
 
-    public function getEditableDateLines(): ?string
+    public function getLongDateLines(): ?array
     {
         if (!empty($this->dateLines->toArray())) {
-            if (count($this->dateLines->toArray()) > 1) {
-                $dateLinesEditable = array_map(function($dateLine){
-                    return $dateLine->getDate()->format('d M à h:m');
-                }, $this->dateLines->toArray());
-                return $this->unit->getLabel().' les '.implode(' - ', $dateLinesEditable);
-            } else {
-                $dateLine = $this->dateLines[0];
-                return $dateLine->getDate()->format('l j F Y \d\e H\hi')
-                .' à '.$dateLine->getDateEnd()->format('H\hi');
-            }
-        } else {
-            return null;
-        }
+            $longDateLines = array_map(function($dateLine){
+                return $dateLine->getDate()->format('l j F  \d\e G\hi')
+                .' à '.$dateLine->getDateEnd()->format('G\hi');
+            }, $this->dateLines->toArray());
+            return [
+                'unit' =>$this->unit->getLabel(),
+                'dateLines' => $longDateLines
+            ];
+        } 
+        return null;
     }
 
     /**

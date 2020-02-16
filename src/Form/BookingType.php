@@ -7,6 +7,7 @@ use App\Entity\Booking;
 use App\Entity\Product;
 use App\Entity\DateHeader;
 use App\Form\ApplicationType;
+use App\Service\BookingService;
 use App\DateTime\DateTimeFrench;
 use App\Repository\PriceRepository;
 use Symfony\Component\Form\FormEvent;
@@ -16,6 +17,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Form\EventListener\AddQuantityFieldListener;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -25,33 +27,35 @@ class BookingType extends ApplicationType
 {
     private $dateHeaderRepo;
     private $priceRepo;
+    private $bookingService;
 
-    public function __construct(DateHeaderRepository $dateHeaderRepo, PriceRepository $priceRepo){
+    public function __construct(DateHeaderRepository $dateHeaderRepo, PriceRepository $priceRepo, BookingService $bookingService){
         $this->dateHeaderRepo = $dateHeaderRepo;
         $this->priceRepo = $priceRepo;
+        $this->bookingService = $bookingService;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($builder->getData()->getProduct()->getType() == Product::SCHEDULE_SERVICE) {
+        $booking = $builder->getData();
+        if ($booking->getProduct()->getType() == Product::SCHEDULE_SERVICE) {
             $commentsPlacehoder = 'Possez vous questions...';
         } else {
             $commentsPlacehoder = 'Donnez-moi vous disponniblités et je vous recontacte pour fixer le rendez-vous';
         }
+        $availabilityQuantity = (null === $booking->getDateHeader()) ? 0 : $this->dateHeaderRepo->findAvailabitityQuantity($booking->getDateHeader());
+        $price = $this->bookingService->getPrice($booking);
+        dump($price);
         $builder
-        ->add('price', HiddenType::class)
-        ->add('comments', TextareaType::class, [
-            'label_attr' => [
-                'class' => 'hidden',
-            ],
-            'required' => false,
-            'attr' => [
-                'placeholder' => $commentsPlacehoder,
-            ]
-        ]); 
-
-        if (1 < count($options['dateHeaders'])) {
-            $builder
+            ->add('comments', TextareaType::class, [
+                'label_attr' => [
+                    'class' => 'hidden',
+                ],
+                'required' => false,
+                'attr' => [
+                    'placeholder' => $commentsPlacehoder,
+                ]
+            ])
             ->add('dateHeader', EntityType::class, [
                 'class' => DateHeader::class,
                 'choices' => $options['dateHeaders'],
@@ -67,46 +71,28 @@ class BookingType extends ApplicationType
                     $dateLines = $choice->getDateLines()->toArray();
                     $dateLinesArray = [];
                     foreach($dateLines as $dateLine) {
-                        $date = new DateTimeFrench($dateLine->getDate()->format('Y-m-d H:i:s'));
-                        $dateLinesArray[] = $date->format('l j M y à \p\a\r\t\i\r \d\e h:i');
+                        $date = new DateTimeFrench($dateLine->getDate()->format('Y-m-d G:i:s'));
+                        $dateLinesArray[] = $date->format('l j M y à \p\a\r\t\i\r \d\e G:i');
                     }
                     return [
                         'data-date-lines' => serialize($dateLinesArray),
                     ];
 
                 },
+            ])
+            ->add('quantity', ChoiceType::class, [
+                'choices' => range(1, $availabilityQuantity),
+                'choice_label' => function ($choice, $key, $value) {
+                    return $value;
+                },
             ]);
-        }
-
-        $formModifier = function (FormInterface $form, DateHeader $dateHeader = null) use ($options) {
-            //if(!empty($options['dateHeaders'])) {
-                $availabilityQuantity = (null === $dateHeader) ? 0 : $this->dateHeaderRepo->findAvailabitityQuantity($dateHeader);
-                $form
-                ->add('quantity', ChoiceType::class, [
-                    'choices' => range(1, $availabilityQuantity),
-                    'choice_label' => function ($choice, $key, $value) {
-                        return $value;
-                    },
-                ]);
-            //}
-        };
-
-        $builder->addEventListener(
-            FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($formModifier) {
-                $data = $event->getData();
-                $dateHeader =  (null !== $data) ? $data->getDateHeader() : null;
-                $formModifier($event->getForm(), $dateHeader);
+            if (null !== $price) {
+                $builder
+                ->add('price', HiddenType::class, [
+                    'data' => $price,
+                ])
+                ;
             }
-        );
-
-        $builder->get('dateHeader')->addEventListener(
-            FormEvents::POST_SUBMIT,
-            function (FormEvent $event) use ($formModifier) {
-                $dateHeader = $event->getForm()->getData();
-                $formModifier($event->getForm()->getParent(), $dateHeader);
-            }
-        );
     }
 
     public function configureOptions(OptionsResolver $resolver)

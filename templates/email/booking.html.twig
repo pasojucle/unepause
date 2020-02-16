@@ -19,7 +19,8 @@
             </div>
             <div>
                 {% if booking.dateHeader is not null %}
-                    <p>{{ booking.dateHeader.editableDateLines }}</p>
+                    {% set dateLines = booking.dateHeader.longDateLines %}
+                    {% include "partials/dateLines.html.twig" %}
                 {% endif %}
                 {% if booking.quantity is not null %}
                     <p>{{ booking.quantity }} personne(s)</p>

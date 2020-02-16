@@ -241,7 +241,7 @@ h4 {
     text-align: center;
     font-size: 1.2em;
 }
-.list-item h3::after {
+.list-item h3::after, .badge h3::after {
     content: '';
     height: 1px;
     background-color: var(--primary-color);
@@ -520,25 +520,17 @@ a legend {
 .badge {
     border: 1px solid var(--dark-grey);
     font-size: 0.9em;
-}
-.badge-body {
     text-align: left;
     padding: 10px;
     box-sizing: border-box;
 }
-.badge-title {
-    background-color: var(--primary-color);
-    display: block;
-    padding: 10px;
-    box-sizing: border-box;
-}
-.badge-title h2 {
-    color: white;
+.badge h3 {
+    color: var(--primary-color);
     margin-bottom: initial;
     font-size: 1em;
     text-align: center;
 }
-.badge-body p:not(:last-child):after {
+/*.badge-body p:not(:last-child):after {
     content: '';
     position: relative;
     display: block;
@@ -546,7 +538,7 @@ a legend {
     background-color: var(--dark-grey);
     margin: 5px auto;
 
-}
+}*/
 thead {
     text-align: center;
 }

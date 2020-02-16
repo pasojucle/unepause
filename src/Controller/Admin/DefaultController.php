@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Booking;
-use App\Entity\TimeLine;
+use App\Entity\DateHeader;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,10 +16,10 @@ class DefaultController extends AbstractController
     public function adminDashboard(ObjectManager $manager)
     {
         $bookings = $manager->getRepository(Booking::class)->findAll();
-        $TimeLines = $manager->getRepository(TimeLine::class)->findNextTimeLines();
+        $dateHeaders = $manager->getRepository(DateHeader::class)->findNextDateHeaders();
         return $this->render('Admin/dashboard.html.twig', [
             'bookings' => $bookings,
-            'timeLines' => $TimeLines,
+            'dateHeaders' => $dateHeaders,
         ]);
     }
 }

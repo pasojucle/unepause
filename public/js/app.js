@@ -11,9 +11,10 @@ $(function() {
 
     $(document).on('submit', '#contact', sendConctactMessage);
 
-    $(document).on('change','.select-box, #booking_quantity', setBookingQuantity);
+    $(document).on('change','#booking_quantity', setBooking);
     $(document).on('change','.select-box', setAdminTimeLine);
     $(document).on('click', '.select-box', selectBox);
+    $(document).on('click', '.select-box', setBooking);
     //$(':radio[name="booking[timeLine]"]').change(setBookingQuantity);
 });
 
@@ -51,7 +52,7 @@ function sendConctactMessage(e){
         $("#contact").trigger('reset');
     });
 }
-function setBookingQuantity() {
+function setBooking() {
     var form = $(this).closest('form');
     var route = Routing.generate("booking",{'id': form.data('id')});
     $.ajax({

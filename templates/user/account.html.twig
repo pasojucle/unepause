@@ -25,7 +25,12 @@
                 <tbobdy>
                     {% for booking in bookings %}
                         <tr>
-                            <td>{% if booking.dateHeader is not null %}{{ booking.dateHeader.editableDateLines }}{% endif %}</td>
+                            <td>
+                            {% if booking.dateHeader is not null %}
+                                {% set dateLines = booking.dateHeader.longDateLines %}
+                                {% include('partials/dateLines.html.twig') %}
+                            {% endif %}
+                            </td>
                             <td>{{ booking.product.family.name }} {{ booking.product.title }}</td>
                             <td class="quantity">{{ booking.quantity }}</td>
                             <td class="price">{{ booking.price|localizedcurrency('EUR') }}</td>

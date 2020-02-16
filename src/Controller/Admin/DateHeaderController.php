@@ -4,23 +4,23 @@ namespace App\Controller\Admin;
 
 use App\Entity\DateLine;
 use App\Form\DateLineType;
-use App\Repository\DateLineRepository;
+use App\Repository\DateHeaderRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class DateLineController extends AbstractController
+class DateHeaderController extends AbstractController
 {
     /**
-     * @Route("/admin/timelines/", name="time_line_list")
+     * @Route("/admin/dateHeaders/", name="date_header_list")
      */
-    public function timeLineList(DateLineRepository $dateLineRepository) 
+    public function dateHeaderList(DateHeaderRepository $dateHeaderRepository) 
     {
-        $timeLines = $dateLineRepository->findAll();
+        $dateHeaders = $dateHeaderRepository->findAll();
 
-        return $this->render('Admin/time_line/list.html.twig', [
-            'timeLines' => $timeLines,
+        return $this->render('Admin/date_header/list.html.twig', [
+            'dateHeaders' => $headers,
         ]);
     }
     

@@ -37,4 +37,15 @@ class DateHeaderRepository extends ServiceEntityRepository
         return  $dateHeader->getMaxQuantity() - $bookingQuantity;
     }
 
+    public function findNextDateHeaders (): array
+    {
+        $qb = $this->createQueryBuilder('dh');
+        return $qb->join('dh.dateLines', 'dl')
+            ->where(
+                $qb->expr()->gt('dl.date', ':now')
+            )
+            ->setParameter('now', new \DateTime('now'))
+            ->groupBy('dh.id')
+            ->getQuery()->getResult();
+    }
 }

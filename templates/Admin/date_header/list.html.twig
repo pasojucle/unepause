@@ -18,13 +18,13 @@
             </tr>
         </thead>
         <tbobdy>
-            {% for timeLine in timeLines %}
+            {% for dateHeader in dateHeaders %}
                 <tr>
-                    <td>{{ timeLine.day|date('d/m/Y') }}</td>
-                    <td>{{ timeLine.product.family.name }}</td>
-                    <td>{{ timeLine.product.title }}</td>
+                    <td>{{ dateHeader.day|date('d/m/Y') }}</td>
+                    <td>{{ dateHeader.product.family.name }}</td>
+                    <td>{{ dateHeader.product.title }}</td>
                     <td>
-                        <a href="{{ path('time_line_edit', {'timeLine': timeLine.id}) }}"><i class="fas fa-edit"></i></a>
+                        <a href="{{ path('time_line_edit', {'dateHeader': dateHeader.id}) }}"><i class="fas fa-edit"></i></a>
                     </td>
                 </tr>
             {% endfor %}

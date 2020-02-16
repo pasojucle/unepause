@@ -23,17 +23,17 @@
                 </tr>
             </thead>
             <tbobdy>
-                {% for timeLine in timeLines %}
+                {% for dateHeader in dateHeaders %}
                     <tr>
-                        <td>{{ timeLine.day|date('d/m/Y') }}</td>
-                        <td>{{ timeLine.product.family.name }}</td>
-                        <td>{{ timeLine.product.title }}</td>
-                        <td><a href="{{ path('time_line_edit', {'timeLine': timeLine.id}) }}"><i class="fas fa-edit"></i></a></td>
+                        <td>{{ dateHeader.editableDateLines}}</td>
+                        <td>{{ dateHeader.product.family.name }}</td>
+                        <td>{{ dateHeader.product.title }}</td>
+                        <td><a href="{{ path('time_line_edit', {'dateHeader': dateHeader.id}) }}"><i class="fas fa-edit"></i></a></td>
                     </tr>
                 {% endfor %}
             </tbobdy>
         </table>
-        <button class="btn btn-primary"><a href="{{ path('time_line_list') }}">Voir toutes les dates</a></td>
+        <button class="btn btn-primary"><a href="{{ path('date_header_list') }}">Voir toutes les dates</a></td>
         <button class="btn btn-secondary"><a href="{{ path('time_line_edit') }}">Ajouter une date</a></td>
         </div>
     </div>
@@ -53,8 +53,8 @@
             <tbobdy>
                 {% for booking in bookings %}
                     <tr>
-                        {% if null != booking.timeLine %}
-                            <td>{{ booking.timeLine.day|date('d/m/Y') }}</td>
+                        {% if null != booking.dateHeader %}
+                            <td>{{ booking.dateHeader.editableDateLines}}</td>
                         {% else %}
                             <td></td>
                         {% endif %}

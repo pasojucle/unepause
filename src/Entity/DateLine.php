@@ -58,7 +58,8 @@ class DateLine
     {
         $unit = $this->getDateHeader()->getUnit();
         $interval = new \DateInterval('PT'.$unit->getDuration().'M');
-        return $this->date->add($interval);
+        $dateEnd = clone $this->date; 
+        return $dateEnd->add($interval);
     }
 
     public function getDateHeader(): ?DateHeader

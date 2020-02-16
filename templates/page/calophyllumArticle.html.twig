@@ -32,10 +32,8 @@
                                     {% set btn %}
                                         <a class='btn btn-disabled'><i class="fas fa-times-circle"></i> Complet</a>
                                     {% endset %}
-                                {% elseif dateHeaders|length == 1 %}
-                                    <p>{{ dateHeaders[0].editableDateLines }}</p>
                                 {% else %}
-                                    <p>{{ dateHeaders|length }} dates possibles<p/>
+                                    <p>{{ content.shortDateHeaders}}<p/>
                                 {% endif %}
                                 {{ btn }}
                             </div>

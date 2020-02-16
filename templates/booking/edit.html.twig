@@ -23,9 +23,6 @@
                     {% set dateHeaders = var_product.getAvailabilitiesQuantities(product) %}
                 </diV>
                 <div class="marging-top">
-                    {% if dateHeaders|length == 1 %}
-                        <h3>{{ dateHeaders.first.editableDateLines }}</h3>
-                    {% endif %}
                     {% if form.dateHeader is defined %}
                         {{ form_widget(form.dateHeader) }}
                     {% endif %}
@@ -39,8 +36,8 @@
                     {% if form.quantity is defined %}
                         {{ form_label(form.quantity) }} {{ form_widget(form.quantity) }}
                     {% endif %}
-                    {% if price is not null %}
-                        <div class="float-right price">{{ price|localizedcurrency('EUR') }}</div>
+                    {% if form.price is defined %}
+                        <div class="float-right price">{{ form.price.vars.value|localizedcurrency('EUR') }}</div>
                     {% endif %}
                 </div>
                 {{ form_row(form.comments) }}
@@ -55,7 +52,9 @@
 {% endblock %}
 
 {% block selectbox_widget %}
-    <h3>{{ form|length ~ ' dates possibles' }}. {{ form_label(form) }}</h3>
+    {% if form|length > 1 %}
+        <h3>{{ form|length ~ ' dates possibles' }}. {{ form_label(form) }}</h3>
+    {% endif %}
     {% for child in form %}
     <div class="select-box{% if child.vars.checked == true %} active{% endif %}">
         {{ form_widget(child, {'attr':{'class':'hidden'}})}}
