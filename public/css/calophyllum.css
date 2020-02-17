@@ -241,7 +241,7 @@ h4 {
     text-align: center;
     font-size: 1.2em;
 }
-.list-item h3::after, .badge h3::after {
+.list-item h3::after {
     content: '';
     height: 1px;
     background-color: var(--primary-color);
@@ -518,7 +518,7 @@ a legend {
     font-size: 30px;
 }
 .badge {
-    border: 1px solid var(--dark-grey);
+    border: 2px solid var(--primary-color);
     font-size: 0.9em;
     text-align: left;
     padding: 10px;
@@ -528,7 +528,9 @@ a legend {
     color: var(--primary-color);
     margin-bottom: initial;
     font-size: 1em;
-    text-align: center;
+}
+.badge:not(last-child) {
+    margin-bottom: 10px;
 }
 /*.badge-body p:not(:last-child):after {
     content: '';

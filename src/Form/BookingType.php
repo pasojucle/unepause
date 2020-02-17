@@ -68,11 +68,13 @@ class BookingType extends ApplicationType
                 'block_prefix' => 'selectbox',
                 'label' => 'Selectionner une date',
                 'choice_attr' => function($choice, $key, $value){
-                    $dateLines = $choice->getDateLines()->toArray();
+                    $data = $choice->getLongDateLines();
+                    //$dateLines = $choice->getDateLines()->toArray();
                     $dateLinesArray = [];
-                    foreach($dateLines as $dateLine) {
-                        $date = new DateTimeFrench($dateLine->getDate()->format('Y-m-d G:i:s'));
-                        $dateLinesArray[] = $date->format('l j M y à \p\a\r\t\i\r \d\e G:i');
+                    foreach($data['dateLines'] as $dateLine) {
+                        $dateLinesArray[] = $dateLine;
+                        //$date = new DateTimeFrench($dateLine->getDate()->format('Y-m-d G:i:s'));
+                        //$dateLinesArray[] = $date->format('l j M y à \p\a\r\t\i\r \d\e G:i');
                     }
                     return [
                         'data-date-lines' => serialize($dateLinesArray),

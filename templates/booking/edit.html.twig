@@ -17,22 +17,21 @@
         <div class="grid grid-2-col text-justify">
             <div>
                 <div>
-                    <h2>{{ product.family.name }}</h2>
+                    <h2 class="text-center marging-top">
+                    <img src="/images/calophyllum/{{ product.family.image.filenameMd }}" alt="{{ product.family.image.title }}"> {{ product.family.name }}
+                    </h2>
                     <h3>{{ product.title }}</h3>
                     <p>{{ product.content|raw }}</p>
                     {% set dateHeaders = var_product.getAvailabilitiesQuantities(product) %}
                 </diV>
-                <div class="marging-top">
+            </div>
+            <div>
+                <div>
                     {% if form.dateHeader is defined %}
                         {{ form_widget(form.dateHeader) }}
                     {% endif %}
                 </div>
-            </div>
-            <div>
-                <h2 class="text-center">
-                    <img src="/images/calophyllum/{{ product.family.image.filenameMd }}" alt="{{ product.family.image.title }}">
-                </h2>
-                <div class="form-group inline">
+                <div class="form-group marging-top">
                     {% if form.quantity is defined %}
                         {{ form_label(form.quantity) }} {{ form_widget(form.quantity) }}
                     {% endif %}
