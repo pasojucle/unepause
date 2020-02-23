@@ -9,28 +9,35 @@
     <h1>Calendrier</h1>
     <div>
         <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Produit</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbobdy>
-            {% for dateHeader in dateHeaders %}
+            <thead>
                 <tr>
-                    <td>{{ dateHeader.day|date('d/m/Y') }}</td>
-                    <td>{{ dateHeader.product.family.name }}</td>
-                    <td>{{ dateHeader.product.title }}</td>
-                    <td>
-                        <a href="{{ path('time_line_edit', {'dateHeader': dateHeader.id}) }}"><i class="fas fa-edit"></i></a>
-                    </td>
+                    <th>Date</th>
+                    <th>Produit</th>
+                    <th></th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-        </tbobdy>
-    </table>
-    <button class="btn btn-secondary"><a href="{{ path('time_line_edit') }}">Ajouter une date</a></td>
+            </thead>
+            <tbobdy>
+                {% for dateHeader in dateHeaders %}
+                    <tr>
+                        <td>
+                            {% set dateLines = dateHeader.longDateLines %}
+                            {% include "partials/dateLines.html.twig" %}
+                        </td>
+                        <td>
+                            <p>{{ dateHeader.product.family.name }}</P>
+                            <p>{{ dateHeader.product.title }}</p>
+                        </td>
+                        <td>
+                            <a href="{{ path('date_header_edit', {'dateHeader': dateHeader.id}) }}"><i class="fas fa-edit"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbobdy>
+        </table>    
+    </div>
+    <div class="badge-footer">
+        <button class="btn btn-secondary"><a href="{{ path('date_header_edit') }}">Ajouter une date</a></td>
     </div>
 </div>
 {% endblock %}

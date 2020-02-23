@@ -8,66 +8,77 @@
 <div class="max-width">
     <h1>Tableau de bord</h1>
     <div class="flex">
-    <div class="badge flex-item">
-        <div class="badge-title">
-            <h2>Calendrier</h2>
+        <div class="badge flex-item">
+            <div class="badge-title">
+                <h2>Calendrier</h2>
+            </div>
+            <div class="badge-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Produit</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbobdy>
+                        {% for dateHeader in dateHeaders %}
+                            <tr>
+                                <td>
+                                    {% set dateLines = dateHeader.longDateLines %}
+                                    {% include "partials/dateLines.html.twig" %}
+                                </td>
+                                <td>
+                                    <p>{{ dateHeader.product.family.name }}</P>
+                                    <p>{{ dateHeader.product.title }}</p>
+                                </td>
+                                <td><a href="{{ path('date_header_edit', {'dateHeader': dateHeader.id}) }}" title="Modifier"><i class="fas fa-edit"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbobdy>
+                </table>
+            </div>
+            <div class="badge-footer">
+                <button class="btn btn-primary"><a href="{{ path('date_header_list') }}">Voir toutes les dates</a></button>
+                <button class="btn btn-secondary"><a href="{{ path('date_header_edit') }}">Ajouter une date</a></button>
+            </div>
         </div>
-        <div class="badge-body">
-            <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Produit</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbobdy>
-                {% for dateHeader in dateHeaders %}
-                    <tr>
-                        <td>{{ dateHeader.editableDateLines}}</td>
-                        <td>{{ dateHeader.product.family.name }}</td>
-                        <td>{{ dateHeader.product.title }}</td>
-                        <td><a href="{{ path('time_line_edit', {'dateHeader': dateHeader.id}) }}"><i class="fas fa-edit"></i></a></td>
-                    </tr>
-                {% endfor %}
-            </tbobdy>
-        </table>
-        <button class="btn btn-primary"><a href="{{ path('date_header_list') }}">Voir toutes les dates</a></td>
-        <button class="btn btn-secondary"><a href="{{ path('time_line_edit') }}">Ajouter une date</a></td>
+        <div class="badge flex-item">
+            <div class="badge-title">
+                <h2>Prochaines réservations</h2>
+            </div>
+            <div class="badge-body">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Produit</th>
+                            <th>Quantité</th>
+                        </tr>
+                    </thead>
+                    <tbobdy>
+                        {% for booking in bookings %}
+                            <tr>
+                                <td>
+                                    {% if null != booking.dateHeader %}
+                                        {% set dateLines = booking.dateHeader.longDateLines %}
+                                        {% include "partials/dateLines.html.twig" %}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <p>{{ booking.product.family.name }}</p>
+                                    <p>{{ booking.product.title }}</p>
+                                </td>
+                                <td class="quantity">{{ booking.quantity }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbobdy>
+                </table>
+            </div>
+            <div class="badge-footer">
+                <button class="btn btn-primary"><a href="{{ path('admin_bookings') }}">Voir toutes les réservations</a></button>
+            </div>
         </div>
     </div>
-    <div class="badge flex-item">
-        <div class="badge-title">
-            <h2>Prochaines réservations</h2>
-        </div>
-        <div class="badge-body">
-        <table>
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Produit</th>
-                    <th>Quantité</th>
-                </tr>
-            </thead>
-            <tbobdy>
-                {% for booking in bookings %}
-                    <tr>
-                        {% if null != booking.dateHeader %}
-                            <td>{{ booking.dateHeader.editableDateLines}}</td>
-                        {% else %}
-                            <td></td>
-                        {% endif %}
-                        <td>{{ booking.product.family.name }} {{ booking.product.title }}</td>
-                        <td class="quantity">{{ booking.quantity }}</td>
-                    </tr>
-                {% endfor %}
-            </tbobdy>
-        </table>
-            <button class="btn btn-primary"><a href="{{ path('admin_bookings') }}">Voir toutes les réservations</a></td>
-        </div>
-    </div>
-    
-    
 </div>
 {% endblock %}

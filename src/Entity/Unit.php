@@ -43,6 +43,11 @@ class Unit
      */
     private $dateHeaders;
 
+    /**
+     * @ORM\Column(type="integer", options={"default":1})
+     */
+    private $dateLineCount;
+
     public function __construct()
     {
         $this->families = new ArrayCollection();
@@ -163,6 +168,18 @@ class Unit
                 $dateHeader->setUnit(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateLineCount(): ?int
+    {
+        return $this->dateLineCount;
+    }
+
+    public function setDateLineCount(int $dateLineCount): self
+    {
+        $this->dateLineCount = $dateLineCount;
 
         return $this;
     }

@@ -69,12 +69,9 @@ class BookingType extends ApplicationType
                 'label' => 'Selectionner une date',
                 'choice_attr' => function($choice, $key, $value){
                     $data = $choice->getLongDateLines();
-                    //$dateLines = $choice->getDateLines()->toArray();
                     $dateLinesArray = [];
                     foreach($data['dateLines'] as $dateLine) {
                         $dateLinesArray[] = $dateLine;
-                        //$date = new DateTimeFrench($dateLine->getDate()->format('Y-m-d G:i:s'));
-                        //$dateLinesArray[] = $date->format('l j M y à \p\a\r\t\i\r \d\e G:i');
                     }
                     return [
                         'data-date-lines' => serialize($dateLinesArray),

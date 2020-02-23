@@ -47,4 +47,21 @@ class BookingRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findNextBookings ($limit = null): array
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb->join('b.dateHeader', 'dh')
+            ->join('dh.dateLines', 'dl')
+            ->where(
+                $qb->expr()->gt('dl.date', ':now')
+            )
+            ->setParameter('now', new \DateTime('now'))
+            ->groupBy('b.dateHeader')
+            ;
+       if (null != $limit) {
+            $qb->setMaxResults($limit);
+        }
+            
+        return $qb->getQuery()->getResult();
+    }
 }

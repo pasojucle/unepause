@@ -7,29 +7,28 @@
 
 <div class="max-width ">
     <h1>{{ title }}</h1>
-    <div class="light-background padding-40 grid grid-2-col text-left">
-        <div>
-            <h2>{{ product.family.name }}</h2>
-            <h3>{{ product.title }}</h3>
-            <p>{{ product.content|raw }}</p>
-
+    {{ form_start(form) }}
+    <div class="light-background padding-40">
+        <div class="grid grid-2-col text-left">
+            <div>
+                <h2 class="text-center marging-top">
+                    <img src="/images/calophyllum/{{ product.family.image.filenameMd }}" alt="{{ product.family.image.title }}"> {{ product.family.name }}
+                </h2>
+                <p>{{ product.content|raw }}</p>
+            </div>
+            <div>
+                {% if send == 0 %}
+                    {{ form_row(form.firstname,{'attr' :{'class':'form-group'}})}}
+                    {{ form_row(form.lastname)}}
+                    {{ form_row(form.email)}}
+                    {{ form_row(form.content)}}
+                {% endif %}
+            </div>
         </div>
-        <div>
-            {% if send == 0 %}
-                {{ form_start(form) }}
-                {{ form_row(form.firstname,{'attr' :{'class':'form-group'}})}}
-                {{ form_row(form.lastname)}}
-                {{ form_row(form.email)}}
-                {{ form_row(form.content)}}
-                <div class="form-footer">
-                    <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-check"></i>
-                    Envoyer le message</button>
-                </div>
-                {{ form_end(form) }}
-            {% else %}
-                {#{{ content.content|raw }}#}
-            {% endif %}
+        <div class="x-footer">
+            <button type="submit" class="btn btn-primary">
+            <i class="fas fa-check"></i>
+            Envoyer le message</button>
         </div>
     </div>
     {{ form_end(form) }}

@@ -11,6 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Action
 {
+    const FRONT_OFFICE = 1;
+    const BACK_OFFICE = 2;
+    
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -53,6 +56,11 @@ class Action
      * @ORM\Column(type="boolean", options={"default" : 0})
      */
     private $isAnchor;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $office;
 
     public function __construct()
     {
@@ -178,6 +186,18 @@ class Action
     public function setIsAnchor(bool $isAnchor): self
     {
         $this->isAnchor = $isAnchor;
+
+        return $this;
+    }
+
+    public function getOffice(): ?int
+    {
+        return $this->office;
+    }
+
+    public function setOffice(int $office): self
+    {
+        $this->office = $office;
 
         return $this;
     }

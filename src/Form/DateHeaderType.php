@@ -4,7 +4,8 @@ namespace App\Form;
 
 use App\Entity\Unit;
 use App\Entity\Product;
-use App\Entity\TimeLine;
+use App\Entity\DateHeader;
+use App\Form\DateLineType;
 use App\Repository\UnitRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\FormEvent;
@@ -14,10 +15,11 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class TimeLineType extends AbstractType
+class DateHeaderType extends AbstractType
 {
     private $unitRepo;
 
@@ -27,10 +29,15 @@ class TimeLineType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $product = $builder->getData()->getProduct();
+        $units = (null !== $product) ? $this->unitRepo->findByProduct($product) : null;
+
         $builder
-            ->add('day', DateTimeType::class, [
-                'html5' => true,
-                'label' => 'Date',
+            ->add('dateLines', CollectionType::class, [
+                'entry_type' => DateLineType::class,
+                'label' => 'Dates',
+                'prototype' => true,
+                'allow_add' => true,
             ])
             ->add('maxQuantity', NumberType::class, [
                 'html5' => true,
@@ -58,45 +65,23 @@ class TimeLineType extends AbstractType
                     return $choice->getFamily()->getName();
                 },
                 'label' => 'Produit',
-            ]);
-
-
-            $formModifier = function (FormInterface $form, Product $product = null) {
-                
-                $units = (null !== $product) ? $this->unitRepo->findByProduct($product) : null;
-                $form->add('unit', EntityType::class, [
+            ])
+            ->add('unit', EntityType::class, [
                     'class' => Unit::class,
                     'choices' => $units,
                     'choice_label' => 'label',
                     'label' => 'Unité',
                     'placeholder' => 'Choisir une unité',
-                ]);
-            };
-
-            $builder->addEventListener(
-                FormEvents::PRE_SET_DATA,
-                function (FormEvent $event) use ($formModifier) {
-                    $data = $event->getData();
-                    $product =  (null !== $data) ? $data->getProduct() : null;
-                    $formModifier($event->getForm(), $product);
-                }
-            );
-    
-            $builder->get('product')->addEventListener(
-                FormEvents::POST_SUBMIT,
-                function (FormEvent $event) use ($formModifier) {
-                    $product = $event->getForm()->getData();
-                    dump($product);
-                    $formModifier($event->getForm()->getParent(), $product);
-                }
-            );
+                ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => TimeLine::class,
+            'data_class' => DateHeader::class,
+            //'allow_extra_fields' => true,
+            //'csrf_protection'  => false,
         ]);
     }
 }

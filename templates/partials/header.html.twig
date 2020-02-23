@@ -7,6 +7,8 @@
     {% set actions = var_actions.headerActions %}
     {% set formContact = form_contact.form.createView() %}
     {% set current_route = app.request.attributes.get('_route') %}
+    {% dump(app.request.pathInfo) %}
+    {% dump('admin' in app.request.pathInfo) %}
 </header>
 <div class="nav-btn bars">
     <i class="fas fa-bars"></i>

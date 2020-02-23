@@ -428,7 +428,7 @@ form input, textarea, .btn {
     margin-top: 10px;
     border: none;
 }
-form input, textarea {
+form input[type="text"],form input[type="email"], form input[type="password"],textarea {
     width: 100%;
     box-sizing: border-box;
 }
@@ -509,6 +509,7 @@ a legend {
 }
 .admin .form-label {
     width: 30%;
+    line-height: 48px;
 }
 
 .form-group:not(:last-child) {
@@ -541,6 +542,9 @@ a legend {
     margin: 5px auto;
 
 }*/
+.badge-footer {
+    text-align: right;
+}
 thead {
     text-align: center;
 }
@@ -600,4 +604,7 @@ td, th {
     font-size: 30px;
     top: calc((100% - 40px) / 2);
     box-sizing: border-box;
+}
+#date-line-fields-list {
+    list-style: none;
 }

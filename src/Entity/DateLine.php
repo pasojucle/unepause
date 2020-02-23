@@ -47,7 +47,7 @@ class DateLine
         return (null !== $this->date) ? new DateTimeFrench($this->date->format('Y-m-d H:i:s')) : null;
     }
 
-    public function setDate(\DateTimeInterface $day): self
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
 

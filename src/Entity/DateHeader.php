@@ -38,7 +38,7 @@ class DateHeader
     private $availabilityQuantity;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DateLine", mappedBy="dateHeader")
+     * @ORM\OneToMany(targetEntity="App\Entity\DateLine", mappedBy="dateHeader", cascade={"persist"})
      */
     private $dateLines;
 
@@ -124,7 +124,7 @@ class DateHeader
         return $this->dateLines;
     }
 
-    public function addDate(DateLine $dateLine): self
+    public function addDateLine(DateLine $dateLine): self
     {
         if (!$this->dateLines->contains($dateLine)) {
             $this->dateLines[] = $dateLine;
@@ -134,7 +134,7 @@ class DateHeader
         return $this;
     }
 
-    public function removeDate(DateLine $dateLine): self
+    public function removeDateLine(DateLine $dateLine): self
     {
         if ($this->dateLines->contains($dateLine)) {
             $this->dateLines->removeElement($dateLine);

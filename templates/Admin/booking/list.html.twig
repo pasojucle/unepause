@@ -20,12 +20,16 @@
             <tbobdy>
                 {% for booking in bookings %}
                     <tr>
-                        {% if null != booking.timeLine %}
-                            <td>{{ booking.timeLine.day|date('d/m/Y') }}</td>
-                        {% else %}
-                            <td></td>
-                        {% endif %}
-                        <td>{{ booking.product.family.name }} {{ booking.product.title }}</td>
+                        <td>
+                            {% if null != booking.dateHeader %}
+                                {% set dateLines = booking.dateHeader.longDateLines %}
+                                {% include "partials/dateLines.html.twig" %}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <p>{{ booking.product.family.name }}</p>
+                            <p>{{ booking.product.title }}</p>
+                        </td>
                         <td class="quantity">{{ booking.quantity }}</td>
                         <td class="price">{{ booking.price|localizedcurrency('EUR') }}</td>
                     </tr>

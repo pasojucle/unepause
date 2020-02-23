@@ -12,7 +12,7 @@ $(function() {
     $(document).on('submit', '#contact', sendConctactMessage);
 
     $(document).on('change','#booking_quantity', setBooking);
-    $(document).on('change','.select-box', setAdminTimeLine);
+    $(document).on('change','#date_header_product, #date_header_unit', setAdminDateHeader);
     $(document).on('click', '.select-box', selectBox);
     $(document).on('click', '.select-box', setBooking);
     //$(':radio[name="booking[timeLine]"]').change(setBookingQuantity);
@@ -64,15 +64,14 @@ function setBooking() {
         }
     });
 }
-function setAdminTimeLine() {
+function setAdminDateHeader() {
     var form = $(this).closest('form');
-    var route = Routing.generate("time_line_edit",{'id': form.data('id')});
+    var route = Routing.generate("date_header_edit",{'id': form.data('id')});
     $.ajax({
         url : route,
         type: form.attr('method'),
         data : form.serialize(),
         success: function(html) {
-            console.log($(html).find('form'));
             form.replaceWith($(html).find('form'));
         }
     });
