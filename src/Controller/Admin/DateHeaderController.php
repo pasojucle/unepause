@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DateHeaderController extends AbstractController
 {
     /**
-     * @Route("/admin/dateHeaders/", name="date_header_list")
+     * @Route("/admin/dateHeaders", name="date_header_list")
      */
     public function dateHeaderList(DateHeaderRepository $dateHeaderRepository) 
     {
@@ -74,6 +74,8 @@ class DateHeaderController extends AbstractController
         return $this->render('Admin/date_header/edit.html.twig', [
             'form' => $form->createView(),
             'dateHeaderId' => (null !== $dateHeader) ? $dateHeader-> getId() : null,
+            'action_slug' => 'dateHeaders',
+            'page_slug' => 'dateHeaders',
         ]);
     }
 }

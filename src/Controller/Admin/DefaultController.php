@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/admin/", name="admin_dashboard")
+     * @Route("/admin", name="admin_dashboard")
      */
     public function adminDashboard(ObjectManager $manager)
     {

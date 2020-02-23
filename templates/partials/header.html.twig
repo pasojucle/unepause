@@ -7,8 +7,15 @@
     {% set actions = var_actions.headerActions %}
     {% set formContact = form_contact.form.createView() %}
     {% set current_route = app.request.attributes.get('_route') %}
-    {% dump(app.request.pathInfo) %}
-    {% dump('admin' in app.request.pathInfo) %}
+    {% set office = constant('App\\Entity\\Action::FRONT_OFFICE') %}
+    {% if 'admin' in app.request.pathInfo %}
+        {% set office = constant('App\\Entity\\Action::BACK_OFFICE') %}
+    {% endif %}
+    {% if action_slug is not defined and action_slug is not defined %}
+        {% set slug = app.request.pathInfo|split('/')|last %}
+        {% set action_slug = slug %}
+        {% set page_slug = slug %}
+    {% endif %}
 </header>
 <div class="nav-btn bars">
     <i class="fas fa-bars"></i>
@@ -19,7 +26,7 @@
     </div>
     <ul>
         {% for action in actions %}
-            {% if action.isActive == 1 %}
+            {% if action.isActive == 1 and action.office == office %}
                 {% if action.isAnchor == 0 %}
                     {% if action.pages|length > 0 %}
                         {% set route = action.pages[0].template.route.name %}
