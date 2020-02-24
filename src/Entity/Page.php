@@ -56,6 +56,11 @@ class Page
      */
     private $orderBy;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : 1})
+     */
+    private $isActive;
+
     public function __construct()
     {
         $this->pageContainers = new ArrayCollection();
@@ -185,6 +190,18 @@ class Page
     public function setOrderBy(?int $orderBy): self
     {
         $this->orderBy = $orderBy;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

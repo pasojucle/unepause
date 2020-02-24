@@ -62,6 +62,11 @@ class Action
      */
     private $office;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $orderBy;
+
     public function __construct()
     {
         $this->pages = new ArrayCollection();
@@ -198,6 +203,18 @@ class Action
     public function setOffice(int $office): self
     {
         $this->office = $office;
+
+        return $this;
+    }
+
+    public function getOrderBy(): ?int
+    {
+        return $this->orderBy;
+    }
+
+    public function setOrderBy(?int $orderBy): self
+    {
+        $this->orderBy = $orderBy;
 
         return $this;
     }

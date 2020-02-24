@@ -39,8 +39,10 @@
                             <a class="nav-link">{{ action.name }}</a>
                             <div class="dropdown-menu">
                                 {% for page in action.pages %}
-                                    {% set class_item = "dropdown-item"%}
-                                    {% include 'partials/routeParameters.html.twig' %}
+                                    {% if page.isActive == 1 %}
+                                        {% set class_item = "dropdown-item"%}
+                                        {% include 'partials/routeParameters.html.twig' %}
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         {% else %}

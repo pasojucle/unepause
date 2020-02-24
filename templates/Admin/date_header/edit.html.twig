@@ -40,6 +40,6 @@
 {% block date_line_widget %}
     <div id="{{ form.vars.id }}" class="form-control">
         <input type="date" id="{{ form.vars.id }}_date_date" name="{{form.vars.full_name}}[date][date]" required="required" value="{% if form.vars.value is not null %}{{form.vars.value.date|date('Y-m-d')}}{% endif %}">
-        <input type="time" id="{{ form.vars.id }}_date_time" name="{{form.vars.full_name}}[date][time]" required="required" value="{% if form.vars.value is not null %}{{form.vars.value.date|date('h:i')}}{% endif %}">
+        <input type="time" id="{{ form.vars.id }}_date_time" name="{{form.vars.full_name}}[date][time]" required="required" value="{% if form.vars.value is not null %}{{form.vars.value.date|date('H:i')}}{% endif %}">
     </div>
 {% endblock %}

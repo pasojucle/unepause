@@ -40,7 +40,8 @@ class Container
     private $tagName;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Action", mappedBy="container")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Action", mappedBy="container", )
+     * @ORM\OrderBy({"orderBy" = "ASC"})
      */
     private $actions;
 

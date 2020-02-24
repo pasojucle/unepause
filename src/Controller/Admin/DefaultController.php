@@ -20,6 +20,8 @@ class DefaultController extends AbstractController
         return $this->render('Admin/dashboard.html.twig', [
             'bookings' => $bookings,
             'dateHeaders' => $dateHeaders,
+            'action_slug' => 'dashboard',
+            'page_slug' => 'dashboard',
         ]);
     }
 }
