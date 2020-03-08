@@ -3,14 +3,14 @@
 namespace App\Service;
 
 use App\Entity\Parameter;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ParameterService
 {
     private $manager;
     private $parametersArray;
 
-    public function __construct(ObjectManager $manager)
+    public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
 

@@ -6,17 +6,17 @@ use App\Entity\Page;
 use App\Entity\Action;
 use App\Entity\Booking;
 use App\Entity\Product;
-use App\Entity\DateHeader;
 use App\Form\BookingType;
 use App\Form\ContactType;
+use App\Entity\DateHeader;
 use App\Form\AppointmentType;
 use App\Service\BookingService;
 use App\Service\ProductService;
 use App\Repository\PriceRepository;
 use App\Service\EmailMessageService;
 use App\Repository\DateHeaderRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ class ArticleController extends AbstractController
     private $manager;
     private $emailMessageService;
 
-    public function __construct(ObjectManager $manager, EmailMessageService $emailMessageService)
+    public function __construct(EntityManagerInterface $manager, EmailMessageService $emailMessageService)
     {
         $this->manager = $manager;
         $this->emailMessageService = $emailMessageService;

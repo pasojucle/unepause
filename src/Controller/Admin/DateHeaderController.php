@@ -6,8 +6,8 @@ use App\Entity\DateLine;
 use App\Entity\DateHeader;
 use App\Form\DateHeaderType;
 use App\Repository\DateHeaderRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,7 +29,7 @@ class DateHeaderController extends AbstractController
     /**
      * @Route("/admin/dateHeader/{dateHeader}", name="date_header_edit", defaults ={"dateHeader": null}, options={"expose"=true})
      */
-    public function dateHeaderEdit(ObjectManager $manager, Request $request, CsrfTokenManagerInterface $tokenManager, ?DateHeader $dateHeader)
+    public function dateHeaderEdit(EntityManagerInterface $manager, Request $request, CsrfTokenManagerInterface $tokenManager, ?DateHeader $dateHeader)
     {
         if (null === $dateHeader) {
             $dateHeader = new DateHeader();

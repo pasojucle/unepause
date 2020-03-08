@@ -6,13 +6,13 @@ use App\Entity\Price;
 use App\Entity\Booking;
 use App\Entity\Product;
 use App\Entity\DateHeader;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class BookingService
 {
     private $manager;
 
-    public function __construct(ObjectManager $manager)
+    public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
 

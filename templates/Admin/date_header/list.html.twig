@@ -3,6 +3,12 @@
 {% set parameters = var_parameters.parameters %}
 {% block title %}{{parameters.company}} - Admin{% endblock %}
 
+{% block stylesheets %}
+    {{ parent()}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.css">
+{% endblock %}
 {% block body %}
 
 <div class="max-width">
@@ -10,6 +16,7 @@
     <div>
         <button class="btn btn-secondary"><a href="{{ path('date_header_edit') }}"><i class="fas fa-plus-circle"></i> Ajouter une date</a></td>
     </div> 
+    {% include '@Calendar/calendar.html' %}
     <div class="badge">
         <table>
             <thead>
@@ -40,4 +47,14 @@
         </table>   
     </div>
 </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@4.4.0/locales-all.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@4.1.0/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@4.1.0/main.min.js"></script>
+    <script src='fullcalendar/locale/es.js'></script>
+    <script src="/js/calendar.js"></script>
 {% endblock %}

@@ -4,13 +4,13 @@ namespace App\Service;
 
 use App\Entity\Price;
 use App\Entity\DateHeader;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DateHeaderService
 {
     private $manager;
 
-    public function __construct(ObjectManager $manager)
+    public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
 
