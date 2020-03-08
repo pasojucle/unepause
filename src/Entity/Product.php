@@ -269,7 +269,7 @@ class Product
         $dateHeadersIterator = self::getDateHeaders()->getIterator();
         $today = new DateTime();
         foreach ($dateHeadersIterator as $dateHeader) {
-            $isActive = true;
+            $isActive = ($dateHeader->getIsGeneric()== 0) ? true : false;
             foreach ($dateHeader->getDateLines() as $dateLine) {
                 if($today >= $dateLine->getDate()) {
                     $isActive = false;
@@ -279,7 +279,7 @@ class Product
                 $dateHeaders[] = $dateHeader;
             }
         }
-
+        
         return new ArrayCollection($dateHeaders);
     }
 

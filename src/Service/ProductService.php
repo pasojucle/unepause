@@ -29,6 +29,7 @@ class ProductService
     public function getAvailabilitiesQuantities(Product $product):?Collection {
         $dateHeaders = [];
         $dateHeadersIterator = $product->getActiveDateHeaders()->getIterator();
+
         foreach ($dateHeadersIterator as $dateHeader) {
             $availabitityQuantity = $this->dateHeaderRepository->findAvailabitityQuantity($dateHeader);
             if ($availabitityQuantity > 0 || null == $availabitityQuantity) {
@@ -39,6 +40,7 @@ class ProductService
         if ($product->getType() == Product::SCHEDULE_AND_APPOINTEMENT_SERVICE) { 
             $dateHeaders[] = $this->dateHeaderRepository->findGeneric($product);
         }
+        
         return new ArrayCollection($dateHeaders);
     }
 }
