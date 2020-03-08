@@ -9,9 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BookingController extends AbstractController
 {
     /**
-     * @Route("/admin/bookings", name="admin_bookings")
+     * @Route("/admin/booking", name="admin_booking")
      */
-    public function bookings(BookingRepository $bookingRepository)
+    public function adminBooking(BookingRepository $bookingRepository)
     {
         $bookings = $bookingRepository->findAll();
         return $this->render('Admin/booking/list.html.twig', [

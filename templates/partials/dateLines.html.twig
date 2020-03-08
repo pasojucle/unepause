@@ -1,6 +1,13 @@
+{% set dateLinesLength = dateLines.dateLines|length %}
 {% if dateLines.unit %}
-    <h3>{{ dateLines.unit }}</h3>
+    {% if dateLinesLength == 0 %}
+        <h3>A la demande selon disponibilités</h3>
+    {% elseif dateLinesLength == 1 %}
+        <h3>{{ dateLines.dateLines[0] }}</h3>
+    {% else %}
+        <h3>{{ dateLines.unit }}</h3>
+        {% for dateLine in dateLines.dateLines %}
+            <p>{{ dateLine }}</p>
+        {% endfor %}
+    {% endif %}
 {% endif %}
-{% for dateLine in dateLines.dateLines %}
-    <p>{{ dateLine }}</p>
-{% endfor %}

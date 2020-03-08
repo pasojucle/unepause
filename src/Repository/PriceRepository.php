@@ -52,14 +52,16 @@ class PriceRepository extends ServiceEntityRepository
         if (null !== $dateHeader) {
             $products = [];
             $product = $dateHeader->getProduct();
-            $products[] = $product->getId();
-            $family = $product->getFamily();
-            $parent = $family->getParent();
-            if ($family->getHasUniquesPrices() == true && $parent === null) {
-                $products[] = $family->getGenericProduct()->getId();
-            }
-            if ($parent !== null && $parent->getGenericProduct() !== null) {
-                $products[] = $parent->getGenericProduct()->getId();
+            if (null !== $product) {
+                $products[] = $product->getId();
+                $family = $product->getFamily();
+                $parent = $family->getParent();
+                if ($family->getHasUniquesPrices() == true && $parent === null) {
+                    $products[] = $family->getGenericProduct()->getId();
+                }
+                if ($parent !== null && $parent->getGenericProduct() !== null) {
+                    $products[] = $parent->getGenericProduct()->getId();
+                }
             }
 
             $qb = $this->createQueryBuilder('pri');

@@ -50,12 +50,13 @@ class DateHeaderType extends AbstractType
                 'class' => Product::class,
                 'query_builder' => function (EntityRepository $er) {
                     $qb = $er->createQueryBuilder('p');
+                    $productTypes = [Product::SCHEDULE_SERVICE, Product::SCHEDULE_AND_APPOINTEMENT_SERVICE];
                     return  $qb->leftJoin('p.family', 'f')
                         ->where(
                             $qb->expr()->eq('p.isGeneric', 0),
-                            $qb->expr()->eq('p.type', ':schedule_service')
+                            $qb->expr()->in('p.type', ':product_types')
                         )
-                        ->setParameter(':schedule_service', Product::SCHEDULE_SERVICE)
+                        ->setParameter(':product_types', $productTypes)
                         ->orderBy('p.family', 'ASC')
                         ->addOrderBy('p.orderBy' ,'ASC');
                 },

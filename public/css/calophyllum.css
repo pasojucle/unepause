@@ -78,6 +78,16 @@ header {
 .nav-item:hover, .nav-item-active {
     background-color : var(--primary-color);
 }
+.nav-column .nav-item {
+    color: var(--primary-color);
+    text-align: left;
+    list-style: none;
+    display: block;
+}
+.nav-column .nav-item:hover, .nav-column .nav-item-active {
+    color : var(--second-color);
+    background-color: unset;
+}
 /*.nav-item-active {
     position: relative;
 }
@@ -607,4 +617,37 @@ td, th {
 }
 #date-line-fields-list {
     list-style: none;
+}
+.fa-times-circle {
+    color: var(--primary-color);
+}
+.fa-check-circle {
+    color: var(--second-color);
+}
+.tool {
+    float: right;
+}
+.tool::after {
+    content: '';
+    clear: both;
+}
+.column-text {
+    text-align: justify;
+    column-count: 2;
+}
+.column-text h2 {
+    margin-bottom: 5px;
+}
+
+.column-text h2:not(:first-child) {
+    margin-top: 20px;
+}
+ul {
+    break-inside: avoid;
+}
+.column-text p {
+    margin-bottom: 5px;
+}
+.column-text p:not(:first-child) {
+    margin-top: 5px;
 }

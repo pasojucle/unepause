@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DateHeader
 {
+    const DEFAULT_MAX_QUANTITY = 8;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -33,7 +34,7 @@ class DateHeader
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $maxQuantity = 8;
+    private $maxQuantity = self::DEFAULT_MAX_QUANTITY;
 
     private $availabilityQuantity;
 
@@ -51,6 +52,11 @@ class DateHeader
      * @ORM\Column(type="text", nullable=true)
      */
     private $details;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isGeneric = 0;
 
     public function __construct()
     {
@@ -158,7 +164,12 @@ class DateHeader
                 'unit' =>$this->unit->getLabel(),
                 'dateLines' => $longDateLines
             ];
-        } 
+        } else {
+            return [
+                'unit' =>$this->unit->getLabel(),
+                'dateLines' => []
+            ];
+        }
         return null;
     }
 
@@ -201,6 +212,18 @@ class DateHeader
     public function setDetails(?string $details): self
     {
         $this->details = $details;
+
+        return $this;
+    }
+
+    public function getIsGeneric(): ?bool
+    {
+        return $this->isGeneric;
+    }
+
+    public function setIsGeneric(bool $isGeneric): self
+    {
+        $this->isGeneric = $isGeneric;
 
         return $this;
     }

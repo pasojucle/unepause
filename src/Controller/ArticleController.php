@@ -58,7 +58,7 @@ class ArticleController extends AbstractController
         if (!empty($dateHeaders) && null === $booking->getDateHeader()) {
             $booking->setDateHeader($dateHeaders[0]);
         }
-
+        
         $form = $this->createForm(BookingType::class, $booking,[
             'dateHeaders' => $dateHeaders,
         ]);

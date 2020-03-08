@@ -7,6 +7,9 @@
 
 <div class="max-width">
     <h1>Calendrier</h1>
+    <div>
+        <button class="btn btn-secondary"><a href="{{ path('date_header_edit') }}"><i class="fas fa-plus-circle"></i> Ajouter une date</a></td>
+    </div> 
     <div class="badge">
         <table>
             <thead>
@@ -34,10 +37,7 @@
                     </tr>
                 {% endfor %}
             </tbobdy>
-        </table> 
-        <div class="x-footer">
-            <button class="btn btn-secondary"><a href="{{ path('date_header_edit') }}">Ajouter une date</a></td>
-        </div>   
+        </table>   
     </div>
 </div>
 {% endblock %}

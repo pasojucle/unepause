@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Paramètres{% endblock %}
+
+{% block body %}
+{% set actions = var_actions.frontActions %}
+<div class="page admin">
+    <div class="max-width">
+        <h1>Paramètres</h1>
+    </div>
+    <div class="max-width">
+        <div class="grid grid-3-col">
+            <div class="nav-column">
+                <ul>
+                {% dump(current_action) %}
+                {% for action in actions %}
+                    {% if action.office == constant('App\\Entity\\Action::FRONT_OFFICE') %}
+                        {% dump(action) %}
+                        <li class="nav-item{% if current_action == action %} nav-item-active{% endif %}">
+                            <a href="{{ path('admin_setting', {'action':action.id}) }}">{{ action.name }}</a>
+                            <div class="tool">
+                                {% if action.isActive %}
+                                    <i class="fas fa-check-circle"></i>
+                                {% else %}
+                                    <i class="fas fa-times-circle"></i>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+            {% if current_page is null %}
+                {% set current_page = current_action.pages.first %}
+            {% endif %}
+            <div>
+                <ul>
+                {% for page in current_action.pages %}
+                    {% if current_action.office == constant('App\\Entity\\Action::FRONT_OFFICE') %}
+                        <li><a class="btn btn-primary" href="{{ path('admin_setting', {'action':current_action.id, 'page':page.id}) }}">{{ page.name }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

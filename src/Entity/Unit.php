@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Unit
 {
+    const UPON_REQUEST=1;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

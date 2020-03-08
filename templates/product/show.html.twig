@@ -26,15 +26,19 @@
                         <div>
                             {% for dateHeader in dateHeaders %}
                             <div class="badge">
+                                {% dump(dateHeader) %}
                                 {% set dateLines = dateHeader.longDateLines %}
-                                {% include "partials/dateLines.html.twig" %}
-
+                                {% if dateLines is not empty %}
+                                    {% include "partials/dateLines.html.twig" %}
+                                {% endif %}
                                 <div class="badge-body">
                                     {% set price = var_dateHeader.getPrice(dateHeader) %}
                                     {% if price is not null %}
                                         <p>{{ price|localizedcurrency('EUR') }} par personne</p>
                                     {% endif %}
-                                    <p>{{ dateHeader.availabilityQuantity}} places disponibles</p>
+                                    {% if dateHeader.availabilityQuantity is not null %}
+                                        <p>{{ dateHeader.availabilityQuantity}} places disponibles</p>
+                                    {% endif %}
                                 </div>  
                             </div>
                             {% endfor %}

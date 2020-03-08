@@ -21,6 +21,7 @@ class Container
     const INTRODUCTION_LIST = 8;
     const ARTICLE_LIST = 10;
     const PROFIL = 11;
+    const COLUMN_TEXT= 12;
     
     /**
      * @ORM\Id()

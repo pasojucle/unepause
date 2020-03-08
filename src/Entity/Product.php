@@ -16,7 +16,7 @@ class Product
     const SCHEDULE_SERVICE = 2;
     const APPOINTMENT_SERVICE = 3;
     const BESPOKE_SERVICE = 4;
-
+    const SCHEDULE_AND_APPOINTEMENT_SERVICE = 5;
 
     /**
      * @ORM\Id()
@@ -278,14 +278,14 @@ class Product
             if (true === $isActive) {
                 $dateHeaders[] = $dateHeader;
             }
-            
         }
+
         return new ArrayCollection($dateHeaders);
     }
 
     public function getShortDateHeaders(): ?string
     {
-        $dateHeaders = $this->dateHeaders->toArray();
+        $dateHeaders = $this->getActiveDateHeaders();
         if (!empty($dateHeaders)) {
             $count = count($dateHeaders);
             if ( $count > 1){

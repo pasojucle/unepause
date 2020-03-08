@@ -15,11 +15,9 @@ class DefaultController extends AbstractController
      */
     public function adminDashboard(ObjectManager $manager)
     {
-        $bookings = $manager->getRepository(Booking::class)->findNextBookings(3);
-        $dateHeaders = $manager->getRepository(DateHeader::class)->findNextDateHeaders(3);
         return $this->render('Admin/dashboard.html.twig', [
-            'bookings' => $bookings,
-            'dateHeaders' => $dateHeaders,
+            'bookings' => $manager->getRepository(Booking::class)->findNextBookings(4),
+            'dateHeaders' => $manager->getRepository(DateHeader::class)->findNextDateHeaders(4),
             'action_slug' => 'dashboard',
             'page_slug' => 'dashboard',
         ]);

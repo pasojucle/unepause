@@ -45,7 +45,6 @@ class BookingType extends ApplicationType
         }
         $availabilityQuantity = (null === $booking->getDateHeader()) ? 0 : $this->dateHeaderRepo->findAvailabitityQuantity($booking->getDateHeader());
         $price = $this->bookingService->getPrice($booking);
-        dump($price);
         $builder
             ->add('comments', TextareaType::class, [
                 'label_attr' => [
@@ -80,6 +79,7 @@ class BookingType extends ApplicationType
                 },
             ])
             ->add('quantity', ChoiceType::class, [
+                'label' => 'Quantité',
                 'choices' => range(1, $availabilityQuantity),
                 'choice_label' => function ($choice, $key, $value) {
                     return $value;

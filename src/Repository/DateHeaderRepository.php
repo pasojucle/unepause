@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Product;
 use App\Entity\DateHeader;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method DateHeader|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,6 +20,16 @@ class DateHeaderRepository extends ServiceEntityRepository
         parent::__construct($registry, DateHeader::class);
     }
 
+    public function findAll(): array
+    {
+        $qb = $this->createQueryBuilder('dh');
+        return $qb->where(
+                $qb->expr()->eq('dh.isGeneric', 0)
+            )
+            ->orderBy('dh.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
     public function findAvailabitityQuantity($dateHeader){
         $qb = $this->createQueryBuilder('d');
         $qb->leftJoin('d.bookings', 'b')
@@ -45,11 +56,26 @@ class DateHeaderRepository extends ServiceEntityRepository
                 $qb->expr()->gt('dl.date', ':now')
             )
             ->setParameter('now', new \DateTime('now'))
-            ->groupBy('dh.id');
+            ->groupBy('dh.id')
+            ->orderBy('dl.date', 'ASC');
         if (null != $limit) {
             $qb->setMaxResults($limit);
         }
             
         return $qb->getQuery()->getResult();
+    }
+
+    public function findGeneric(Product $product):?DateHeader
+    {
+        $qb = $this->createQueryBuilder('dh');
+        return  $qb->andWhere(
+                $qb->expr()->eq('dh.isGeneric', 1)
+            )
+            ->andWhere(
+                $qb->expr()->eq('dh.product', ':product')
+            )
+            ->setParameter('product', $product->getId())
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

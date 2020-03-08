@@ -156,21 +156,21 @@ class Family
         /**
      * @return ArrayCollection
      */
-    public function getFirstOnesProducts($count = 3): ArrayCollection
+    public function getFirstOnesProducts($count = 1): ArrayCollection
     {
         $productsIterator = $this->products->getIterator();
-
         $today = new DateTime();
         $month = $today->format('m');
-        $firstOnesProducts = [];
+        $products = [];
         foreach ($productsIterator as $product) {
             $orderBy = ($product->getOrderBy() < $month) ? $product->getOrderBy() + 12 : $product->getOrderBy();
-            if ($orderBy < $month + $count && false === $product->getIsGeneric()) {
-                $firstOnesProducts[$orderBy] = $product;
+            if (false === $product->getIsGeneric()) {
+                $products[$orderBy] = $product;
             }
         }
-        sort($firstOnesProducts);
-        return new ArrayCollection($firstOnesProducts);
+        sort($products);
+
+        return new ArrayCollection(array_slice($products,0,$count));
     }
 
     /**

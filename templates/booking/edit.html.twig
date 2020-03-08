@@ -57,8 +57,8 @@
     {% for child in form %}
     <div class="select-box{% if child.vars.checked == true %} active{% endif %}">
         {{ form_widget(child, {'attr':{'class':'hidden'}})}}
-        <h4>{{ child.vars.label }}</h4>
         {% set date_lines = unserialize(child.vars.attr['data-date-lines']) %}
+        <h4>{{ child.vars.label }}</h4>
         {% for date_line in date_lines %}
             <p>{{ date_line }}</p>
         {% endfor %}

@@ -16,6 +16,14 @@
                     {% endfor %}
                 </div>
             {% endif %}
+            {% if pageContainer.container.id == constant('app\\entity\\Container::COLUMN_TEXT') %}
+                <section class="max-width column-text">
+                    {% for pageContent in pageContainer.pageContents %}
+                        <h2>{{ pageContent.title }}</h2>
+                        {{ pageContent.content|raw }}
+                    {% endfor %}
+                </section>
+            {% endif %}
             {% if pageContainer.container.id == constant('app\\entity\\Container::LIST') 
                 or pageContainer.container.id == constant('app\\entity\\Container::INTRODUCTION_LIST')
                 or pageContainer.container.id == constant('app\\entity\\Container::ARTICLE_LIST')  %}
