@@ -26,7 +26,6 @@
                         <div>
                             {% for dateHeader in dateHeaders %}
                             <div class="badge">
-                                {% dump(dateHeader) %}
                                 {% set dateLines = dateHeader.longDateLines %}
                                 {% if dateLines is not empty %}
                                     {% include "partials/dateLines.html.twig" %}

@@ -212,7 +212,6 @@ class PageContainer
             if (self::getContainer()->getId() == Container::INTRODUCTION_LIST) {
                 if (1 == $family->getHasSeasonalProducts()) {
                     $items = Array_merge($family->getFirstOnesProducts()->toArray(), $items);
-                    dump($items);
                 } else {
                     $products = $family->getProducts()->toArray();
                     $items = Array_merge(array_slice($products,0,1), $items);
