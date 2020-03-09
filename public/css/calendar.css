@@ -1,0 +1,16 @@
+.fc-button-primary {
+    background-color: var(--second-color);
+    border-color:var(--second-color);
+}
+.fc-button-primary:disabled {
+    background-color:#2C3E50;
+    border-color:#2C3E50;
+}
+.fc-button-primary:not(:disabled).fc-button-active, .fc-button-primary:not(:disabled):active {
+    background-color:var(--primary-color);
+    border-color:var(--primary-color);
+}
+.fc-button-primary:hover {
+    background-color:var(--primary-color);
+    border-color:var(--primary-color);
+}

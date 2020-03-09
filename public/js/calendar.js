@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var calendar = new FullCalendar.Calendar(calendarEl, {
         defaultView: 'dayGridMonth',
         editable: true,
+        contentHeight:"auto",
         eventSources: [
             {
                 url: "/fc-load-events",
@@ -16,8 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
             },
         ],
+        customButtons: {
+            dateHeaderAdd: {
+              text: 'Ajouter une date',
+              click: function() {
+                const route  = Routing.generate("date_header_add");
+                window.location.href = route;
+              }
+            }
+          },
         header: {
-            left: 'prev,next, today',
+            left: 'prev,next, today, dateHeaderAdd',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay',
         },

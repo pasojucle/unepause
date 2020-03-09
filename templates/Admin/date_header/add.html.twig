@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Calendrier{% endblock %}
+
+{% block body %}
+    <div class="page admin">
+        <div class="max-width">
+            <h1>Calendrier</h1>
+        </div>
+        <div class="max-width light-background padding-40">
+            {{ form_start(form, {'attr': {'data-id': 'timeLineId'}}) }}
+            <h2>Ajouter une date</h2>
+            {{ form_row(form.product)}}
+            {{ form_row(form.unit)}}
+            <div class="form-group">
+                <div class="form-label">
+                    {{ form_label(form.dateLines)}}
+                </div>
+                <ul id="date-line-fields-list">
+                {% for dateLineField in form.dateLines %}
+                    <li>
+                        {{ form_widget(dateLineField) }}
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+
+            {{ form_row(form.maxQuantity)}}
+
+            <div class="x-footer">
+                <button class="btn btn-secondary"><i class="fas fa-check"></i> Valider</button>
+            </div>
+        {{ form_row(form._token) }}
+        {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block date_line_widget %}
+    <div id="{{ form.vars.id }}" class="form-control">
+        <input type="date" id="{{ form.vars.id }}_date_date" name="{{form.vars.full_name}}[date][date]" required="required" value="{% if form.vars.value is not null %}{{form.vars.value.date|date('Y-m-d')}}{% endif %}">
+        <input type="time" id="{{ form.vars.id }}_date_time" name="{{form.vars.full_name}}[date][time]" required="required" value="{% if form.vars.value is not null %}{{form.vars.value.date|date('H:i')}}{% endif %}">
+    </div>
+{% endblock %}

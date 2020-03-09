@@ -1,45 +1,48 @@
 {% extends 'base.html.twig' %}
-{% form_theme form _self %}
 
 {% block title %}Admin - Calendrier{% endblock %}
 
 {% block body %}
     <div class="page admin">
         <div class="max-width">
-            <h1>Calendrier</h1>
+            <h1>Evénement</h1>
         </div>
-        <div class="max-width light-background padding-40">
-            {{ form_start(form, {'attr': {'data-id': 'timeLineId'}}) }}
-            <h2>Ajouter une date</h2>
-            {{ form_row(form.product)}}
-            {{ form_row(form.unit)}}
-            <div class="form-group">
-                <div class="form-label">
-                    {{ form_label(form.dateLines)}}
-                </div>
-                <ul id="date-line-fields-list">
-                {% for dateLineField in form.dateLines %}
-                    <li>
-                        {{ form_widget(dateLineField) }}
-                    </li>
+        <div class="max-width grid grid-2-col">
+            <div class="badge">
+                <img src="/images/calophyllum/{{ dateHeader.product.family.image.filenameMd }}" alt="{{ dateHeader.product.family.image.title }}">
+                <p>{{ dateHeader.product.family.name }}</p>
+                <p>{{ dateHeader.product.title }}</p>
+                {% set dateLines = dateHeader.longDateLines %}
+                <h3>{{ dateLines.unit }}</h3>
+                {% for dateLine in dateLines.dateLines %}
+                    <p>{{ dateLine }}</p>
                 {% endfor %}
-                </ul>
+                <p>{{ dateHeader.maxQuantity}} places maximum</p>
             </div>
-
-            {{ form_row(form.maxQuantity)}}
-
-            <div class="x-footer">
-                <button class="btn btn-secondary"><i class="fas fa-check"></i> Valider</button>
+            <div class="price-table badge">
+                <h2>Réservations</h2>
+                {% if bookings is not empty %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Quantité</th>
+                            <th>Prix</th>
+                        </tr>
+                    </thead>
+                    <tbobdy>
+                        {% for booking in bookings %}
+                            <tr>
+                                <td>{{ booking.user.firstname}} {{ booking.user.lastname}}</td>
+                                <td class="quantity">{{ booking.quantity }}</td>
+                                <td class="price">{{ booking.price|localizedcurrency('EUR') }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbobdy>
+                </table>
+                {% else %}
+                    <p>Aucune réservation</p>
+                {% endif %}
             </div>
-        {{ form_row(form._token) }}
-        {{ form_end(form) }}
         </div>
-    </div>
-{% endblock %}
-
-{% block date_line_widget %}
-    <div id="{{ form.vars.id }}" class="form-control">
-        <input type="date" id="{{ form.vars.id }}_date_date" name="{{form.vars.full_name}}[date][date]" required="required" value="{% if form.vars.value is not null %}{{form.vars.value.date|date('Y-m-d')}}{% endif %}">
-        <input type="time" id="{{ form.vars.id }}_date_time" name="{{form.vars.full_name}}[date][time]" required="required" value="{% if form.vars.value is not null %}{{form.vars.value.date|date('H:i')}}{% endif %}">
-    </div>
 {% endblock %}

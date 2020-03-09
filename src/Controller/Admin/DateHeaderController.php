@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Booking;
 use App\Entity\DateLine;
 use App\Entity\DateHeader;
 use App\Form\DateHeaderType;
@@ -9,7 +10,6 @@ use App\Repository\DateHeaderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DateHeaderController extends AbstractController
@@ -27,14 +27,13 @@ class DateHeaderController extends AbstractController
     }
     
     /**
-     * @Route("/admin/dateHeader/{dateHeader}", name="date_header_edit", defaults ={"dateHeader": null}, options={"expose"=true})
+     * @Route("/admin/dateHeader/add", name="date_header_add", options={"expose"=true})
      */
-    public function dateHeaderEdit(EntityManagerInterface $manager, Request $request, CsrfTokenManagerInterface $tokenManager, ?DateHeader $dateHeader)
+    public function dateHeaderAdd(EntityManagerInterface $manager, Request $request, ?DateHeader $dateHeader)
     {
-        if (null === $dateHeader) {
-            $dateHeader = new DateHeader();
-            $dateHeader->addDateLine(new DateLine());
-        }
+        $dateHeader = new DateHeader();
+        $dateHeader->addDateLine(new DateLine());
+
         $form = $this->createForm(DateHeaderType::class, $dateHeader);
         $form->handleRequest($request);
         $dateHeader = $form->getData();
@@ -71,11 +70,21 @@ class DateHeaderController extends AbstractController
             return $this->redirectToRoute('date_header_list');
         }
 
-        return $this->render('Admin/date_header/edit.html.twig', [
+        return $this->render('Admin/date_header/add.html.twig', [
             'form' => $form->createView(),
             'dateHeaderId' => (null !== $dateHeader) ? $dateHeader-> getId() : null,
-            'action_slug' => 'dateHeaders',
-            'page_slug' => 'dateHeaders',
+        ]);
+    }
+
+        /**
+     * @Route("/admin/dateHeader/{dateHeader}", name="date_header_edit", defaults ={"dateHeader": null}, options={"expose"=true})
+     */
+    public function dateHeaderEdit(EntityManagerInterface $manager, Request $request, ?DateHeader $dateHeader)
+    {
+        $bookings = $manager->getRepository(Booking::class)->findByDateHeader($dateHeader);
+        return $this->render('Admin/date_header/edit.html.twig', [
+            'dateHeader' => $dateHeader,
+            'bookings' => $bookings,
         ]);
     }
 }
