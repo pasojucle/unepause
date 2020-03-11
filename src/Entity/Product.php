@@ -76,6 +76,11 @@ class Product
      */
     private $dateHeaders;
 
+    /**
+     * @ORM\Column(type="string", length=10,  options={"default": "#814792"})
+     */
+    private $calendarEventColor;
+
     public function __construct()
     {
         $this->prices = new ArrayCollection();
@@ -300,6 +305,18 @@ class Product
             }
         }
         return null;
+    }
+
+    public function getCalendarEventColor(): ?string
+    {
+        return $this->calendarEventColor;
+    }
+
+    public function setCalendarEventColor(string $calendarEventColor): self
+    {
+        $this->calendarEventColor = $calendarEventColor;
+
+        return $this;
     }
 
 }

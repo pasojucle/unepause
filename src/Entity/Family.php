@@ -60,6 +60,11 @@ class Family
      */
     private $image;
 
+    /**
+     * @ORM\Column(type="string", length=15, nullable=true)
+     */
+    private $shortName;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -271,6 +276,18 @@ class Family
     public function setImage(?Image $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getShortName(): ?string
+    {
+        return $this->shortName;
+    }
+
+    public function setShortName(?string $shortName): self
+    {
+        $this->shortName = $shortName;
 
         return $this;
     }

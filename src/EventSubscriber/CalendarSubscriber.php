@@ -44,14 +44,14 @@ class CalendarSubscriber implements EventSubscriberInterface
                     foreach($dateHeader->getDateLines() as $dateLine)
 
                     $dateHeaderEvent = new Event(
-                        $product->getFamily()->getName(),
+                        $product->getFamily()->getShortName(),
                         $dateLine->getDate(),
                         $dateLine->getDateEnd() // If the end date is null or not defined, a all day event is created.
                     );
 
                     $dateHeaderEvent->setOptions([
-                        'backgroundColor' => 'red',
-                        'borderColor' => 'red',
+                        'backgroundColor' => $product->getcalendarEventColor(),
+                        'borderColor' => $product->getcalendarEventColor(),
                     ]);
                     $dateHeaderEvent->addOption(
                         'url',
