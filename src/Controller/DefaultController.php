@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Entity\DateHeader;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/admin", name="admin_dashboard")
+     * @Route("/admin", name="dashboard")
      */
-    public function adminDashboard(ObjectManager $manager)
+    public function adminDashboard(EntityManagerInterface $manager)
     {
-        return $this->render('Admin/dashboard.html.twig', [
+        return $this->render('dashboard.html.twig', [
             'bookings' => $manager->getRepository(Booking::class)->findNextBookings(4),
             'dateHeaders' => $manager->getRepository(DateHeader::class)->findNextDateHeaders(4),
             'action_slug' => 'dashboard',

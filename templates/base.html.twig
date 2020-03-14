@@ -7,9 +7,10 @@
         <script src="https://kit.fontawesome.com/c6257eb348.js" crossorigin="anonymous"></script>        {% set parameters = var_parameters.parameters %}
         {% set stylesheet_name = '/css/' ~ parameters.lowerCamelcase ~'.css' %}
         {% set container_class = app.request.request.get('containerClass') %}
-        <link rel="stylesheet" href="/css/base.css">
-        <link rel="stylesheet" href="{{ stylesheet_name }}">
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+            <link rel="stylesheet" href="/css/base.css">
+            <link rel="stylesheet" href="{{ stylesheet_name }}">
+        {% endblock %}
     </head>
     <body>
         <div class="container {{container_class}}">
@@ -21,13 +22,14 @@
 
             {% include 'partials/' ~ parameters.lowerCamelcase ~ 'Footer.html.twig' %}
         </div>
-        <script
-			  src="https://code.jquery.com/jquery-3.4.1.min.js"
-			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-              crossorigin="anonymous"></script>
-        <script src="/js/app.js"></script>
-        <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
-        <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+            <script
+                src="https://code.jquery.com/jquery-3.4.1.min.js"
+                integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                crossorigin="anonymous"></script>
+            <script src="/js/app.js"></script>
+            <script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+            <script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+        {% endblock %}
     </body>
 </html>

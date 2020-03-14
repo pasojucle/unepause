@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Entity\DateLine;
@@ -15,13 +15,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DateHeaderController extends AbstractController
 {
     /**
-     * @Route("/admin/dateHeaders", name="date_header_list")
+     * @Route("/admin/calendar", name="date_header_list")
      */
-    public function dateHeaderList(DateHeaderRepository $dateHeaderRepository) 
+    public function list(DateHeaderRepository $dateHeaderRepository) 
     {
         $dateHeaders = $dateHeaderRepository->findAll();
 
-        return $this->render('Admin/date_header/list.html.twig', [
+        return $this->render('date_header/list.html.twig', [
             'dateHeaders' => $dateHeaders,
         ]);
     }
@@ -29,7 +29,7 @@ class DateHeaderController extends AbstractController
     /**
      * @Route("/admin/dateHeader/add", name="date_header_add", options={"expose"=true})
      */
-    public function dateHeaderAdd(EntityManagerInterface $manager, Request $request, ?DateHeader $dateHeader)
+    public function add(EntityManagerInterface $manager, Request $request, ?DateHeader $dateHeader)
     {
         $dateHeader = new DateHeader();
         $dateHeader->addDateLine(new DateLine());
@@ -79,7 +79,7 @@ class DateHeaderController extends AbstractController
         /**
      * @Route("/admin/dateHeader/{dateHeader}", name="date_header_edit", defaults ={"dateHeader": null}, options={"expose"=true})
      */
-    public function dateHeaderEdit(EntityManagerInterface $manager, Request $request, ?DateHeader $dateHeader)
+    public function edit(EntityManagerInterface $manager, Request $request, ?DateHeader $dateHeader)
     {
         $bookings = $manager->getRepository(Booking::class)->findByDateHeader($dateHeader);
         return $this->render('Admin/date_header/edit.html.twig', [

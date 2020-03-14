@@ -624,30 +624,6 @@ td, th {
 .fa-check-circle {
     color: var(--second-color);
 }
-.tool {
-    float: right;
-}
-.tool::after {
-    content: '';
-    clear: both;
-}
-.column-text {
-    text-align: justify;
-    column-count: 2;
-}
-.column-text h2 {
-    margin-bottom: 5px;
-}
-
-.column-text h2:not(:first-child) {
-    margin-top: 20px;
-}
-ul {
-    break-inside: avoid;
-}
-.column-text p {
-    margin-bottom: 5px;
-}
-.column-text p:not(:first-child) {
-    margin-top: 5px;
+section {
+    position: relative;
 }

@@ -54,4 +54,11 @@
             </div>
         </main>
     </div>
+    {% if mode is defined and mode == 'edit' %}
+            {% if content is instanceof('app\\entity\\PageContent') %}
+                <a class="circle-tool" href="{{ path('page_content_edit',{'pageContent':content.id})}}"><i class="fas fa-edit"></i></a>
+            {% elseif content is instanceof('app\\entity\\Product') %}
+                <a class="circle-tool" href="{{ path('product_edit',{'product':content.id})}}"><i class="fas fa-edit"></i></a>
+            {% endif %}
+    {% endif %}
 </article>

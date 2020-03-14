@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin;
+namespace App\Controller;
 
 use App\Entity\Page;
 use App\Entity\Action;
@@ -11,12 +11,12 @@ class SettingController extends AbstractController
 {
     /**
      * @Route("/admin/setting/{action}/{page}",
-     *  name="admin_setting",
+     *  name="setting",
      *  defaults={"action"=1, "page"=null})
      */
     public function adminSetting(Action $action, ?Page $page)
     {
-        return $this->render('Admin/setting/edit.html.twig', [
+        return $this->render('setting/edit.html.twig', [
             'current_action' => $action,
             'current_page' => $page,
         ]);

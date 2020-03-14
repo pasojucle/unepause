@@ -31,7 +31,7 @@
                     {% if action.pages|length > 0 %}
                         {% set route = action.pages[0].template.route.name %}
                         {% set class_nav_item_active = '' %}
-                        {% if route == current_route  and (action_slug == action.slug) %}
+                        {% if route == current_route  and action_slug == action.slug %}
                             {% set class_nav_item_active = ' nav-item-active' %}
                         {% endif %}
                         <li class="nav-item {{class_nav_item_active}}"> 

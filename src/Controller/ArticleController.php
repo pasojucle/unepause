@@ -31,65 +31,6 @@ class ArticleController extends AbstractController
         $this->manager = $manager;
         $this->emailMessageService = $emailMessageService;
     }
-
-    /**
-     * @Route(
-     * "/booking/{id}",
-     *  name="booking",
-     * options={"expose"=true}
-     * )
-     */
-    public function booking(
-        Request $request,
-        PriceRepository $priceRepo,
-        EmailMessageService $emailService,
-        DateHeaderRepository $dateHeaderRepo,
-        ProductService $productService,
-        BookingService $bookingService,
-        Product $product)
-    {
-        $product = $this->manager->getRepository(Product::class)->findByProduct($product);
-        $dateHeaders = $productService->getAvailabilitiesQuantities($product);
-
-        $price = null;
-
-        $booking = new Booking();
-        $booking->setProduct($product);
-        if (!empty($dateHeaders) && null === $booking->getDateHeader()) {
-            $booking->setDateHeader($dateHeaders[0]);
-        }
-        
-        $form = $this->createForm(BookingType::class, $booking,[
-            'dateHeaders' => $dateHeaders,
-        ]);
-
-        $form->handleRequest($request);
-        $booking = $form->getData();
-
-        if($request->isXmlHttpRequest()) {
-            $form = $this->createForm(BookingType::class, $booking,[
-                'dateHeaders' => $dateHeaders,
-            ]);
-        }
-
-        if(!$request->isXmlHttpRequest() && $form->isSubmitted() && $form->isValid()) {
-            $booking->setUser($this->getUser());
-            $this->manager->persist($booking);
-            $this->manager->flush();
-
-            $send = $emailService->sendBookingConfirmation($booking);
-
-            return $this->redirectToRoute('user_account', [
-                'user' => $this->getUser()->getId(),
-                'send' => $send,
-            ]);
-        }
-        return $this->render('booking/edit.html.twig', [
-            'form' => $form->createView(),
-            'product' => $product,
-            'price' => $price,
-        ]);
-    }
     
     /**
     * @Route(
