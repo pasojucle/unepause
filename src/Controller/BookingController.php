@@ -55,8 +55,6 @@ class BookingController extends AbstractController
         $session->set('target_route_params',$request->attributes->get("_route_params"));
         $price = null;
 
-        dump($session);
-
         $booking = new Booking();
         $booking->setProduct($product);
         if (!empty($dateHeaders) && null === $booking->getDateHeader()) {
