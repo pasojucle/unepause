@@ -1,0 +1,35 @@
+.modal.fade {
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    height: 100%;
+    background-color: rgba(150,150,150,.5);
+    left: 0px;
+    display: block;
+}
+.modal-dialog {
+    position: fixed;
+    width: 600px;
+    top: 10px;
+    left: calc((100% - 600px) /2);
+    display: block;
+    background-color: white;
+    z-index: 99;
+    border: 2px solid var(--ligth-grey);
+    border-radius: 5px;
+    box-shadow: 3px 3px 2px var(--ligth-grey);
+}
+.modal-header {
+    background-color: var(--ligth-grey);
+    text-align: center;
+}
+.modal-header, .modal-footer, .modal .modal-body {
+    padding: 10px;
+}
+.modal-header button, .modal-footer {
+    float: right;
+}
+.modal-header::after, .modal-footer::after {
+    content: "";
+    clear: both;
+}

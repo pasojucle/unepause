@@ -348,6 +348,9 @@ article {
 .flex-center {
     justify-content: center;
 }
+.flex-basis-450 {
+    flex-basis: 450px;
+}
 .float-left {
     float: left;
 }
@@ -433,12 +436,12 @@ table tr {
 .marging-top:not(:first-child) {
     margin-top: 50px;
 }
-form input, textarea, .btn {
+.background form input, .background textarea, .btn {
     padding: 10px;
     margin-top: 10px;
     border: none;
 }
-form input[type="text"],form input[type="email"], form input[type="password"],textarea {
+.background form input[type="text"],.background form input[type="email"], .background form input[type="password"],.background textarea,.background form input[type="tel"] {
     width: 100%;
     box-sizing: border-box;
 }
@@ -626,4 +629,14 @@ td, th {
 }
 section {
     position: relative;
+}
+.column-text {
+    text-align: justify;
+    column-count: 2;
+}
+.column-text h2 {
+    margin-bottom: 5px;
+}
+ul {
+    break-inside: avoid;
 }

@@ -12,41 +12,54 @@
 {% block body %}
 <div class="max-width ">
     <h1>{{ title }}</h1>
-    {{ form_start(form, {'attr': {'data-id': product.id}}) }}
-    <div class="light-background padding-40">
+    <div class="light-background padding-40 background">
+        {{ form_start(form, {'attr': {'data-id': product.id}}) }}
+        <h2 class="text-center marging-top">
+            <img src="/images/calophyllum/{{ product.family.image.filenameMd }}" alt="{{ product.family.image.title }}">
+            {{ product.family.name }} : {{ product.title }}
+        </h2>
         <div class="grid grid-2-col text-justify">
             <div>
                 <div>
-                    <h2 class="text-center marging-top">
-                    <img src="/images/calophyllum/{{ product.family.image.filenameMd }}" alt="{{ product.family.image.title }}"> {{ product.family.name }}
-                    </h2>
-                    <h3>{{ product.title }}</h3>
-                    <p>{{ product.content|raw }}</p>
                     {% set dateHeaders = var_product.getAvailabilitiesQuantities(product) %}
+                    <div>
+                        {% if form.dateHeader is defined %}
+                            {{ form_widget(form.dateHeader) }}
+                        {% endif %}
+                    </div>                
                 </diV>
             </div>
             <div>
                 <div>
-                    {% if form.dateHeader is defined %}
-                        {{ form_widget(form.dateHeader) }}
+                    {% if (form.firstname is defined and form.lastname is defined and form.email is defined and form.phone is defined ) %}
+                        <div class="form-group">
+                            {{ form_widget(form.firstname) }}
+                            {{ form_widget(form.lastname) }}
+                            {{ form_widget(form.email) }}
+                            {{ form_widget(form.phone) }}
+                        </div>
+                        <div class="form-group">
+                            Créer un compte : <a href="{{ path('app_register')}}">Créer un compte</a><br>
+                            Vous avez un compte : <a href="{{ path("app_login") }}">Se connectez</a>
+                        </div>
                     {% endif %}
+                    <div class="form-group">
+                        {% if form.quantity is defined %}
+                            {{ form_label(form.quantity) }} {{ form_widget(form.quantity) }}
+                        {% endif %}
+                        {% if form.price is defined %}
+                            <div class="price float-right">{{ form.price.vars.value|localizedcurrency('EUR') }}</div>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="form-group marging-top">
-                    {% if form.quantity is defined %}
-                        {{ form_label(form.quantity) }} {{ form_widget(form.quantity) }}
-                    {% endif %}
-                    {% if form.price is defined %}
-                        <div class="float-right price">{{ form.price.vars.value|localizedcurrency('EUR') }}</div>
-                    {% endif %}
-                </div>
-                {{ form_row(form.comments) }}
+                {{ form_widget(form.comments) }}
             </div>
         </div>
         <div class="x-footer">
             <button class="btn btn-secondary"><i class="fas fa-check"></i> Réserver</button>
         </div>
+        {{ form_end(form) }}
     </div>
-    {{ form_end(form) }}
 </div>
 {% endblock %}
 

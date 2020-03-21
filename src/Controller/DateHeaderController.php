@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class DateHeaderController extends AbstractController
 {
     /**
-     * @Route("/admin/calendar", name="date_header_list")
+     * @Route("/admin", name="date_header_list")
      */
     public function list(DateHeaderRepository $dateHeaderRepository) 
     {

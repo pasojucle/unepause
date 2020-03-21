@@ -2,7 +2,7 @@
 {% set actions = var_actions.footerActions %}
 {% set current_route = app.request.attributes.get('_route') %}
 {% set formContact = form_contact.form.createView() %}
-<footer class="footer dark-background">
+<footer class="footer dark-background background ">
     {% if hasContactForm is defined and hasContactForm == true %}
 
     <div class="max-width flex padding-40">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="flex-item">
                     {{ form_start(formContact, {attr:{'id':'contact'}}) }}
-                    {{ form_widget(formContact.firstname,{'attr' :{'class':'form-group'}})}}
+                    {{ form_widget(formContact.firstname)}}
                     {{ form_widget(formContact.lastname)}}
                     {{ form_widget(formContact.email)}}
                     {{ form_widget(formContact.content)}}

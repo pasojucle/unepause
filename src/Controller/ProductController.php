@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Form\ProductType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -23,8 +24,10 @@ class ProductController extends AbstractController
      */
     public function edit(Product $product)
     {
+        $form = $this->createForm(ProductType::class, $product);
+
         return $this->render('product/edit.html.twig', [
-            'controller_name' => 'ProductController',
+            'form' => $form->createView(),
         ]);
     }
 }

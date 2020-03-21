@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="max-width ">
+    <h1>Confirmation</h1>
+    <div class="light-background padding-40 background">
+        <h2 class="text-center marging-top">
+            <img src="/images/calophyllum/{{ booking.product.family.image.filenameMd }}" alt="{{ booking.product.family.image.title }}">
+            {{ booking.product.family.name }} : {{ booking.product.title }}
+        </h2>
+        <div class="grid grid-2-col text-justify">
+            <div>
+                <p>Nous avons bien reçu votre demande, et vous en remercions.</p>
+                <p>
+                    Une confirmation vous a été envoyée par mail à l'adresse
+                    {% if booking.user is not null %}{{ booking.user.email }}{% else %}{{ booking.email }}{% endif %}
+                </p>
+                <p>Pour tout empèchement, merci de prévenir 48 h à l'avance</p>
+            </div>
+            <div>
+                {% if booking.dateHeader is not null %}
+                    {% set dateLines = booking.dateHeader.longDateLines %}
+                    {% include "partials/dateLines.html.twig" %}
+                {% endif %}
+                {% if booking.quantity is not null %}
+                    <p>{{ booking.quantity }} personne(s)</p>
+                {% endif %}
+                {% if booking.price is not null %}
+                    <p>{{ booking.price|localizedcurrency('EUR') }}</p>
+                {% endif %}
+                <p>{{ booking.comments }}</p>
+            </div>
+        </div>
+        <div class="x-footer">
+            <a class="btn btn-secondary" href="{{ path('home') }}"><i class="fas fa-check"></i> Retour à l'accueil</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

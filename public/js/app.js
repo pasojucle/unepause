@@ -7,7 +7,8 @@ $(function() {
         }
     });
 
-    $('a').on('click', animateScroll);
+    //
+    $(document).on('click','a[data-toggle="anchor"]', animateScroll);
 
     $(document).on('submit', '#contact', sendConctactMessage);
 
@@ -16,6 +17,7 @@ $(function() {
     $(document).on('click', '.select-box', selectBox);
     $(document).on('click', '.select-box', setBooking);
     //$(':radio[name="booking[timeLine]"]').change(setBookingQuantity);
+
 });
 
 function setClassPicture() {

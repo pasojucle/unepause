@@ -17,6 +17,13 @@ class Product
     const APPOINTMENT_SERVICE = 3;
     const BESPOKE_SERVICE = 4;
     const SCHEDULE_AND_APPOINTEMENT_SERVICE = 5;
+    const PRODUCT_TYPES = [
+        'Matériel' => self::HARDWARE,
+        'service sur calendrier'=> self::SCHEDULE_SERVICE,
+        'service sur rendez-vous'=> self::APPOINTMENT_SERVICE,
+        'service sur mesure'=> self::APPOINTMENT_SERVICE,
+        'service sur calendrier et rendez-vous'=> self::SCHEDULE_AND_APPOINTEMENT_SERVICE,
+    ];
 
     /**
      * @ORM\Id()

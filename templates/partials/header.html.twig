@@ -60,7 +60,7 @@
                         {% set text = action.name %}
                     {% endif %}
                     <li class="nav-item"> 
-                        <a href="#{{ action.slug }}" class="{{ class_item }}" title ="{{ action.name }}">{{ text|raw }}</a>
+                        <a href="#{{ action.slug }}" class="{{ class_item }}" title ="{{ action.name }}" data-toggle="anchor">{{ text|raw }}</a>
                     </li>
                 {% endif %}
             {% endif %}

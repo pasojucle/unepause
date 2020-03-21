@@ -3,7 +3,7 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <section class="max-width flex dark-background padding-40">
+    <section class="max-width flex dark-background padding-40 background">
         <div class="flex-item">
             <h1>Crée mon compte</h1>
         </div>
@@ -17,8 +17,8 @@
                 {# {{ form_row(registrationForm.agreeTerms) }} #}
                 {{ form_widget(registrationForm.phone) }}
                 {{ form_errors(registrationForm.plainPassword.first) }}
-                <div class="form-footer float-right">
-                    <button class="btn btn-secondary"><i class="fas fa-check"></i> Valider</button>
+                <div class="form-footer">
+                    <button class="btn btn-secondary float-right"><i class="fas fa-check"></i> Valider</button>
                 </div>
             {{ form_end(registrationForm) }}
             {% if not registrationForm.vars.valid %}

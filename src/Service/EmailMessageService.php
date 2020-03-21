@@ -49,7 +49,7 @@ class EmailMessageService
     public function sendBookingConfirmation($booking)
     {
         $mails = [
-            ['recipient' => 'user', 'to' => $booking->getUser()->getEmail()],
+            ['recipient' => 'user', 'to' => (null !== $booking->getUser()) ? $booking->getUser()->getEmail() : $booking->getEmail()],
             ['recipient' => 'company', 'to' => $this->parameter->getEmail()]
         ];
 

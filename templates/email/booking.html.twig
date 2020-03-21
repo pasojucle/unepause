@@ -1,12 +1,18 @@
 {% extends 'email/base.html.twig' %}
+
 {% block body %}
-<div>
+    <div>
     {% if recipient == 'user' %}
     <p>Nous avons bien reçu votre demande, et vous en remercions.</p>
     {% else %}
         <h2>Client : </h2>
-        <p>{{ booking.user.lastName }} {{ booking.user.Firstname }}</p>
-        <p>{{ booking.user.email }}<br>{{ booking.user.phone }}</p>
+        {% if booking.user is not null %}
+            <p>{{ booking.user.lastName }} {{ booking.user.Firstname }}</p>
+            <p>{{ booking.user.email }}<br>{{ booking.user.phone }}</p>
+        {% else %}
+            <p>{{ booking.lastName }} {{ booking.Firstname }}</p>
+            <p>{{ booking.email }}<br>{{ booking.phone }}</p>
+        {% endif %}
     {% endif %}
 </div>
 <h1>Réservation</h1>
