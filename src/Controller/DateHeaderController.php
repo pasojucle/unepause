@@ -70,19 +70,19 @@ class DateHeaderController extends AbstractController
             return $this->redirectToRoute('date_header_list');
         }
 
-        return $this->render('Admin/date_header/add.html.twig', [
+        return $this->render('date_header/add.html.twig', [
             'form' => $form->createView(),
             'dateHeaderId' => (null !== $dateHeader) ? $dateHeader-> getId() : null,
         ]);
     }
 
-        /**
+    /**
      * @Route("/admin/dateHeader/{dateHeader}", name="date_header_edit", defaults ={"dateHeader": null}, options={"expose"=true})
      */
     public function edit(EntityManagerInterface $manager, Request $request, ?DateHeader $dateHeader)
     {
         $bookings = $manager->getRepository(Booking::class)->findByDateHeader($dateHeader);
-        return $this->render('Admin/date_header/edit.html.twig', [
+        return $this->render('date_header/edit.html.twig', [
             'dateHeader' => $dateHeader,
             'bookings' => $bookings,
         ]);
