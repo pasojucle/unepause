@@ -28,7 +28,6 @@ function setClassPicture() {
             $(this).find('.picture-right').removeClass('picture-right').addClass('slide-to-left');
         };
     });
-    console.log($('.pictue-left, .picture-right').length);
     if ($('.picture-left, .picture-right').length == 0) {
         $(document).off('scroll', setClassPicture);
     }

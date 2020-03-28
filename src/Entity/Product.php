@@ -281,14 +281,16 @@ class Product
         $dateHeadersIterator = self::getDateHeaders()->getIterator();
         $today = new DateTime();
         foreach ($dateHeadersIterator as $dateHeader) {
-            $isActive = ($dateHeader->getIsGeneric()== 0) ? true : false;
-            foreach ($dateHeader->getDateLines() as $dateLine) {
-                if($today >= $dateLine->getDate()) {
-                    $isActive = false;
+            if ($dateHeader->getIsDeleted() == 0) {
+                $isActive = ($dateHeader->getIsGeneric()== 0) ? true : false;
+                foreach ($dateHeader->getDateLines() as $dateLine) {
+                    if($today >= $dateLine->getDate()) {
+                        $isActive = false;
+                    }
                 }
-            }
-            if (true === $isActive) {
-                $dateHeaders[] = $dateHeader;
+                if (true === $isActive) {
+                    $dateHeaders[] = $dateHeader;
+                }
             }
         }
         

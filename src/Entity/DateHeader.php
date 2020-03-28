@@ -58,6 +58,11 @@ class DateHeader
      */
     private $isGeneric = 0;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default":0})
+     */
+    private $isDeleted = 0;
+
     public function __construct()
     {
         $this->dateLines = new ArrayCollection();
@@ -224,6 +229,18 @@ class DateHeader
     public function setIsGeneric(bool $isGeneric): self
     {
         $this->isGeneric = $isGeneric;
+
+        return $this;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): self
+    {
+        $this->isDeleted = $isDeleted;
 
         return $this;
     }

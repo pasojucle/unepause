@@ -48,10 +48,10 @@ class BookingType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $booking = $builder->getData();
-        if ($booking->getProduct()->getType() == Product::SCHEDULE_SERVICE) {
-            $commentsPlacehoder = 'Possez vous questions...';
+        if ($booking->getProduct()->getType() == Product::SCHEDULE_SERVICE || $booking->getDateHeader()->getIsGeneric() == 0) {
+            $commentsPlacehoder = 'Laissez un commentaire, possez vos questions...';
         } else {
-            $commentsPlacehoder = 'Donnez-moi vous disponniblités et je vous recontacte pour fixer le rendez-vous';
+            $commentsPlacehoder = 'Donnez-moi vos disponniblités et je vous recontacte pour fixer le rendez-vous';
         }
         $availabilityQuantity = (null === $booking->getDateHeader()) ? 0 : $this->dateHeaderRepo->findAvailabitityQuantity($booking->getDateHeader());
         $price = $this->bookingService->getPrice($booking);
