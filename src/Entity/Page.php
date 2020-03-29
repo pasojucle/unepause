@@ -61,6 +61,11 @@ class Page
      */
     private $isActive;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $seoDescription;
+
     public function __construct()
     {
         $this->pageContainers = new ArrayCollection();
@@ -202,6 +207,18 @@ class Page
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    public function getSeoDescription(): ?string
+    {
+        return $this->seoDescription;
+    }
+
+    public function setSeoDescription(?string $seoDescription): self
+    {
+        $this->seoDescription = $seoDescription;
 
         return $this;
     }

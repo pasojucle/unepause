@@ -1,4 +1,5 @@
 {% extends 'base.html.twig' %}
+{% block seodescription %}<meta name="description" content="{{ page.seoDescription }}"> <!-- Meta Description --> {% endblock %}
 {% set parameters = var_parameters.parameters %}
 {% block title %}{{parameters.company}} - {{ page.action.name }}{% endblock %}
 {% set hasContactForm = true %}
