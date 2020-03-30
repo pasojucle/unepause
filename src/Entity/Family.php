@@ -147,8 +147,8 @@ class Family
         $month = $today->format('m');
 
         $productsIterator->uasort(function ($a, $b) use ($month) {
-            $orderA = ($a->getOrderBy() < $month) ? $a->getOrderBy() + 12 : $a->getOrderBy();
-            $orderB = ($b->getOrderBy() < $month) ? $b->getOrderBy() + 12 : $b->getOrderBy();
+            $orderA = ($a->getOrderBy() < $month  || 0 == count($a->getActiveDateHeaders())) ? $a->getOrderBy() + 12 : $a->getOrderBy();
+            $orderB = ($b->getOrderBy() < $month  || 0 == count($b->getActiveDateHeaders())) ? $b->getOrderBy() + 12 : $b->getOrderBy();
             if($orderA == $orderB) {
                 return 0;
             }
@@ -168,12 +168,12 @@ class Family
         $month = $today->format('m');
         $products = [];
         foreach ($productsIterator as $product) {
-            $orderBy = ($product->getOrderBy() < $month) ? $product->getOrderBy() + 12 : $product->getOrderBy();
-            if (false === $product->getIsGeneric() && 0 < count($product->getActiveDateHeaders())) {
+            $orderBy = ($product->getOrderBy() < $month  || 0 == count($product->getActiveDateHeaders())) ? $product->getOrderBy() + 12 : $product->getOrderBy();
+            if (false === $product->getIsGeneric()) {
                 $products[$orderBy] = $product;
             }
         }
-        sort($products);
+        ksort($products);
 
         return new ArrayCollection(array_slice($products,0,$count));
     }
