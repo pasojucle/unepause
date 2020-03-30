@@ -49,7 +49,7 @@ class BookingType extends ApplicationType
     {
         $booking = $builder->getData();
         if ($booking->getProduct()->getType() == Product::SCHEDULE_SERVICE || $booking->getDateHeader()->getIsGeneric() == 0) {
-            $commentsPlacehoder = 'Laissez un commentaire, possez vos questions...';
+            $commentsPlacehoder = 'Laissez un commentaire, posez vos questions...';
         } else {
             $commentsPlacehoder = 'Donnez-moi vos disponniblités et je vous recontacte pour fixer le rendez-vous';
         }

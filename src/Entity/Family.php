@@ -169,7 +169,7 @@ class Family
         $products = [];
         foreach ($productsIterator as $product) {
             $orderBy = ($product->getOrderBy() < $month) ? $product->getOrderBy() + 12 : $product->getOrderBy();
-            if (false === $product->getIsGeneric()) {
+            if (false === $product->getIsGeneric() && 0 < count($product->getActiveDateHeaders())) {
                 $products[$orderBy] = $product;
             }
         }
