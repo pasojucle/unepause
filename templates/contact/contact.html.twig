@@ -3,18 +3,16 @@
 {% block title %}Contact{% endblock %}
 
 {% block body %}
-    <section class="grid grid-home">
-
+    <main class="page max-width">
+    <section class="grid grid-two-images-and-text">
         {% for pageContainer in page.pageContainers %}
-            {% for content in pageContainer.items %}
-
-
+            {% for content in pageContainer.pageContents %}
                 {% if content.images[0] is defined %}
                     <figure class="slide-column first-column">
                         <picture class="slide-element slide-to-right">
-                            <source media="(min-width: 768px)" srcset="/images/{{ content.images[0].filenameMd }}">
-                            <source media="(min-width: 360px)" srcset="/images/{{ content.images[0].filenameXs }}">
-                            <img src="/images/{{ content.images[0].filenameMd }}" alt="{{content.images[0].title}}">
+                            <source media="(min-width: 768px)" srcset="/images/{{parameters.lowerCamelcase}}/{{ content.images[0].filenameMd }}">
+                            <source media="(min-width: 360px)" srcset="/images/{{parameters.lowerCamelcase}}/{{ content.images[0].filenameXs }}">
+                            <img src="/images/{{parameters.lowerCamelcase}}/{{ content.images[0].filenameMd }}" alt="{{content.images[0].title}}">
                         </picture>
                     </figure>
                 {% endif %}
@@ -38,7 +36,7 @@
                 </main>
                 <div class="slide-column last-column">
                     <div class="slide-element slide-to-left dark-background">
-                        {% set parameters = app.request.request.get('parameters') %}
+                        {% set parameters = var_parameters.parameters %}
                         <h2>{{ parameters.company }}</h2>
                         <p>{{ parameters.adress }}<br>{{ parameters.postal_code }} {{ parameters.town }}</p>
                         <p>{{ parameters.phone_number }}</p>
@@ -49,5 +47,5 @@
             {% endfor %}
         {% endfor %}
     </section>
-
+    </main>
 {% endblock %}

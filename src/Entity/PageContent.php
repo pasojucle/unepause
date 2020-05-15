@@ -48,9 +48,20 @@ class PageContent
      */
     private $link;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Family", inversedBy="pageContents")
+     */
+    private $families;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\ClassDomElement", inversedBy="pageContents")
+     */
+    private $class;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->families = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,5 +164,43 @@ class PageContent
         $text = $doc->getElementsByTagName ("p");
         $img = $doc->getElementsByTagName ("img");
         return ($text->length === 0 && $img->length === 1 && $this->link !== null) ? true : false; 
+    }
+
+    /**
+     * @return Collection|Family[]
+     */
+    public function getFamilies(): Collection
+    {
+        return $this->families;
+    }
+
+    public function addFamily(Family $family): self
+    {
+        if (!$this->family->contains($family)) {
+            $this->family[] = $family;
+        }
+
+        return $this;
+    }
+
+    public function removeFamily(Family $family): self
+    {
+        if ($this->family->contains($family)) {
+            $this->family->removeElement($family);
+        }
+
+        return $this;
+    }
+
+    public function getClass(): ?ClassDomElement
+    {
+        return $this->class;
+    }
+
+    public function setClass(?ClassDomElement $class): self
+    {
+        $this->class = $class;
+
+        return $this;
     }
 }

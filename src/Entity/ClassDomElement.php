@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ClassContainerRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ClassDomElementRepository")
  */
-class ClassContainer
+class ClassDomElement
 {
     /**
      * @ORM\Id()
@@ -25,7 +25,7 @@ class ClassContainer
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PageContainer", mappedBy="class")
+     * @ORM\OneToMany(targetEntity="App\Entity\PageContainer", mappedBy="classDomElement")
      */
     private $pageContainers;
 
@@ -34,9 +34,15 @@ class ClassContainer
      */
     private $title;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PageContent", mappedBy="class")
+     */
+    private $pageContents;
+
     public function __construct()
     {
         $this->pageContainers = new ArrayCollection();
+        $this->pageContents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,6 +101,37 @@ class ClassContainer
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PageContent[]
+     */
+    public function getPageContents(): Collection
+    {
+        return $this->pageContents;
+    }
+
+    public function addPageContent(PageContent $pageContent): self
+    {
+        if (!$this->pageContents->contains($pageContent)) {
+            $this->pageContents[] = $pageContent;
+            $pageContent->setClass($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageContent(PageContent $pageContent): self
+    {
+        if ($this->pageContents->contains($pageContent)) {
+            $this->pageContents->removeElement($pageContent);
+            // set the owning side to null (unless already changed)
+            if ($pageContent->getClass() === $this) {
+                $pageContent->setClass(null);
+            }
+        }
 
         return $this;
     }

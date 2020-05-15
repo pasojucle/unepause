@@ -1,5 +1,5 @@
 <header>
-    {% set logo = "/images/calophyllum/" ~ parameters.dashCase ~ ".png" %}
+    {% set logo = "/images/" ~ parameters.lowerCamelcase ~ "/" ~ parameters.dashCase ~ ".png" %}
     <a href="{{ app.request.getSchemeAndHttpHost() }}">
         <img class="logo" src="{{logo}}" alt="{{parameters.company}}">
     </a>

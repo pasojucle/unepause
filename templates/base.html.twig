@@ -4,8 +4,9 @@
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://kit.fontawesome.com/c6257eb348.js" crossorigin="anonymous"></script>        {% set parameters = var_parameters.parameters %}
-        <link rel="icon" type="image/x-icon" href="images/calophyllum/favicon.ico">
+        <script src="https://kit.fontawesome.com/c6257eb348.js" crossorigin="anonymous"></script>
+        {% set parameters = var_parameters.parameters %}
+        <link rel="icon" type="image/x-icon" href="/images/{{parameters.lowerCamelcase}}/favicon.ico">
         {% block seodescription %} {% endblock %}
         {% set stylesheet_name = '/css/' ~ parameters.lowerCamelcase ~'.css' %}
         {% set container_class = app.request.request.get('containerClass') %}

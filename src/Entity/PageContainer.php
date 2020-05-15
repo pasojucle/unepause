@@ -38,7 +38,7 @@ class PageContainer
     private $pageContents;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\ClassContainer", inversedBy="pageContainers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\ClassDomElement", inversedBy="pageContainers")
      */
     private $class;
 
@@ -57,15 +57,9 @@ class PageContainer
      */
     private $footer;
 
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Family", mappedBy="pageContainers")
-     */
-    private $families;
-
     public function __construct()
     {
         $this->pageContents = new ArrayCollection();
-        $this->families = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,12 +122,12 @@ class PageContainer
         return $this;
     }
 
-    public function getClass(): ?ClassContainer
+    public function getClass(): ?ClassDomElement
     {
         return $this->class;
     }
 
-    public function setClass(?ClassContainer $class): self
+    public function setClass(?ClassDomElement $class): self
     {
         $this->class = $class;
 
@@ -172,34 +166,6 @@ class PageContainer
     public function setFooter(?string $footer): self
     {
         $this->footer = $footer;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Family[]
-     */
-    public function getFamilies(): Collection
-    {
-        return $this->families;
-    }
-
-    public function addFamily(Family $family): self
-    {
-        if (!$this->families->contains($family)) {
-            $this->families[] = $family;
-            $family->addPageContainer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFamily(Family $family): self
-    {
-        if ($this->families->contains($family)) {
-            $this->families->removeElement($family);
-            $family->removePageContainer($this);
-        }
 
         return $this;
     }

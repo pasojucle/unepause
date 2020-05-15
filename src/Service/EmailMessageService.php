@@ -44,6 +44,7 @@ class EmailMessageService
         );
         $send = $this->mailer->send($message);
         
+        return $send;
     }
 
     public function sendBookingConfirmation($booking)

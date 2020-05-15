@@ -32,10 +32,18 @@ class ActionService
     }
 
     public function getHeaderActions() {
-        return $this->actions['header'];
+        if (isset($this->actions['header'])) {
+            return $this->actions['header'];
+        }
+
+        return [];
     }
 
     public function getFooterActions() {
-        return $this->actions['footer'];
+        if (isset($this->actions['footer'])) {
+            return $this->actions['footer'];
+        }
+
+        return [];
     }
 }

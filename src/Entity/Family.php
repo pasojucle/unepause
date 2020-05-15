@@ -36,11 +36,6 @@ class Family
     private $units;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\PageContainer", inversedBy="families")
-     */
-    private $pageContainers;
-
-    /**
      * @ORM\Column(type="boolean", options={"default": 0})
      */
     private $hasUniquesPrices;
@@ -65,11 +60,16 @@ class Family
      */
     private $shortName;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\PageContent", mappedBy="families")
+     */
+    private $pageContents;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->units = new ArrayCollection();
-        $this->pageContainers = new ArrayCollection();
+        $this->pageContents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -206,32 +206,6 @@ class Family
         return $this;
     }
 
-    /**
-     * @return Collection|PageContainer[]
-     */
-    public function getPageContainers(): Collection
-    {
-        return $this->pageContainers;
-    }
-
-    public function addPageContainer(PageContainer $pageContainer): self
-    {
-        if (!$this->pageContainers->contains($pageContainer)) {
-            $this->pageContainers[] = $pageContainer;
-        }
-
-        return $this;
-    }
-
-    public function removePageContainer(PageContainer $pageContainer): self
-    {
-        if ($this->pageContainers->contains($pageContainer)) {
-            $this->pageContainers->removeElement($pageContainer);
-        }
-
-        return $this;
-    }
-
     public function getHasUniquesPrices(): ?bool
     {
         return $this->hasUniquesPrices;
@@ -288,6 +262,34 @@ class Family
     public function setShortName(?string $shortName): self
     {
         $this->shortName = $shortName;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PageContent[]
+     */
+    public function getPageContents(): Collection
+    {
+        return $this->pageContents;
+    }
+
+    public function addPageContent(PageContent $pageContent): self
+    {
+        if (!$this->pageContents->contains($pageContent)) {
+            $this->pageContents[] = $pageContent;
+            $pageContent->addFamily($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageContent(PageContent $pageContent): self
+    {
+        if ($this->pageContents->contains($pageContent)) {
+            $this->pageContents->removeElement($pageContent);
+            $pageContent->removeFamily($this);
+        }
 
         return $this;
     }

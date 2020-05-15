@@ -14,6 +14,18 @@
 	0% {right:-100%; opacity: 0;}
   100% {right:0%; opacity: 1;}
 }
+@keyframes flash {
+    0% {opacity: 0;}
+    20% {opacity: 1;}
+    80% {opacity: 1;}
+  100% {opacity: 0;}
+}
+@-webkit-keyframes flash {
+    0% {opacity: 0;}
+    20% {opacity: 1;}
+    80% {opacity: 1;}
+  100% {opacity: 0;}
+}
 @font-face {
     font-family: yu gothic ui m;
     src: url("../fonts/YuGothic-Medium-01.ttf")   format("ttf")
@@ -47,7 +59,7 @@
 }
 .nav-tab {
     top: 30px;
-    right: 60px;
+    right:  calc((100vw - 1200px + 80px) / 2);
 }
 .nav-tab ul {
     position: relative;
@@ -83,9 +95,12 @@ header {
     grid-area: header;
     line-height: 150px;
 }
-.container {
+.max-width {
     max-width: 1200px;
     margin: 0 auto;
+    box-sizing: border-box;
+}
+.container {
     min-height: 100vh;
     position: relative;
     display: grid;
@@ -101,14 +116,14 @@ header {
 .logo {
     position: absolute;
     top: 32%;
-    left: 40px;
+    left: calc((100vw - 1200px + 80px) / 2);
 }
 body {
     font-family: yu gothic ui m, sans-serif;
     color: #333333;
     /*background-color: #9e9e9ea8;*/
     background-color: #fffac8;
-    background-image: url("../images/une-pause-header.png");
+    background-image: url("../images/unePause/une-pause-header.png");
     background-repeat: no-repeat;
     background-position: 50% 0;
 }
@@ -116,7 +131,7 @@ body {
     display: grid;
     width: 100%;
 }
-.grid-home {
+.grid-two-images-and-text {
     grid-template-areas: "first-column title last-column"
                         "first-column main last-column";
     grid-template-columns: 2.5fr 5fr 2.5fr;
@@ -139,7 +154,7 @@ body {
 .grid > footer {
     grid-area: footer;
 }
-.grid-article {
+.grid-one-image-and-text {
     grid-template-columns: 2.5fr 7.5fr;
     grid-template-areas: "first-column title"
                          "first-column main";
@@ -178,6 +193,7 @@ h1 {
 }
 h2 {
     font-size: .9em;
+    margin-bottom: 5px;
 }
 section li {
     list-style-position: inside;
@@ -285,11 +301,47 @@ textarea {
 .btn {
     border: none;
     padding: 7px;
+    margin: 7px;
 } 
 .btn-primary {
     background-color: #107d2f;
     color: #fff;
 }
+.btn-view::before {
+    content: f06e;
+}
+.flashes {
+    position: absolute;
+    top: 120px;
+    right: calc((100vw - 1200px + 80px) /2);
+    opacity: 0;
+    -webkit-animation: flash 5s;
+    animation: flash 5s;
+}
+.flash-sucess, .flash-danger {
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+.flash-sucess {
+    background-color: rgba(255,255,255,0.2);
+}
+.flash-danger {
+    background-color: rgba(230, 79, 79, 0.5);
+}
+.home-message {
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 25px;
+    background-image: url('../images/unePause/banner-background.jpg');
+    color: white;
+}
+.btn-opacity {
+    background-color: rgba(255,255,255,0.2);
+    color: white;
+    padding: 3px;
+}
+
 @media screen and (max-width : 767px) {
     .container {
         grid-template-rows: 100px auto 100px;
@@ -352,7 +404,7 @@ textarea {
         height: auto;
         padding-left: 15px;
     }
-    .grid-home {
+    .grid-two-images-and-text {
         grid-template-areas: "first-column"
                              "title"
                              "main"
@@ -370,7 +422,7 @@ textarea {
         grid-template-rows: auto;
         gap: 20px;
     }
-    .grid-article {
+    .grid-one-image-and-text {
         grid-template-columns: 1fr;
         grid-template-areas: "first-column"
                              "title"

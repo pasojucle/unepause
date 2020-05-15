@@ -1,26 +1,31 @@
 {% extends 'base.html.twig' %}
-{% set parameters = app.request.request.get('parameters') %}
-{% block title %}{{parameters.company}} - {{ articles[0].page.action.name }}{% endblock %}
+{% set parameters = var_parameters.parameters %}
+
+{% block title %}{{parameters.company}} - {{ page.name }}{% endblock %}
 
 {% block body %}
-    <h1>{{ articles[0].page.action.name }}</h1>
-    {% for article in articles %}
-        <section class="grid grid-article">
-            <figure class="slide-column first-column">
-                {% if article.images|length > 0 %}
-                <picture class="slide-element slide-to-right">
-                    <source media="(min-width: 768px)" srcset="/images/{{ article.images[0].filenameMd }}">
-                    <source media="(min-width: 360px)" srcset="/images/{{ article.images[0].filenameXs }}">
-                    <img src="/images/{{ article.images[0].filenameMd }}" alt="{{article.images[0].title}}">
-                </picture>
-                {% endif %}
-            </figure>
-            <h2>{{ article.title }}</h2>
-            <main>
-                <div class="col-md-2 col-xs-1">
-                    {{ article.content| raw }}
-                </div>
-            </main>
-        </section>
-    {% endfor %}
+    <main class="page max-width">
+        {% for container in page.pageContainers %}
+            {% for content in container.pageContents %}
+                <section class="grid {{grid-article}}">
+                    <figure class="slide-column first-column">
+                        {% if content.images|length > 0 %}
+                        <picture class="slide-element slide-to-right">
+                            <source media="(min-width: 768px)" srcset="/images/{{parameters.lowerCamelcase}}/{{ content.images[0].filenameMd }}">
+                            <source media="(min-width: 360px)" srcset="/images/{{parameters.lowerCamelcase}}/{{ content.images[0].filenameXs }}">
+                            <img src="/images/{{parameters.lowerCamelcase}}/{{ content.images[0].filenameMd }}" alt="{{content.images[0].title}}">
+                        </picture>
+                        {% endif %}
+                    </figure>
+                    <h1>{{ content.title }}</h1>
+                    <main>
+                        <div class="col-md-2 col-xs-1">
+                            {{ content.content| raw }}
+                        </div>
+                    </main>
+                </section>
+            {% endfor %}
+        {% endfor %}
+    </main>
+
 {% endblock %}

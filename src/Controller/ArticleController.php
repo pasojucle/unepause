@@ -23,12 +23,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleController extends AbstractController
 {
-    private $manager;
+    private $entityManager;
     private $emailMessageService;
 
-    public function __construct(EntityManagerInterface $manager, EmailMessageService $emailMessageService)
+    public function __construct(EntityManagerInterface $entityManager, EmailMessageService $emailMessageService)
     {
-        $this->manager = $manager;
+        $this->entityManager = $entityManager;
         $this->emailMessageService = $emailMessageService;
     }
     
@@ -75,7 +75,7 @@ class ArticleController extends AbstractController
         if (null == $actionSlug) {
             $actionSlug = 'home';
         }
-        $page = $this->manager->getRepository(Page::class)->findBySlug($actionSlug, $pageSlug);
+        $page = $this->entityManager->getRepository(Page::class)->findBySlug($actionSlug, $pageSlug);
 
         return $this->render($page->getTemplate()->getFilename(), [
             'page' => $page,

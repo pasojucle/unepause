@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% set parameters = var_parameters.parameters %}
+
+{% block title %}{{parameters.company}} - {{ page.name }}{% endblock %}
+
+{% block body %}
+    <main class="page max-width">
+        {% for container in page.pageContainers %}
+            <section {% if container.class is not null %}class="{{ container.class.name }}"{% endif %}>
+                {% for content in container.pageContents %}
+                        {% set main %}
+                            <h1>{{ content.title }}</h1>
+                            <main>
+                                <div {% if content.class is not null %}class="{{content.class.name}}"{% endif %}>
+                                    {{ content.content| raw }}
+                                </div>
+                            </main>
+                        {% endset %}
+                        {% if content.images is not empty %}
+                            {% for image in content.images %}
+                                <figure class="slide-column {% if loop.first == true %}first-column{% else %}last-column{% endif %}">
+                                    <picture class="slide-element {% if loop.first == true %}slide-to-right{% else %}slide-to-left{% endif %}">
+                                        <source media="(min-width: 768px)" srcset="/images/{{parameters.lowerCamelcase}}/{{ image.filenameMd }}">
+                                        <source media="(min-width: 360px)" srcset="/images/{{parameters.lowerCamelcase}}/{{ image.filenameXs }}">
+                                        <img src="/images/{{parameters.lowerCamelcase}}/{{ image.filenameMd }}" alt="{{image.title}}">
+                                    </picture>
+                                </figure>
+                                {% if loop.first == true %}
+                                    {{ main }}
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            {{ main }}
+                        {% endif %}
+                {% endfor %}
+            </section>
+        {% endfor %}
+    </main>
+{% endblock %}

@@ -11,22 +11,31 @@ use App\Form\ContactType;
 use App\Service\ParameterService;
 use App\Service\FormContactService;
 use App\Service\EmailMessageService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ContactController extends AbstractController
 {
+    private $entityManager;
+    private $emailMessageService;
+
+    public function __construct(EntityManagerInterface $entityManager, EmailMessageService $emailMessageService)
+    {
+        $this->entityManager = $entityManager;
+        $this->emailMessageService = $emailMessageService;
+    }
+
     /**
-     * @Route("/contact", name="show_contact")
+     * @Route("/contact", name="show_contact", defaults={"product":null})
      * @Route("/informations/{product}", name="informations", defaults={"product":null})
      */
-    public function showContact(ObjectManager $manager, Request $request,  EmailMessageService $emailService, ParameterService $parameter, ?Product $product)
+    public function showContact(Request $request, ParameterService $parameter, ?Product $product)
     {
-        $slug = $request->attributes->get('_route');
-        $page = $manager->getRepository(Page::class)->findBySlug($slug);
+        $actionSlug = preg_replace('#\/#', '', $request->getRequestUri());
+        $page = $this->entityManager->getRepository(Page::class)->findBySlug($actionSlug);
         $tempate = $page->getTemplate()->getFilename();
         $form = $this->createForm(ContactType::class, null);
         $send = 0;
@@ -34,14 +43,21 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $emailService->sendConfirmation($data, $product);
+            $send = $this->emailMessageService->sendConfirmation($data, $product);
+            if (true == $send) {
+                $this->addFlash('sucess', 'Votre message a été envoyé avec succés !');
+            }
+            return $this->redirectToRoute('home');
         }
+
         return $this->render($tempate, [
             'form'=>$form->createView(),
             'page' => $page,
             'send' => $send,
             'product' => $product,
             'template' => 'contact',
+            'action_slug' => $actionSlug,
+            'page_slug' => null,
         ]);
     }
 
@@ -49,7 +65,7 @@ class ContactController extends AbstractController
      * @Route("/message/send", name="send_message", methods={"POST"}, condition="request.isXmlHttpRequest()")
     */
 
-    public function sendMessage(FormContactService $formContactService, Request $request, EmailMessageService $emailService, ParameterService $parameter)
+    public function sendMessage(FormContactService $formContactService, Request $request, ParameterService $parameter)
     {
         $form = $formContactService->getForm();
  
@@ -59,7 +75,7 @@ class ContactController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
-            $send = $emailService->sendConfirmation($data);
+            $send = $this->emailMessageService->sendConfirmation($data);
         }
         if (1 == $send) {
             $this->addFlash(
