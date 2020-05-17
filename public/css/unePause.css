@@ -346,7 +346,7 @@ textarea {
         left: 40px;
     }
     body {
-        background-position: 50% -4%;
+        background-position: 50% -40px;
     }
     .nav-tab {
         right: 40px;
@@ -358,7 +358,7 @@ textarea {
         left: calc((100vw - 112px) / 2);
     }
     body {
-        background-position: 50% -11%;
+        background-position: 50% -120px;
     }
     .container {
         grid-template-rows: 100px auto 100px;
@@ -414,6 +414,9 @@ textarea {
     }
     .nav-item, .dropdown-menu a {
         margin-bottom: 15px;
+    }
+    .nav-item:hover .dropdown-menu {
+        height: auto;
     }
     .dropdown-menu {
         margin-top: 10px;
