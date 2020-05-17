@@ -341,8 +341,25 @@ textarea {
     color: white;
     padding: 3px;
 }
+@media screen and (max-width : 1200px) {
+    .logo {
+        left: 40px;
+    }
+    body {
+        background-position: 50% -4%;
+    }
+    .nav-tab {
+        right: 40px;
+    }
+}
 
 @media screen and (max-width : 767px) {
+    .logo {
+        left: calc((100vw - 112px) / 2);
+    }
+    body {
+        background-position: 50% -11%;
+    }
     .container {
         grid-template-rows: 100px auto 100px;
     }
@@ -357,12 +374,14 @@ textarea {
         box-sizing: border-box;
     }
     .nav-tab {
-        transform: scaleX(0);
+        /*transform: scaleX(0);*/
         background-color: #333333;
         top: 0;
-        right: 0;
+        left: -100vw;
         transition: all 1s ease;
         padding-top: 20px;
+        width: 100vw;
+        height: 100vh;
     }
     .nav-tab ul {
         margin: 1px 20px;
@@ -431,8 +450,8 @@ textarea {
         gap: 20px;
     }
     nav.nav-tab-active {
-        transform: scaleY(1);
-        right: 0;
+        /*transform: scaleY(1);*/
+        left: 0;
     }
     .form-label {
         display: none;
@@ -441,7 +460,7 @@ textarea {
         text-align: center;
     }
 }
-@media screen and (max-width : 767px) and (orientation: landscape) {
+@media screen and (max-width : 76px) and (orientation: landscape) {
     .nav-tab, .nav-tab-active, .times {
         width: 414px;
     }
@@ -454,7 +473,7 @@ textarea {
         vertical-align: text-top;
     }
 }
-@media screen and (max-width : 767px) and (orientation: portrait) {
+/*@media screen and (max-width : 767px) and (orientation: portrait) {
     .nav-tab {
         height: 460px;
         width: 220px;
@@ -463,7 +482,7 @@ textarea {
     .times {
         width: 220px;
     }
-}
+}*/
 
 @media screen and (max-width : 414px) {
     .logo {
