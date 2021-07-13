@@ -26,9 +26,9 @@ class ContactType extends ApplicationType
             'mapped'=> false,
             'attr' => array(
                 'options' => array(
-                    'theme' => 'light',
+                    'theme' => 'dark',
                     'type'  => 'image',
-                    'size'  => 'normal'
+                    'size'  => 'compact'
                 ),
             ),
             'constraints' => [
