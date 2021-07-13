@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\BookingRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -15,7 +16,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/add", name="user_add")
      */
-    public function userAdd(Request $request, ObjectManager $manager)
+    public function userAdd(Request $request, EntityManagerInterface $manager)
     {
         $userForm = $this->createForm(UserType::class, null, [
             'action' => $this->generateUrl('user_add'),

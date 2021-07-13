@@ -3,13 +3,14 @@
 namespace App\Form;
 
 use App\Entity\EmailMessage;
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ContactType extends ApplicationType
 {
@@ -20,6 +21,13 @@ class ContactType extends ApplicationType
         ->add('lastname', TextType::class, $this->getConfiguration("Nom", "Votre nom de famille..."))
         ->add('email', EmailType::class, $this->getConfiguration("Email", "Votre adresse email..."))
         ->add('content', TextareaType::class, $this->getConfiguration("Message","Votre message !"))
+        ->add('recaptcha', EWZRecaptchaType::class, [
+            'label' => false,
+            'mapped'=> false,
+            'constraints' => [
+                new RecaptchaTrue(),
+            ],
+        ]);
         ;
     }
 

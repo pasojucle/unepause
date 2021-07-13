@@ -25,7 +25,7 @@ class ClassDomElement
 
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PageContainer", mappedBy="classDomElement")
+     * @ORM\OneToMany(targetEntity="App\Entity\PageContainer", mappedBy="class")
      */
     private $pageContainers;
 

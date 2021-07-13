@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Booking;
 use App\Entity\DateHeader;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**

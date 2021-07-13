@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Price;
 use App\Entity\Product;
 use App\Entity\DateHeader;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**

@@ -21,3 +21,8 @@
 
 /public/sitemap.xml
 /public/robots.txt
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

@@ -33,6 +33,8 @@
                     {% else %}
                         {{ content.content|raw }}
                     {% endif %}
+                    {{ form_widget(form.recaptcha) }}
+                    {{ form_errors(form.recaptcha) }}
                 </main>
                 <div class="slide-column last-column">
                     <div class="slide-element slide-to-left dark-background">
