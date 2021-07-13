@@ -24,6 +24,11 @@ class ContactType extends ApplicationType
         ->add('recaptcha', EWZRecaptchaType::class, [
             'label' => false,
             'mapped'=> false,
+            'options' => array(
+                'theme' => 'light',
+                'type'  => 'image',
+                'size'  => 'normal'
+            ),
             'constraints' => [
                 new RecaptchaTrue(),
             ],
