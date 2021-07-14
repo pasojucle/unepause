@@ -31,7 +31,9 @@
                             </dv>
                             <div class="form-goup-control">
                                 {{ form_widget(form.recaptcha) }}
-                                {{ form_errors(form.recaptcha) }}
+                                <div class="form-errors">
+                                    {{ form_errors(form.recaptcha) }}
+                                </div>
                             </div>
                         </div>
                         <div class="form-footer">
