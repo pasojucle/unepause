@@ -25,8 +25,15 @@
                         {{ form_row(form.lastname)}}
                         {{ form_row(form.email)}}
                         {{ form_row(form.content)}}
-                        {{ form_widget(form.recaptcha) }}
-                        {{ form_errors(form.recaptcha) }}
+                        <div class="form-group">
+                            <dv class="form-label">
+                                <label for=""></label>
+                            </dv>
+                            <div class="form-goup-control">
+                                {{ form_widget(form.recaptcha) }}
+                                {{ form_errors(form.recaptcha) }}
+                            </div>
+                        </div>
                         <div class="form-footer">
                             <button type="submit" class="btn btn-primary">
                             <i class="fas fa-check"></i>

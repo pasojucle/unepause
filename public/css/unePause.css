@@ -276,7 +276,7 @@ ol ul li {
     width: 150px;
 }
 .form-group-control {
-    width: 100%;
+    flex: auto;
     overflow: hidden;
 }
 .form-control {
